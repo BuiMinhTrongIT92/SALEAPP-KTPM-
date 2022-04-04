@@ -1,0 +1,126 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.VBOX {
+    -fx-border-radius: 20;
+    -fx-background-color: #00ffde;
+}
+.DangNhap{
+    -fx-text-fill: white;
+    
+}
+.username{
+    -fx-text-fill: gray;
+    -fx-background-color: #00ffde;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-border-radius: 20;
+    -fx-max-width:250;
+    -fx-min-height:50;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 20;
+    -fx-border-radius: 30;
+    -fx-border-color: white;
+}
+
+.username:hover{
+    -fx-text-fill: gray;
+    -fx-background-color: #00ffde;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-border-radius: 20;
+    -fx-max-width:250;
+    -fx-min-height:50;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 20;
+    -fx-border-radius: 30;
+    -fx-border-color: white;
+    -fx-border-color: grey;
+}
+.password{
+    -fx-text-fill: gray;
+    -fx-background-color: #00ffde;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-border-radius: 20;
+    -fx-max-width:250;
+    -fx-min-height:50;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 20;
+    -fx-border-radius: 30;
+    -fx-border-color: white;
+    
+}
+.password:hover{
+    -fx-text-fill: gray;
+    -fx-background-color: #00ffde;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-border-radius: 20;
+    -fx-max-width:250;
+    -fx-min-height:50;
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 20;
+    -fx-border-radius: 30;
+    -fx-border-color: grey;
+}
+.PANEL{
+    -fx-padding:50;
+}
+.HBoxBtn{
+    -fx-padding:50;
+    -fx-alignment:center;
+}
+.QuanLy{
+    -fx-background-color: #61dc97;
+    -fx-margin:30;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-min-width:150;
+    -fx-min-height:50;
+    -fx-padding: 5;
+}
+.QuanLy:hover{
+    -fx-background-color: #59cc93;
+    -fx-margin:30;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-min-width:150;
+    -fx-min-height:50;
+    -fx-padding: 5;
+}
+.NhanVien{
+    -fx-background-color: #0d3f70;
+    -fx-border-color: none;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-min-width:150;
+    -fx-min-height:50;
+    -fx-padding: 5;
+}
+.NhanVien:hover{
+    -fx-background-color: #0089cc;
+    -fx-border-color: none;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-alignment: center;
+    -fx-min-width:150;
+    -fx-min-height:50;
+    -fx-padding: 5;
+}
+.TenDangNhap{
+    -fx-font-size: 19;
+    -fx-text-fill: lightslategrey;
+}
+.MatKhau{
+    -fx-font-size: 19;
+    -fx-text-fill: lightslategrey;
+}
