@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.geometry.Rectangle2D;
 
 /**
  * JavaFX App
@@ -17,10 +18,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"), 400, 500);
+        scene = new Scene(loadFXML("BanHang"), 1750,800);
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setMaximized(true);
         stage.show();
+        
     }
 
     static void setRoot(String fxml) throws IOException {

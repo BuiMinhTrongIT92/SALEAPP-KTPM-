@@ -96,7 +96,7 @@
     -fx-min-height:50;
     -fx-padding: 5;
 }
-.NhanVien{
+.BanHang{
     -fx-background-color: #0d3f70;
     -fx-border-color: none;
     -fx-text-fill: white;
@@ -106,7 +106,7 @@
     -fx-min-height:50;
     -fx-padding: 5;
 }
-.NhanVien:hover{
+.BanHang:hover{
     -fx-background-color: #0089cc;
     -fx-border-color: none;
     -fx-text-fill: white;

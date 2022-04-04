@@ -1,0 +1,76 @@
+/*
+ * Empty Stylesheet file.
+ */
+.BanHang{
+    -fx-background-color: white;
+}
+.lbTimSP{
+    -fx-font-size:20;
+}
+.tfTimSP{
+    -fx-font-size:18;
+}
+.pnTimSP{
+    -fx-padding: 10;
+}
+.tbvFindRS{
+    
+}
+.hboxBtnSP{
+    -fx-background-color: e1e1e1;
+}
+.hboxSPitems{
+    -fx-background-color: e1e1e1;
+}
+.lbTimKH{
+      -fx-font-size:20;
+}
+.tfTimKH{
+    -fx-font-size:18;
+}
+.btnTimKH{
+    -fx-max-width:70;
+    -fx-min-height:40;
+    
+}
+.btnThemKH{
+    -fx-max-width:70;
+    -fx-min-height:40;
+    
+}
+.vboxThemSP{
+    -fx-padding: 5;
+}
+.vboxThemSP .label{
+    -fx-font-size: 20;
+}
+.pnBottom .label{
+    -fx-font-size: 20;
+}
+.pnTop{
+    -fx-background-color: e1e1e1;
+     -fx-border-radius: 0;
+    -fx-border-insets: 1;
+    -fx-border-color:e1e1e1;
+    -fx-padding: 10;
+    -fx-alignment:center;
+}
+.pnBottom{
+    -fx-background-color: e1e1e1;
+    -fx-padding: 10;
+}
+.pnThanhToan{
+    -fx-padding:6;
+}
+.hboxThanhToan .button{
+    -fx-max-width:200;
+    -fx-min-height:80;
+}
+.hboxLoaiSP{
+    -fx-background-color: #929292;
+    -fx-border-color:white;
+}
+.btnThanhToan{
+    -fx-background-color: #962a44;
+    -fx-text-fill:white;
+}

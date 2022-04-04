@@ -20,7 +20,11 @@
          <children>
             <Label styleClass="TenDangNhap" stylesheets="@../styles/loginStyle.css" text="Tên đăng nhập" />
             <TextField styleClass="username" stylesheets="@../styles/loginStyle.css" />
-            <Label styleClass="MatKhau" stylesheets="@../styles/loginStyle.css" text="Mật khẩu" />
+            <Label styleClass="MatKhau" stylesheets="@../styles/loginStyle.css" text="Mật khẩu">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
             <PasswordField styleClass="password" stylesheets="@../styles/loginStyle.css" />
          </children>
       </VBox>
@@ -31,7 +35,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" styleClass="NhanVien" stylesheets="@../styles/loginStyle.css" text="Nhân Viên" />
+            <Button mnemonicParsing="false" styleClass="BanHang" stylesheets="@../styles/loginStyle.css" text="Bán Hàng" />
          </children>
       </HBox>
    </children>
