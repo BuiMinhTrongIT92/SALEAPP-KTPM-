@@ -8,6 +8,6 @@ package com.ktpm.pojo;
  *
  * @author ACER
  */
-public class demo {
-    
+public class LoaiHH {
+    private int IDloaiHH;
 }

@@ -19,23 +19,23 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0" styleClass="PANEL" stylesheets="@../styles/loginStyle.css">
          <children>
             <Label styleClass="TenDangNhap" stylesheets="@../styles/loginStyle.css" text="Tên đăng nhập" />
-            <TextField styleClass="username" stylesheets="@../styles/loginStyle.css" />
+            <TextField fx:id="username" styleClass="username" stylesheets="@../styles/loginStyle.css" />
             <Label styleClass="MatKhau" stylesheets="@../styles/loginStyle.css" text="Mật khẩu">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <PasswordField styleClass="password" stylesheets="@../styles/loginStyle.css" />
+            <PasswordField fx:id="password" styleClass="password" stylesheets="@../styles/loginStyle.css" />
          </children>
       </VBox>
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="HBoxBtn" stylesheets="@../styles/loginStyle.css">
          <children>
-            <Button mnemonicParsing="false" styleClass="QuanLy" stylesheets="@../styles/loginStyle.css" text="Quản lý">
+            <Button mnemonicParsing="false" onAction="#openManage" styleClass="QuanLy" stylesheets="@../styles/loginStyle.css" text="Quản lý">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" styleClass="BanHang" stylesheets="@../styles/loginStyle.css" text="Bán Hàng" />
+            <Button mnemonicParsing="false" onAction="#openSale" styleClass="BanHang" stylesheets="@../styles/loginStyle.css" text="Bán Hàng" />
          </children>
       </HBox>
    </children>

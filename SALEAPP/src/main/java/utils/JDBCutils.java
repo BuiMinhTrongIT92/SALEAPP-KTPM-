@@ -4,10 +4,28 @@
  */
 package utils;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  *
  * @author ACER
  */
 public class JDBCutils {
-    
+    private static Connection Conn;
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * @return the Conn
+     */
+    public static Connection getConn() throws SQLException {
+        return DriverManager.getConnection("jdbc:mysql://localhost/saleappktpm", "root", "123456789");
+    }
 }

@@ -18,12 +18,22 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("BanHang"), 1750,800);
+        scene = new Scene(loadFXML("Login"), 400,500);
         stage.setScene(scene);
-        stage.setMaximized(true);
+//        stage.setMaximized(true);
+        stage.setMaximized(false);
         stage.show();
         
     }
+//     @Override
+//    public void start(Stage stage) throws IOException {
+//        scene = new Scene(loadFXML("BanHang"), 400,500);
+//        stage.setScene(scene);
+////        stage.setMaximized(true);
+//         stage.setMaximized(true);
+//         stage.show();
+//        
+//    }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
