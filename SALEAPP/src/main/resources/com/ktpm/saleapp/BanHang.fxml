@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -40,20 +41,33 @@
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></TableView>
-            <TableView prefHeight="270.0" prefWidth="683.0" styleClass="tbvSP" stylesheets="@../styles/banhangStyle.css" />
-            <VBox prefHeight="277.0" prefWidth="663.0" styleClass="vbxAuToFind" stylesheets="@../styles/banhangStyle.css">
+            <TableView prefHeight="274.0" prefWidth="963.0" styleClass="tbvSP" stylesheets="@../styles/banhangStyle.css" />
+            <VBox fx:id="MenuHH" prefHeight="311.0" prefWidth="963.0" styleClass="vbxAuToFind" stylesheets="@../styles/banhangStyle.css">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
                <children>
-                  <HBox alignment="BOTTOM_RIGHT" prefHeight="53.0" prefWidth="963.0" styleClass="hboxBtnSP" stylesheets="@../styles/banhangStyle.css">
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="42.0" prefWidth="963.0" styleClass="hboxBtnSP" stylesheets="@../styles/banhangStyle.css">
                      <children>
-                        <ComboBox prefWidth="150.0" stylesheets="@../styles/banhangStyle.css" />
+                        <Label prefHeight="18.0" prefWidth="127.0" text="Lọc theo loại">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="CbLoaiHH" prefWidth="150.0" stylesheets="@../styles/banhangStyle.css" />
                      </children>
                      <padding>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </padding></HBox>
-                  <HBox prefHeight="250.0" prefWidth="963.0" styleClass="hboxSPitems" stylesheets="@../styles/banhangStyle.css" />
+                  <ScrollPane prefHeight="278.0" prefWidth="963.0">
+                     <content>
+                        <GridPane fx:id="GridItems" prefHeight="1.0" prefWidth="0.0">
+                           <columnConstraints>
+                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
                </children>
             </VBox>
          </children>

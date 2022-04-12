@@ -74,3 +74,6 @@
     -fx-background-color: #962a44;
     -fx-text-fill:white;
 }
+.hboxSPitems{
+    -fx-display: flex;
+}
