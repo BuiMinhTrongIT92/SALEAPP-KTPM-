@@ -32,29 +32,9 @@ import utils.JDBCutils;
  * @author ACER
  */
 public class test {
-    public static void main(String[] agrs) throws SQLException {
-        Connection conn = JDBCutils.getConn();
-      PreparedStatement stm = conn.prepareStatement("SELECT * FROM hanghoa WHERE idLoaiHH in (SELECT idLoaiHH FROM loaihanghoa WHERE TenLoaiHH = N?)");
-            stm.setString(1,"Nước ngọt");
-            ResultSet rs = stm.executeQuery();
-            
-            List<HangHoa> hanghoa = new ArrayList<>();
-            while(rs.next()){
-                String Id = rs.getString("idHangHoa");
-                String TenLoaiHH = rs.getString("TenHangHoa");
-                Double Gia = rs.getDouble("Gia");
-                String XuatXu = rs.getString("XuatXu");
-                String IDLoaiHH = rs.getString("idLoaiHH");
-                String AnhHH = rs.getString("AnhHH");
-                Double SL = rs.getDouble("SoLuong");
-                Double KG = rs.getDouble("KG");
-                hanghoa.add(new HangHoa(Id,TenLoaiHH,Gia,XuatXu,IDLoaiHH,AnhHH,SL,KG));
-            }
-           
-        
-        for(int i =0;i< hanghoa.size();i++){
-            System.out.println(hanghoa.get(i).getTenHangHoa());
-        }
+    public static void main(String[] agrs) throws SQLException{
+      LoaiHHService ss  = new LoaiHHService();
+        System.out.println(ss.getAllNameImg("snacklay"));
     }
 }
 //        NhanVienController sss= new NhanVienController();

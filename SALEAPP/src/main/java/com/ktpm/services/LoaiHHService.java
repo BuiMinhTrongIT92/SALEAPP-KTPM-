@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.image.ImageView;
 import utils.JDBCutils;
+
 
 
 /**
@@ -81,6 +83,16 @@ public class LoaiHHService {
             return kq;
         }
     }
+    public boolean getAllNameImg(String imgname) throws SQLException{
+        try {
+            ImageView imgv = new ImageView("/souresImage/" + imgname + ".jpg");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
+           
+
 
 

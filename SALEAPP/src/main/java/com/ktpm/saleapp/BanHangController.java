@@ -60,7 +60,7 @@ public class BanHangController implements Initializable {
         try {
             this.CbLoaiHH.setItems(FXCollections.observableArrayList(loaiHHSV.getLoaiHH()));
             GridItems.setAlignment(Pos.CENTER);
-            GridItems.setPadding(new Insets(10,10,10,10));
+            
             
             //width
             
@@ -72,23 +72,28 @@ public class BanHangController implements Initializable {
             GridItems.setPrefHeight(Region.USE_COMPUTED_SIZE);
             GridItems.setMaxHeight(Region.USE_PREF_SIZE);
             this.CbLoaiHH.setOnAction(event -> {
+                this.GridItems.getChildren().clear();
+                GridItems.setPadding(new Insets(10,10,10,20));
                 column =0;
                 row = 0;
+                String aa= "";
                 GridItems.setVgap(20);
                 GridItems.setHgap(130);
-                this.GridItems.getChildren().clear();
                 String loaihh = CbLoaiHH.getSelectionModel().getSelectedItem().toString();
                 this.GridItems.getAlignment();
                 try {
                     hanghoa = loaiHHSV.getLoaiHHByLoai(loaihh);
-                    count.setText(String.valueOf(hanghoa.size()));
-                    for(int i =0;i < hanghoa.size();i++){
-                        Button itemss = this.createItem(hanghoa.get(i).getTenHangHoa(), hanghoa.get(i).getAnhHH(),String.valueOf(loaihhSV.getSL(hanghoa.get(i).getTenHangHoa())));
+                    for(int i = 0;i < hanghoa.size(); i++){
+                        aa+= hanghoa.get(i).getAnhHH();
+                        count.setText(aa);
+                    }
+                    for(int i = 0;i < hanghoa.size(); i++){
+                        Button itemss = this.createItem(hanghoa.get(i).getTenHangHoa(), hanghoa.get(i).getAnhHH().strip(),String.valueOf(loaihhSV.getSL(hanghoa.get(i).getTenHangHoa())));
                         if(column == 4){
                             column = 0;
                             row++;
                         }
-                        GridItems.add(itemss, column++, row);
+                        this.GridItems.add(itemss, column++, row);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,10 +104,11 @@ public class BanHangController implements Initializable {
             Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public Button createItem(String id,String img,String SL ){
-       
+    public Button createItem(String id,String img,String SL) throws SQLException{
        Button item = new Button();
        item.setId(id);
+       if( img.isEmpty() || (loaihhSV.getAllNameImg(img) == false) || img == null)
+           img = "noimage";
        ImageView imgv = new ImageView("/souresImage/" + img + ".jpg");
        Label lbslconlai = new Label("SL: " + SL);
        VBox info = new VBox();
