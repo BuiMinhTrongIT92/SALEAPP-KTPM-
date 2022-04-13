@@ -12,6 +12,7 @@ public class LoaiHH {
     private String IDloaiHH;
     private String TenLoaiHH;
     private String DonVi;
+    
 
     public LoaiHH() {
     }
@@ -74,4 +75,6 @@ public class LoaiHH {
     public void setDonVi(String DonVi) {
         this.DonVi = DonVi;
     }
+
+   
 }

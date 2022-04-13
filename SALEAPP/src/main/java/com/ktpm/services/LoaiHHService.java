@@ -4,13 +4,17 @@
  */
 package com.ktpm.services;
 
+import com.ktpm.pojo.HangHoa;
 import com.ktpm.pojo.LoaiHH;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.JDBCutils;
 
 
@@ -35,4 +39,48 @@ public class LoaiHHService {
         }
         
     }
+    public List<HangHoa> getLoaiHHByLoai(String loaihh) throws SQLException{
+       try(Connection conn = JDBCutils.getConn()){
+    
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM hanghoa WHERE idLoaiHH in (SELECT idLoaiHH FROM loaihanghoa WHERE TenLoaiHH = N?)");
+            stm.setString(1,loaihh);
+            ResultSet rs = stm.executeQuery();
+            
+            List<HangHoa> hanghoa = new ArrayList<>();
+            while(rs.next()){
+                String Id = rs.getString("idHangHoa");
+                String TenLoaiHH = rs.getString("TenHangHoa");
+                Double Gia = rs.getDouble("Gia");
+                String XuatXu = rs.getString("XuatXu");
+                String IDLoaiHH = rs.getString("idLoaiHH");
+                String AnhHH = rs.getString("AnhHH");
+                Double SL = rs.getDouble("SoLuong");
+                Double KG = rs.getDouble("KG");
+                hanghoa.add(new HangHoa(Id,TenLoaiHH,Gia,XuatXu,IDLoaiHH,AnhHH,SL,KG));
+            }
+            return hanghoa;
+        }
+    }
+    public double getSL (String getSLloaihh) throws SQLException{
+        double kq =0;
+        try(Connection conn = JDBCutils.getConn()) {
+            PreparedStatement stm = conn.prepareStatement("SELECT KG,SoLuong FROM hanghoa WHERE TenHangHoa = N?");
+            stm.setString(1, getSLloaihh);
+            ResultSet rs = stm.executeQuery();
+            double sl = 0;
+            double kg = 0;
+            while(rs.next()){
+                sl = rs.getDouble("KG");
+                kg = rs.getDouble("Soluong");
+            }
+            if(sl == 0)
+                kq = kg;
+            if(kg == 0){
+                kq = sl;
+            }
+            return kq;
+        }
+    }
 }
+
+

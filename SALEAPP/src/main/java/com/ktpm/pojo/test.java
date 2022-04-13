@@ -5,6 +5,7 @@
 package com.ktpm.pojo;
 
 import com.ktpm.saleapp.NhanVienController;
+import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,9 +19,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import utils.JDBCutils;
 
@@ -29,7 +32,31 @@ import utils.JDBCutils;
  * @author ACER
  */
 public class test {
-    public static void main(String[] agrs) throws SQLException, ParseException{
+    public static void main(String[] agrs) throws SQLException {
+        Connection conn = JDBCutils.getConn();
+      PreparedStatement stm = conn.prepareStatement("SELECT * FROM hanghoa WHERE idLoaiHH in (SELECT idLoaiHH FROM loaihanghoa WHERE TenLoaiHH = N?)");
+            stm.setString(1,"Nước ngọt");
+            ResultSet rs = stm.executeQuery();
+            
+            List<HangHoa> hanghoa = new ArrayList<>();
+            while(rs.next()){
+                String Id = rs.getString("idHangHoa");
+                String TenLoaiHH = rs.getString("TenHangHoa");
+                Double Gia = rs.getDouble("Gia");
+                String XuatXu = rs.getString("XuatXu");
+                String IDLoaiHH = rs.getString("idLoaiHH");
+                String AnhHH = rs.getString("AnhHH");
+                Double SL = rs.getDouble("SoLuong");
+                Double KG = rs.getDouble("KG");
+                hanghoa.add(new HangHoa(Id,TenLoaiHH,Gia,XuatXu,IDLoaiHH,AnhHH,SL,KG));
+            }
+           
+        
+        for(int i =0;i< hanghoa.size();i++){
+            System.out.println(hanghoa.get(i).getTenHangHoa());
+        }
+    }
+}
 //        NhanVienController sss= new NhanVienController();
 //        if(sss.LoginNVBH("Lam", "123") == true){
 //            System.out.println("ok");
@@ -113,5 +140,5 @@ public class test {
 //           System.out.println(nvbh.getNgayTao());
 //        }
 //    }
-    }
-}
+       
+    

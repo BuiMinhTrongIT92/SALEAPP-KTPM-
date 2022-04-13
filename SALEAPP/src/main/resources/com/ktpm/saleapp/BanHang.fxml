@@ -83,7 +83,7 @@
                               <Insets left="5.0" right="35.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField alignment="CENTER" prefHeight="40.0" prefWidth="213.0" styleClass="tfTimKH" stylesheets="@../styles/banhangStyle.css">
+                        <TextField fx:id="count" alignment="CENTER" prefHeight="40.0" prefWidth="213.0" styleClass="tfTimKH" stylesheets="@../styles/banhangStyle.css">
                            <HBox.margin>
                               <Insets left="20.0" top="2.0" />
                            </HBox.margin>

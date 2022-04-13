@@ -4,10 +4,10 @@
 
 .VBOX {
     -fx-border-radius: 20;
-    -fx-background-color: #00ffde;
+    
 }
 .DangNhap{
-    -fx-text-fill: white;
+    
     
 }
 .username{
