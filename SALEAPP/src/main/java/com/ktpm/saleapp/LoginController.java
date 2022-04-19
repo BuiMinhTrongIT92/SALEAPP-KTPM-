@@ -4,6 +4,7 @@
  */
 package com.ktpm.saleapp;
 
+import com.ktpm.services.NhanVienService;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +33,7 @@ public class LoginController implements Initializable {
     @FXML TextField password;
     NhanVienController NVController = new NhanVienController();
     QuanLyController QLController = new QuanLyController();
+    private static NhanVienService nvSV = new NhanVienService();
     /**
      * Initializes the controller class.
      */
@@ -59,12 +61,13 @@ public class LoginController implements Initializable {
         }
     }
     public void openSale(ActionEvent event) throws SQLException, IOException{
-        
             if(username.getText() !=null & password.getText() !=null){
                 try{
                     if(NVController.LoginNVBH(username.getText(), password.getText()) == true){
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("BanHang.fxml"));
                     Parent root = (Parent)fxmlLoader.load();
+                    BanHangController banhangcontrol = fxmlLoader.getController();
+                    banhangcontrol.setIDNV(nvSV.findNVByUSPS(username.getText(), password.getText()).getIDNguoiDung());
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.setMaximized(true);
@@ -76,5 +79,6 @@ public class LoginController implements Initializable {
                     utills.showBox("Sai tên đăng nhập hoặc mật khẩu", Alert.AlertType.WARNING).show();  
              }
           }
+        
     }
 }

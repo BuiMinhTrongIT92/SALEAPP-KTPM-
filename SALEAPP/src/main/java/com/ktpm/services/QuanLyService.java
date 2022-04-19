@@ -40,6 +40,7 @@ public class QuanLyService {
                 nvql.setNgayTao(rs.getDate("NgayTao"));
                 nvql.setSDT(rs.getInt("SDT"));
                 nvql.setRole(rs.getString("Role"));
+                nvql.setNgaySinh(rs.getDate("NgaySinh"));
             }
             return (QuanLy) nvql;
         }

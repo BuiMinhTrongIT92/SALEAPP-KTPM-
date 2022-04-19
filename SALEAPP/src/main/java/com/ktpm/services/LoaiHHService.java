@@ -29,7 +29,6 @@ public class LoaiHHService {
         try(Connection conn = JDBCutils.getConn()){
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa");
-            
             List<LoaiHH> loaiHH = new ArrayList<>();
             while(rs.next()){
                 String Id = rs.getString("idLoaiHH");
@@ -83,6 +82,8 @@ public class LoaiHHService {
             return kq;
         }
     }
+    
+    
     public boolean getAllNameImg(String imgname) throws SQLException{
         try {
             ImageView imgv = new ImageView("/souresImage/" + imgname + ".jpg");
@@ -91,6 +92,7 @@ public class LoaiHHService {
             return false;
         }
     }
+  
 }
            
 

@@ -4,6 +4,8 @@
  */
 package com.ktpm.pojo;
 
+import javafx.scene.control.Button;
+
 /**
  *
  * @author ACER
@@ -17,6 +19,12 @@ public class HangHoa {
     private String AnhHH;
     private Double SL;
     private Double KG;
+    private Button btnSL;
+    private Button btnKG;
+    private Button btnCong;
+    private Button btnTru;
+    private Button btnXoa;
+    private Double GiaGiam;
 
     public HangHoa() {
     }
@@ -143,6 +151,92 @@ public class HangHoa {
     public void setKG(Double KG) {
         this.KG = KG;
     }
+
+    /**
+     * @return the btnSL
+     */
+    public Button getBtnSL() {
+        return btnSL;
+    }
+
+    /**
+     * @param btnSL the btnSL to set
+     */
+    public void setBtnSL(Button btnSL) {
+        this.btnSL = btnSL;
+    }
+
+    /**
+     * @return the btnKG
+     */
+    public Button getBtnKG() {
+        return btnKG;
+    }
+
+    /**
+     * @param btnKG the btnKG to set
+     */
+    public void setBtnKG(Button btnKG) {
+        this.btnKG = btnKG;
+    }
+
+    /**
+     * @return the btnCong
+     */
+    public Button getBtnCong() {
+        return btnCong;
+    }
+
+    /**
+     * @param btnCong the btnCong to set
+     */
+    public void setBtnCong(Button btnCong) {
+        this.btnCong = btnCong;
+    }
+
+    /**
+     * @return the btnTru
+     */
+    public Button getBtnTru() {
+        return btnTru;
+    }
+
+    /**
+     * @param btnTru the btnTru to set
+     */
+    public void setBtnTru(Button btnTru) {
+        this.btnTru = btnTru;
+    }
+
+    /**
+     * @return the btnXoa
+     */
+    public Button getBtnXoa() {
+        return btnXoa;
+    }
+
+    /**
+     * @param btnXoa the btnXoa to set
+     */
+    public void setBtnXoa(Button btnXoa) {
+        this.btnXoa = btnXoa;
+    }
+
+    /**
+     * @return the GiaGiam
+     */
+    public Double getGiaGiam() {
+        return GiaGiam;
+    }
+
+    /**
+     * @param GiaGiam the GiaGiam to set
+     */
+    public void setGiaGiam(Double GiaGiam) {
+        this.GiaGiam = GiaGiam;
+    }
+
+   
 
     
     

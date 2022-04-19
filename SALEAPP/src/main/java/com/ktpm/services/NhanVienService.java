@@ -26,7 +26,7 @@ public class NhanVienService {
             NhanVien nvbh = null;
             while(rs.next()){
                 nvbh = new NhanVien(rs.getString("idNguoiDung"), rs.getString("TenNguoiDung"), rs.getString("TaiKhoan"),rs.getString("MatKhau"), rs.getString("GioiTinh"), rs.getBoolean("Active"), rs.getString("Email"),
-                        rs.getDate("NgayTao"),rs.getInt("SDT"), rs.getString("Role"));
+                        rs.getDate("NgayTao"),rs.getInt("SDT"), rs.getString("Role"),rs.getDate("NgaySinh"));
             }
             return nvbh;
         }
@@ -51,6 +51,7 @@ public class NhanVienService {
                 nvbh.setNgayTao(rs.getDate("NgayTao"));
                 nvbh.setSDT(rs.getInt("SDT"));
                 nvbh.setRole(rs.getString("Role"));
+                nvbh.setNgaySinh(rs.getDate("NgaySinh"));
             }
             return (NhanVien) nvbh;
         }

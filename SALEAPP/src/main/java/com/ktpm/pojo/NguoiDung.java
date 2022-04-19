@@ -21,11 +21,12 @@ public abstract class NguoiDung {
     private Date NgayTao;
     private int SDT;
     private String Role;
+    private Date NgaySinh;
 
     public NguoiDung() {
     }
 
-    public NguoiDung(String IDNguoiDung, String TengNguoiDung, String TaiKhoan, String MatKhau, String GioiTinh, boolean Active, String Email, Date NgayTao, int SDT, String Role) {
+    public NguoiDung(String IDNguoiDung, String TengNguoiDung, String TaiKhoan, String MatKhau, String GioiTinh, boolean Active, String Email, Date NgayTao, int SDT, String Role,Date NgaySinh) {
         this.IDNguoiDung = IDNguoiDung;
         this.TenNguoiDung = TengNguoiDung;
         this.TaiKhoan = TaiKhoan;
@@ -36,6 +37,7 @@ public abstract class NguoiDung {
         this.NgayTao = NgayTao;
         this.SDT = SDT;
         this.Role = Role;
+        this.NgaySinh = NgaySinh;
     }
     
     public abstract boolean dangNhap();
@@ -178,6 +180,20 @@ public abstract class NguoiDung {
      */
     public void setRole(String Role) {
         this.Role = Role;
+    }
+
+    /**
+     * @return the NgaySinh
+     */
+    public Date getNgaySinh() {
+        return NgaySinh;
+    }
+
+    /**
+     * @param NgaySinh the NgaySinh to set
+     */
+    public void setNgaySinh(Date NgaySinh) {
+        this.NgaySinh = NgaySinh;
     }
    
 }

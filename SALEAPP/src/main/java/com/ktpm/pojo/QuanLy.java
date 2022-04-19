@@ -19,7 +19,7 @@ public class QuanLy extends NguoiDung {
 
     public QuanLy() {
     }
-    public QuanLy(String IDNguoiDung, String TenNguoiDung, String TaiKhoan, String MatKhau, String GioiTinh, boolean Active, String Email, Date NgayTao, int SDT, String Role){
-        super(IDNguoiDung, TenNguoiDung, TaiKhoan, MatKhau, GioiTinh, Active, Email, NgayTao, SDT, Role);
+    public QuanLy(String IDNguoiDung, String TenNguoiDung, String TaiKhoan, String MatKhau, String GioiTinh, boolean Active, String Email, Date NgayTao, int SDT, String Role,Date NgaySinh){
+        super(IDNguoiDung, TenNguoiDung, TaiKhoan, MatKhau, GioiTinh, Active, Email, NgayTao, SDT, Role,NgaySinh);
     }
 }

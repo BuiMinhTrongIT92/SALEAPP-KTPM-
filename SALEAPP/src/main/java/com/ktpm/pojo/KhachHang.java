@@ -10,17 +10,16 @@ import java.util.Date;
  *
  * @author ACER
  */
-public class NhanVien extends NguoiDung {
+public class KhachHang extends NguoiDung{
 
     @Override
     public boolean dangNhap() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public NhanVien() {
-        super();
+    public KhachHang() {
     }
-    public NhanVien(String IDNguoiDung, String TenNguoiDung, String TaiKhoan, String MatKhau, String GioiTinh, boolean Active, String Email, Date NgayTao, int SDT, String Role, Date NgaySinh){
+    public KhachHang(String IDNguoiDung, String TenNguoiDung, String TaiKhoan, String MatKhau, String GioiTinh, boolean Active, String Email, Date NgayTao, int SDT, String Role,Date NgaySinh){
         super(IDNguoiDung, TenNguoiDung, TaiKhoan, MatKhau, GioiTinh, Active, Email, NgayTao, SDT, Role,NgaySinh);
     }
     

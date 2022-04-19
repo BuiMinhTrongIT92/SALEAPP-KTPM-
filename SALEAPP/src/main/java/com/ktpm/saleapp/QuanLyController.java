@@ -30,7 +30,8 @@ public class QuanLyController implements Initializable {
     }
    public boolean LoginQL(String tk, String pass) throws SQLException{
         if(tk != null && pass !=null){
-            if(qlsv.findQLByUSPS(tk, pass).getTaiKhoan().contains(tk) && qlsv.findQLByUSPS(tk, pass).getMatKhau().contains(pass) && qlsv.findQLByUSPS(tk, pass).getRole().contains("QuanLy")
+            if(qlsv.findQLByUSPS(tk, pass).getTaiKhoan().contains(tk) && qlsv.findQLByUSPS(tk, pass).getMatKhau().contains(pass) && 
+                    qlsv.findQLByUSPS(tk, pass).getRole().contains("QuanLy")
                     && qlsv.findQLByUSPS(tk, pass).isActive()){
                 return true;
             }
@@ -39,7 +40,6 @@ public class QuanLyController implements Initializable {
             }
         }
          return false;
-       
     }
    
 }

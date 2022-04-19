@@ -12,7 +12,6 @@ public class LoaiHH {
     private String IDloaiHH;
     private String TenLoaiHH;
     private String DonVi;
-    
 
     public LoaiHH() {
     }

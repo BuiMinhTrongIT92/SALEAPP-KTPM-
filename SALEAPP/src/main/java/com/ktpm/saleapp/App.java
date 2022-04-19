@@ -16,24 +16,24 @@ public class App extends Application {
 
     private static Scene scene;
 
-//    @Override
-//    public void start(Stage stage) throws IOException {
-//        scene = new Scene(loadFXML("Login"), 400,500);
-//        stage.setScene(scene);
-////        stage.setMaximized(true);
-//        stage.setMaximized(false);
-//        stage.show();
-//        
-//    }
-     @Override
+    @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("BanHang"), 400,500);
+        scene = new Scene(loadFXML("Login"), 400,500);
         stage.setScene(scene);
 //        stage.setMaximized(true);
-         stage.setMaximized(true);
-         stage.show();
+        stage.setMaximized(false);
+        stage.show();
         
     }
+//     @Override
+//    public void start(Stage stage) throws IOException {
+//        scene = new Scene(loadFXML("BanHang"), 400,500);
+//        stage.setScene(scene);
+////        stage.setMaximized(true);
+//         stage.setMaximized(true);
+//         stage.show();
+//        
+//    }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

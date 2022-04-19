@@ -5,6 +5,9 @@
 package com.ktpm.pojo;
 
 import com.ktpm.saleapp.NhanVienController;
+import com.ktpm.services.HangHoaService;
+import com.ktpm.services.HoaDonService;
+import com.ktpm.services.KhachHangService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
 import java.sql.Connection;
@@ -25,6 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import utils.JDBCutils;
 
 /**
@@ -32,9 +36,18 @@ import utils.JDBCutils;
  * @author ACER
  */
 public class test {
-    public static void main(String[] agrs) throws SQLException{
-      LoaiHHService ss  = new LoaiHHService();
-        System.out.println(ss.getAllNameImg("snacklay"));
+    public static void main(String[] agrs) throws SQLException, ParseException{
+        HoaDonService s = new HoaDonService();
+        Date n = new Date();
+        Date ns = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
+//        SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
+//        String h = k.format(n);
+//        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(h);  
+        if(s.saveHoaDon(UUID.randomUUID().toString(),ns , "12", 12.0,12.0, 12.0, 12.0, 12.0, "1", "3") == true){
+            System.out.println("true");
+        }
+        else
+            System.out.println(ns);
     }
 }
 //        NhanVienController sss= new NhanVienController();
