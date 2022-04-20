@@ -207,8 +207,14 @@ public class BanHangController implements Initializable {
                 NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
                 if(hanghoaSV.isHangHoa(tbvHH, item.getId()) == false)
                 {
-                    hh.setKG(0.0);
-                    hh.setSL(1.0);
+                    if(hanghoaSV.getSLCheck(TenHH) == 0){
+                        hh.setKG(1.0);
+                        hh.setSL(0.0);
+                    }
+                    else if(hanghoaSV.getKGCheck(TenHH) == 0){
+                        hh.setKG(0.0);
+                        hh.setSL(1.0);
+                    }
                     this.tbvHH.add(hh);
                 }
                 else if(hanghoaSV.isHangHoa(tbvHH, item.getId()) == true)
@@ -276,7 +282,6 @@ public class BanHangController implements Initializable {
         col10.setPrefWidth(100);
         
         this.tbvHangHoa.getColumns().addAll(col1,col2,col11,col3,col4,col5,col6,col7,col8,col9,col10);
-       
     }
     
     public void tamTinh() throws SQLException{
@@ -291,14 +296,22 @@ public class BanHangController implements Initializable {
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         for(int i =0;i<tbvHH.size();i++){
             if(tbvHH.get(i).getGiaGiam() == null){
-                tongtien +=tbvHH.get(i).getGia();
+                if(tbvHH.get(i).getKG() == 0){
+                    tongtien +=tbvHH.get(i).getGia() * tbvHH.get(i).getSL();
+                }else if(tbvHH.get(i).getSL() == 0){
+                    tongtien +=tbvHH.get(i).getGia() * tbvHH.get(i).getKG();
+                }
             }
             else if(tbvHH.get(i).getGiaGiam() >0){
-                tongtien +=tbvHH.get(i).getGiaGiam();
+                 if(tbvHH.get(i).getKG() == 0){
+                    tongtien +=tbvHH.get(i).getGiaGiam() * tbvHH.get(i).getSL();
+                }else if(tbvHH.get(i).getSL() == 0){
+                    tongtien +=tbvHH.get(i).getGiaGiam() * tbvHH.get(i).getKG();
+                }
             }
         }
         if(this.lbKhuyenMai.getText().contains("10%")){
-            khuyenmai = 0.9;
+            khuyenmai = 0.1;
             tongtien = tongtien*0.9;
             thanhtien = tongtien;
             lbThanhTien.setText(currencyVN.format(tongtien));
@@ -308,26 +321,45 @@ public class BanHangController implements Initializable {
             lbThanhTien.setText(currencyVN.format(tongtien));
             thanhtien = tongtien;
         }
-        if(Double.parseDouble(this.tfTienKhachTra.getText()) !=0){
+        if(Double.parseDouble(this.tfTienKhachTra.getText()) !=0 && Double.parseDouble(this.tfTienKhachTra.getText()) >= tongtien){
             tienkh = Double.parseDouble(this.tfTienKhachTra.getText());
             this.lbTienThoi.setText(currencyVN.format(Double.parseDouble(this.tfTienKhachTra.getText()) - tongtien));
             tienthoi = Double.parseDouble(this.tfTienKhachTra.getText()) - tongtien;
         }
+        else
+            utills.showBox("Số tiền không hợp lệ", Alert.AlertType.WARNING).show();
     }
    
     public void thanhToan() throws SQLException{
-
-        Date n = new Date();
-        Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
-        Optional<ButtonType> option = utills.showBox("Xác nhận thanh toán", Alert.AlertType.CONFIRMATION).showAndWait();
-        if(option.get() == ButtonType.OK){
-            if((hoadonSV.saveHoaDon(UUID.randomUUID().toString(), ngaydat,this.nvSV.findNVByID(idNhanVien).getTenNguoiDung() , 
-                    sl, thanhtien, khuyenmai, tienkh, tienthoi, String.valueOf(idNhanVien), String.valueOf(idKhachHang))) == true){
-                utills.showBox("Lưu hóa đơn thành công", Alert.AlertType.INFORMATION).show();
-            }else
-                utills.showBox("Lưu hóa đơn thất bại", Alert.AlertType.WARNING).show();
-            
+        if(this.tbvHH.size() > 0 && tienkh >= thanhtien){
+            Date n = new Date();
+            Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
+            Optional<ButtonType> option = utills.showBox("Xác nhận thanh toán", Alert.AlertType.CONFIRMATION).showAndWait();
+            if(option.get() == ButtonType.OK){
+                if((hoadonSV.saveHoaDon(UUID.randomUUID().toString(), ngaydat,this.nvSV.findNVByID(idNhanVien).getTenNguoiDung() , 
+                        sl, thanhtien, khuyenmai, tienkh, tienthoi, String.valueOf(idNhanVien), String.valueOf(idKhachHang))) == true){
+                    utills.showBox("Lưu hóa đơn thành công", Alert.AlertType.INFORMATION).show();
+                    sl =0;
+                    thanhtien = 0;
+                    khuyenmai = 0;
+                    tienkh = 0;
+                    tienthoi = 0;
+                    this.lbNgayMua.setText("");
+                    this.lbSoluong.setText("");
+                    this.lbKhuyenMai.setText("");
+                    this.lbThanhTien.setText("");
+                    this.tfTienKhachTra.setText("");
+                    this.lbTienThoi.setText("");
+                }else
+                    utills.showBox("Lưu hóa đơn thất bại", Alert.AlertType.WARNING).show();
+            }
+            this.tbvHH.clear();
+            this.tbvHangHoa.refresh();
         }
+        else{
+            utills.showBox("Lỗi thanh toán", Alert.AlertType.WARNING).show();
+        }
+        
     }
     public void setBtnNhap(Button btn){
         btn.setOnAction((evt) ->{
@@ -349,7 +381,7 @@ public class BanHangController implements Initializable {
         });
     }
     
-    public void setBtnCong(Button btn){
+    public void setBtnCong(Button btn) throws SQLException{
         btn.setStyle("-fx-text-fill: green; -fx-font-weight: bold; -fx-font-size: 17px;");
         btn.setOnAction((evt) ->{
             TableCell tbc = (TableCell)((Button)evt.getSource()).getParent();
@@ -436,7 +468,9 @@ public class BanHangController implements Initializable {
             }
             if(checkKMKH(kh, ngaydat) == true){
                 this.lbKhuyenMai.setText("10%");
-                
+            }
+            else{
+                this.lbKhuyenMai.setText("Không có khuyến mãi");
             }
         }
         else if(kq2.size() >0){
@@ -450,6 +484,9 @@ public class BanHangController implements Initializable {
             if(checkKMKH(kh, ngaydat) == true){
                 this.lbKhuyenMai.setText("10%");
             }
+            else{
+                this.lbKhuyenMai.setText("Không có khuyến mãi");
+            }
         }else
         {
             this.lbCheckKH.setText("Không tồn tại");
@@ -458,14 +495,37 @@ public class BanHangController implements Initializable {
         }
     }
     public boolean checkKMKH(KhachHang kh, Date ngaydat){
+        double tongtien = 0;
+        boolean kq = false;
         if(kh.getNgaySinh().getDate() == ngaydat.getDate() && (kh.getNgaySinh().getMonth()+1) == (ngaydat.getMonth()+1)){
-            return true;
-        }else
-            return false;
+            for(int i =0;i<tbvHH.size();i++){
+            if(tbvHH.get(i).getGiaGiam() == null){
+                if(tbvHH.get(i).getKG() == 0){
+                    tongtien +=tbvHH.get(i).getGia() * tbvHH.get(i).getSL();
+                }else if(tbvHH.get(i).getSL() == 0){
+                    tongtien +=tbvHH.get(i).getGia() * tbvHH.get(i).getKG();
+                }
+            }
+            else if(tbvHH.get(i).getGiaGiam() >0){
+                 if(tbvHH.get(i).getKG() == 0){
+                    tongtien +=tbvHH.get(i).getGiaGiam() * tbvHH.get(i).getSL();
+                }else if(tbvHH.get(i).getSL() == 0){
+                    tongtien +=tbvHH.get(i).getGiaGiam() * tbvHH.get(i).getKG();
+                }
+            }
+            }
+            if(this.lbKhuyenMai.getText().contains("10%")){
+                tongtien = tongtien*0.9;
+            }
+            if(tongtien > 1000000)
+                kq = true;
+        }
+        return kq;
         
     }
     public void setIDNV(String id){
         idNhanVien = id;
+        
     }
 
    
