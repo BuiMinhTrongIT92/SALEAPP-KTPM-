@@ -466,7 +466,6 @@ public class BanHangController implements Initializable {
     }
     public void setIDNV(String id){
         idNhanVien = id;
-        this.lbKhuyenMai.setText(idNhanVien);
     }
 
    
