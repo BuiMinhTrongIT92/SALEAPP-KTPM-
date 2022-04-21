@@ -28,7 +28,6 @@ public class KhuyenMaiService {
             double giam = 0;
             while(rs.next()){
                 giam = rs.getDouble("Giam");
-               
             }
             return giam;
         }

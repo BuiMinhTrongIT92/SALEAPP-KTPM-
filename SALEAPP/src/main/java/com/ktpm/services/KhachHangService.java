@@ -22,8 +22,7 @@ import utils.JDBCutils;
 public class KhachHangService {
     public List<KhachHang> getKHByTen(String kw) throws SQLException{
          try(Connection conn = JDBCutils.getConn()) {
-//            PreparedStatement stm = conn.prepareStatement("SELECT * from nguoidung where Role = 'KhachHang' and TenNguoiDung = N? or SDT = N? or Email = N?");
-            PreparedStatement stm = conn.prepareStatement("SELECT * from nguoidung where Role = 'KhachHang' and TenNguoiDung = N? ");
+            PreparedStatement stm = conn.prepareStatement("SELECT * from nguoidung where TenNguoiDung = N? ");
             stm.setString(1, kw);
 
 
@@ -50,8 +49,7 @@ public class KhachHangService {
     }
     public List<KhachHang> getKHBySDT(String kw) throws SQLException{
          try(Connection conn = JDBCutils.getConn()) {
-//            PreparedStatement stm = conn.prepareStatement("SELECT * from nguoidung where Role = 'KhachHang' and TenNguoiDung = N? or SDT = N? or Email = N?");
-            PreparedStatement stm = conn.prepareStatement("SELECT * from nguoidung where Role = 'KhachHang' and SDT = N? ");
+            PreparedStatement stm = conn.prepareStatement("SELECT * from nguoidung where SDT = N? ");
             stm.setString(1, kw);
 
 

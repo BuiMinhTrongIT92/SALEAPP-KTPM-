@@ -9,6 +9,7 @@ import com.ktpm.pojo.LoaiHH;
 import com.ktpm.services.HangHoaService;
 import com.ktpm.services.HoaDonService;
 import com.ktpm.services.KhachHangService;
+import com.ktpm.services.KhuyenMaiService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
 import java.net.URL;
@@ -35,6 +36,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -61,6 +63,7 @@ public class BanHangController implements Initializable {
     @FXML private TableView tbvHangHoa;
     @FXML private Button loadAllHH;
     @FXML private Label lbNgayMua,lbSoluong,lbKhuyenMai,lbThanhTien,lbTienThoi,lbCheckKH;
+    @FXML RadioButton rdSinhNhat;
     public String idNhanVien;
     public String idKhachHang;
     private static final LoaiHHService loaihhSV = new LoaiHHService();
@@ -68,6 +71,7 @@ public class BanHangController implements Initializable {
     private static final KhachHangService khachhangSV = new KhachHangService();
     private static final HoaDonService hoadonSV = new HoaDonService();
     private static final NhanVienService nvSV = new NhanVienService();
+    private static final KhuyenMaiService kmSV = new KhuyenMaiService();
     private static List<HangHoa> hanghoa = new ArrayList<>();
     int column = 0;
     int row = 0;
@@ -81,6 +85,7 @@ public class BanHangController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         LoaiHHService loaiHHSV = new LoaiHHService();
         LoadHH();
+        this.lbKhuyenMai.setText("Không có khuyến mãi");
         this.tbvHangHoa.setItems(FXCollections.observableList(this.tbvHH));
         try {
             this.CbLoaiHH.setItems(FXCollections.observableArrayList(loaiHHSV.getLoaiHH()));
@@ -310,16 +315,16 @@ public class BanHangController implements Initializable {
                 }
             }
         }
-        if(this.lbKhuyenMai.getText().contains("10%")){
-            khuyenmai = 0.1;
-            tongtien = tongtien*0.9;
+        if(this.lbKhuyenMai.getText() != "Không có khuyến mãi"){
+            khuyenmai = Double.parseDouble(this.lbKhuyenMai.getText());
+            tongtien = tongtien*(1 - Double.parseDouble(this.lbKhuyenMai.getText()));
             thanhtien = tongtien;
             lbThanhTien.setText(currencyVN.format(tongtien));
         }
-        else
+        else if(this.lbKhuyenMai.getText().contains("Không có khuyến mãi") || this.lbKhuyenMai.getText().isEmpty())
         {
-            lbThanhTien.setText(currencyVN.format(tongtien));
             thanhtien = tongtien;
+            lbThanhTien.setText(currencyVN.format(tongtien));
         }
         if(Double.parseDouble(this.tfTienKhachTra.getText()) !=0 && Double.parseDouble(this.tfTienKhachTra.getText()) >= tongtien){
             tienkh = Double.parseDouble(this.tfTienKhachTra.getText());
@@ -331,7 +336,7 @@ public class BanHangController implements Initializable {
     }
    
     public void thanhToan() throws SQLException{
-        if(this.tbvHH.size() > 0 && tienkh >= thanhtien){
+        if(this.tbvHH.size() > 0 && tienkh >= thanhtien && this.tfTienKhachTra.getText() !=""){
             Date n = new Date();
             Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
             Optional<ButtonType> option = utills.showBox("Xác nhận thanh toán", Alert.AlertType.CONFIRMATION).showAndWait();
@@ -346,10 +351,12 @@ public class BanHangController implements Initializable {
                     tienthoi = 0;
                     this.lbNgayMua.setText("");
                     this.lbSoluong.setText("");
-                    this.lbKhuyenMai.setText("");
+                    this.lbKhuyenMai.setText("Không có khuyến mãi");
                     this.lbThanhTien.setText("");
                     this.tfTienKhachTra.setText("");
                     this.lbTienThoi.setText("");
+                    this.tfFindKH.setText("");
+                    this.rdSinhNhat.setSelected(false);
                 }else
                     utills.showBox("Lưu hóa đơn thất bại", Alert.AlertType.WARNING).show();
             }
@@ -477,12 +484,17 @@ public class BanHangController implements Initializable {
                 kh = kq1.get(i);
                 idKhachHang = kq1.get(i).getIDNguoiDung();
             }
-            if(checkKMKH(kh, ngaydat) == true){
-                this.lbKhuyenMai.setText("10%");
+            if(kh.getRole().contains("QuanLy")){
+                this.lbKhuyenMai.setText(String.valueOf(kmSV.getKM("QuanLy")));
+            }else
+            if(kh.getRole().contains("NhanVien")){
+                this.lbKhuyenMai.setText(String.valueOf(kmSV.getKM("NhanVien")));
             }
             else{
                 this.lbKhuyenMai.setText("Không có khuyến mãi");
+                this.rdSinhNhat.setSelected(false);
             }
+            this.rdSinhNhat.setSelected(false);
         }
         else if(kq2.size() >0){
             this.lbCheckKH.setText("Tồn tại");
@@ -492,14 +504,21 @@ public class BanHangController implements Initializable {
                 kh = kq2.get(i);
                 idKhachHang = kq2.get(i).getIDNguoiDung();
             }
-            if(checkKMKH(kh, ngaydat) == true){
-                this.lbKhuyenMai.setText("10%");
+            if(kh.getRole().contains("QuanLy")){
+                this.lbKhuyenMai.setText(String.valueOf(kmSV.getKM("QuanLy")));
+            }else
+            if(kh.getRole().contains("NhanVien")){
+                this.lbKhuyenMai.setText(String.valueOf(kmSV.getKM("NhanVien")));
             }
             else{
                 this.lbKhuyenMai.setText("Không có khuyến mãi");
+                this.rdSinhNhat.setSelected(false);
             }
-        }else
+            this.rdSinhNhat.setSelected(false);
+        }
+        else
         {
+            
             this.lbCheckKH.setText("Không tồn tại");
             this.lbCheckKH.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 17px;");
             this.lbKhuyenMai.setText("Không có khuyến mãi");
@@ -538,7 +557,15 @@ public class BanHangController implements Initializable {
         idNhanVien = id;
         
     }
-
+    public void checkSN() throws SQLException{
+        if(rdSinhNhat.isSelected()){
+            this.tfFindKH.setText("");
+            findKH();
+            khuyenmai = 0.1;
+            this.lbKhuyenMai.setText("0.1");
+        }
+        
+    }
    
     
 }

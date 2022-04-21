@@ -8,6 +8,7 @@ import com.ktpm.saleapp.NhanVienController;
 import com.ktpm.services.HangHoaService;
 import com.ktpm.services.HoaDonService;
 import com.ktpm.services.KhachHangService;
+import com.ktpm.services.KhuyenMaiService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
 import java.sql.Connection;
@@ -37,10 +38,9 @@ import utils.JDBCutils;
  */
 public class test {
     public static void main(String[] agrs) throws SQLException, ParseException{
-        HangHoaService hhsv = new HangHoaService();
-        KhachHangService k = new KhachHangService();
-        HangHoa h = hhsv.getHangHoa("1");
-        hhsv.UpdateHH(h);
+        KhuyenMaiService k = new KhuyenMaiService();
+        double q = k.getKM("QuanLy");
+        System.out.println(String.valueOf(q));
     }
 }
 //        NhanVienController sss= new NhanVienController();
