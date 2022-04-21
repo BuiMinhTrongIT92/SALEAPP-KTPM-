@@ -37,17 +37,10 @@ import utils.JDBCutils;
  */
 public class test {
     public static void main(String[] agrs) throws SQLException, ParseException{
-        HoaDonService s = new HoaDonService();
-        Date n = new Date();
-        Date ns = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
-//        SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
-//        String h = k.format(n);
-//        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(h);  
-        if(s.saveHoaDon(UUID.randomUUID().toString(),ns , "12", 12.0,12.0, 12.0, 12.0, 12.0, "1", "3") == true){
-            System.out.println("true");
-        }
-        else
-            System.out.println(ns);
+        HangHoaService hhsv = new HangHoaService();
+        KhachHangService k = new KhachHangService();
+        HangHoa h = hhsv.getHangHoa("1");
+        hhsv.UpdateHH(h);
     }
 }
 //        NhanVienController sss= new NhanVienController();

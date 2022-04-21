@@ -90,7 +90,7 @@ public class HangHoaService {
             return hanghoa;
         }
     }
-      public double getSLCheck (String getSLloaihh) throws SQLException{
+    public double getSLCheck (String getSLloaihh) throws SQLException{
         try(Connection conn = JDBCutils.getConn()) {
             PreparedStatement stm = conn.prepareStatement("SELECT SoLuong FROM hanghoa WHERE TenHangHoa = N?");
             stm.setString(1, getSLloaihh);
@@ -102,7 +102,6 @@ public class HangHoaService {
             return sl;
         }
     }
-    
     public double getKGCheck (String getSLloaihh) throws SQLException{
         try(Connection conn = JDBCutils.getConn()) {
             PreparedStatement stm = conn.prepareStatement("SELECT KG FROM hanghoa WHERE TenHangHoa = N?");
@@ -115,18 +114,6 @@ public class HangHoaService {
             return kg;
         }
     }
-//    public double checkGiamGia(String idHH) throws SQLException{
-//        try(Connection conn = JDBCutils.getConn()) {
-//            PreparedStatement stm = conn.prepareStatement("SELECT GiamGia FROM hanghoa_quidinh hh, quidinh qd where hh.idQuiDinh = qd.idQuiDinh and idHangHoa = N?");
-//            stm.setString(1, idHH);
-//            ResultSet rs = stm.executeQuery();
-//            double kg = 0;
-//            while(rs.next()){
-//                kg = rs.getDouble("GiamGia");
-//            }
-//            return kg;
-//        }
-//    }
     public double checkGiamGia(String idHH,String ngaybd) throws SQLException{
         try(Connection conn = JDBCutils.getConn()) {
             PreparedStatement stm = conn.prepareStatement("SELECT GiamGia FROM hanghoa_quidinh hh, quidinh qd where hh.idQuiDinh = qd.idQuiDinh and idHangHoa = N? and ? > qd.NgayBD and ? < qd.NgayKT");
@@ -141,7 +128,17 @@ public class HangHoaService {
             return kg;
         }
     }
-    
+    public void UpdateHH(HangHoa hh) throws SQLException{
+        try(Connection conn = JDBCutils.getConn()) {
+            PreparedStatement stm = conn.prepareStatement("UPDATE HangHoa SET SoLuong = Soluong - ?, KG = KG - ? WHERE idHangHoa = ?");
+            conn.setAutoCommit(false);
+            stm.setDouble(1, hh.getSL());
+            stm.setDouble(2, hh.getKG());
+            stm.setString(3, hh.getIdHangHoa());
+            stm.executeUpdate();
+            conn.commit();
+        }
+    }
     
 }
 

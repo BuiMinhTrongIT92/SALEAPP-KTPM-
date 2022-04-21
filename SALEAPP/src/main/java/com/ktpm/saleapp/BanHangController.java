@@ -205,7 +205,7 @@ public class BanHangController implements Initializable {
                 setGiamGia(hh);
                 Locale localeVN = new Locale("vi", "VN");
                 NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
-                if(hanghoaSV.isHangHoa(tbvHH, item.getId()) == false)
+                if(hanghoaSV.isHangHoa(tbvHH, item.getId()) == false && (hanghoaSV.getSLCheck(TenHH) != 0 || hanghoaSV.getKGCheck(TenHH) != 0))
                 {
                     if(hanghoaSV.getSLCheck(TenHH) == 0){
                         hh.setKG(1.0);
@@ -353,13 +353,16 @@ public class BanHangController implements Initializable {
                 }else
                     utills.showBox("Lưu hóa đơn thất bại", Alert.AlertType.WARNING).show();
             }
+            for(int i =0;i<this.tbvHH.size();i++){
+            hanghoaSV.UpdateHH(tbvHH.get(i));
+            }
             this.tbvHH.clear();
             this.tbvHangHoa.refresh();
         }
         else{
             utills.showBox("Lỗi thanh toán", Alert.AlertType.WARNING).show();
         }
-        
+       
     }
     public void setBtnNhap(Button btn){
         btn.setOnAction((evt) ->{
@@ -369,11 +372,15 @@ public class BanHangController implements Initializable {
         TableCell tbc = (TableCell)((Button)evt.getSource()).getParent();
         HangHoa qs = (HangHoa)tbc.getTableRow().getItem();
         try {
-            if(Double.parseDouble(ans.get()) <= hanghoaSV.getSLCheck(qs.getTenHangHoa())){ 
-                qs.setSL(Double.parseDouble(ans.get()));
-            }
-            else
-                utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
+            if(Double.parseDouble(ans.get()) >0){
+                if(Double.parseDouble(ans.get()) <= hanghoaSV.getSLCheck(qs.getTenHangHoa())){ 
+                    qs.setSL(Double.parseDouble(ans.get()));
+                }
+                else
+                    utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
+            }else
+                utills.showBox("Số lượng không được bằng 0", Alert.AlertType.WARNING).show();
+            
         } catch (SQLException ex) {
             Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -422,11 +429,15 @@ public class BanHangController implements Initializable {
                 TableCell tbc1 = (TableCell)((Button)evt1.getSource()).getParent();
                 HangHoa qs1 = (HangHoa)tbc1.getTableRow().getItem();
                 try {
-                    if(Double.parseDouble(ans1.get()) <= hanghoaSV.getKGCheck(qs1.getTenHangHoa())){
-                        qs1.setKG(Double.parseDouble(ans1.get()));
+                    if(Double.parseDouble(ans1.get()) >0){
+                        if(Double.parseDouble(ans1.get()) <= hanghoaSV.getKGCheck(qs1.getTenHangHoa())){
+                            qs1.setKG(Double.parseDouble(ans1.get()));
+                        }
+                        else
+                            utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
                     }
                     else
-                        utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
+                        utills.showBox("Số lượng không được bằng 0", Alert.AlertType.WARNING).show();
                 } catch (SQLException ex) {
                     Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
                 }
