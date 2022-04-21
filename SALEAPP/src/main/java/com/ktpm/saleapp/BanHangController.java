@@ -559,10 +559,17 @@ public class BanHangController implements Initializable {
     }
     public void checkSN() throws SQLException{
         if(rdSinhNhat.isSelected()){
-            this.tfFindKH.setText("");
-            findKH();
-            khuyenmai = 0.1;
-            this.lbKhuyenMai.setText("0.1");
+            if(thanhtien > 1000000){
+                this.tfFindKH.setText("");
+                findKH();
+                khuyenmai = 0.1;
+                this.lbKhuyenMai.setText("0.1");
+            }
+            else
+            {
+                rdSinhNhat.setSelected(false);
+                utills.showBox("Đơn hàng chưa lớn hơn 1 triệu đồng", Alert.AlertType.WARNING).show();
+            }
         }
         
     }
