@@ -38,9 +38,9 @@ import utils.JDBCutils;
  */
 public class test {
     public static void main(String[] agrs) throws SQLException, ParseException{
-        KhuyenMaiService k = new KhuyenMaiService();
-        double q = k.getKM("QuanLy");
-        System.out.println(String.valueOf(q));
+        double DoubleValue = 3.6987;
+        int IntValue = (int) Math.round(DoubleValue);
+        System.out.println(DoubleValue + " is now " + IntValue);
     }
 }
 //        NhanVienController sss= new NhanVienController();

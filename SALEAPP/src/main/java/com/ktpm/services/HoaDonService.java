@@ -36,6 +36,16 @@ public class HoaDonService {
             }else
                 return false;
         }
-      
+    }
+    
+    public void upDateHH_DH(String idDH, String idHH) throws SQLException{
+        try(Connection conn = JDBCutils.getConn()){
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO donhang_hanghoa(idDonHang,idHangHoa) VALUES(N?,N?)");
+            stm.setString(1,idDH);
+            stm.setString(2,idHH);
+            conn.setAutoCommit(false);
+            stm.executeUpdate();
+            conn.commit();
+        }
     }
 }
