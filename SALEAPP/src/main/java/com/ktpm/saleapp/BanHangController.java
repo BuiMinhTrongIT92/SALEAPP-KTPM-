@@ -12,7 +12,15 @@ import com.ktpm.services.KhachHangService;
 import com.ktpm.services.KhuyenMaiService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +57,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import utils.JDBCutils;
 import utils.utills;
 
 /**
@@ -372,6 +381,11 @@ public class BanHangController implements Initializable {
                     for(int i = 0;i< this.tbvHH.size();i++){
                         hoadonSV.upDateHH_DH(idHDD, this.tbvHH.get(i).getIdHangHoa());
                     }
+                    try {
+                        printDH(idHDD);
+                    } catch (IOException ex) {
+                        Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     sl =0;
                     thanhtien = 0;
                     khuyenmai = 0;
@@ -616,6 +630,49 @@ public class BanHangController implements Initializable {
             }
         }
     }
-   
-    
+    public void printDH(String idHD) throws SQLException, IOException{
+         Writer bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("E:\\\\" + idHD + ".txt"), "UTF8"));
+            bw.write("Địa Chỉ: "+ getDiaChi(this.idNhanVien));
+            bw.write("\t\t\tPhiếu thanh toán\r\n\r\n");
+            bw.write("Mã hóa đơn: " + idHD + "\r\n");
+            Date h = new Date();
+            bw.write("Thời gian: " + h + "\r\n");
+            bw.write("NHÂN VIÊN: " + nvSV.findNVByID(this.idNhanVien).getTenNguoiDung() + "\r\n");
+            bw.write("------------------------------------------------------------\r\n");
+            bw.write("Tên Sản Phẩm\tSố lượng\tGiá bán\r\n");
+            bw.write("-----------------------------------------------------------\r\n");
+            //Ghi sản phẩm
+            int quantotal = 0;
+            for (int i = 0; i < tbvHH.size(); i++) {
+                String id = String.valueOf(i);
+                String TenSP = tbvHH.get(i).getTenHangHoa();
+                String SL = String.valueOf(tbvHH.get(i).getSL());
+                String Gia = String.valueOf(tbvHH.get(i).getGia()) + " || " +String.valueOf(tbvHH.get(i).getGiaGiam());
+                bw.write(id + "\t" + TenSP + "\t\t" + SL + "\t\t" + Gia + "\r\n\r\n");
+                
+            }
+            bw.write("------------------------------------------------------------\r\n");
+            
+            bw.write("\tChiết khấu:\t" + this.khuyenmai + " VNĐ\r\n");
+            bw.write("\t--------------------------------------------\r\n");
+            bw.write("\tThành tiền:\t\t\t" + this.thanhtien + " VNĐ\r\n");
+            bw.write("\t--------------------------------------------\r\n");
+            bw.write("\tTiền khách đưa:\t\t\t" + this.tienkh + " VNĐ\r\n");
+            bw.write("\tTiền trả lại:\t\t\t" + this.tienthoi + " VNĐ\r\n");
+            bw.write("------------------------------------------------------------\r\n");
+            bw.write("---------------------CÁM ƠN QUÝ KHÁCH!----------------------");
+            bw.close();
+    }
+    public String getDiaChi(String idNguoiDung) throws SQLException{
+        try(Connection conn = JDBCutils.getConn()) {
+            PreparedStatement stm = conn.prepareStatement("SELECT DiaChi FROM chinhanh WHERE idNguoiDung = ?");
+            stm.setString(1, idNguoiDung);
+            ResultSet rs = stm.executeQuery();
+            String diachi = "";
+            while(rs.next()){
+                diachi = rs.getString("DiaChi");
+            }
+            return diachi;
+        }
+    }
 }
