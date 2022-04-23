@@ -25,11 +25,11 @@ public class HangHoa {
     private Button btnTru;
     private Button btnXoa;
     private Double GiaGiam;
-
+    private boolean Active;
     public HangHoa() {
     }
 
-    public HangHoa(String idHangHoa, String TenHangHoa, Double Gia, String XuatXu, String IDLoaiHH, String AnhHH, Double SL, Double KG) {
+    public HangHoa(String idHangHoa, String TenHangHoa, Double Gia, String XuatXu, String IDLoaiHH, String AnhHH, Double SL, Double KG,boolean active) {
         this.idHangHoa = idHangHoa;
         this.TenHangHoa = TenHangHoa;
         this.Gia = Gia;
@@ -38,6 +38,7 @@ public class HangHoa {
         this.AnhHH = AnhHH;
         this.SL = SL;
         this.KG = KG;
+        this.Active = active;
     }
     
     /**
@@ -234,6 +235,20 @@ public class HangHoa {
      */
     public void setGiaGiam(Double GiaGiam) {
         this.GiaGiam = GiaGiam;
+    }
+
+    /**
+     * @return the Active
+     */
+    public boolean isActive() {
+        return Active;
+    }
+
+    /**
+     * @param Active the Active to set
+     */
+    public void setActive(boolean Active) {
+        this.Active = Active;
     }
 
    

@@ -12,14 +12,16 @@ public class LoaiHH {
     private String IDloaiHH;
     private String TenLoaiHH;
     private String DonVi;
+    private boolean Active;
 
     public LoaiHH() {
     }
 
-    public LoaiHH(String IDloaiHH, String TenLoaiHH, String DonVi) {
+    public LoaiHH(String IDloaiHH, String TenLoaiHH, String DonVi,boolean active) {
         this.IDloaiHH = IDloaiHH;
         this.TenLoaiHH = TenLoaiHH;
         this.DonVi = DonVi;
+        this.Active = active;
     }
 
     public LoaiHH(String string) {
@@ -73,6 +75,20 @@ public class LoaiHH {
      */
     public void setDonVi(String DonVi) {
         this.DonVi = DonVi;
+    }
+
+    /**
+     * @return the Active
+     */
+    public boolean isActive() {
+        return Active;
+    }
+
+    /**
+     * @param Active the Active to set
+     */
+    public void setActive(boolean Active) {
+        this.Active = Active;
     }
 
    

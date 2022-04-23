@@ -30,11 +30,16 @@ public class LoaiHHService {
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa");
             List<LoaiHH> loaiHH = new ArrayList<>();
+            LoaiHH loaihh = null;
             while(rs.next()){
                 String Id = rs.getString("idLoaiHH");
                 String TenLoaiHH = rs.getString("TenLoaiHH");
                 String DonVi = rs.getString("DonVi");
-                loaiHH.add(new LoaiHH(Id,TenLoaiHH,DonVi));
+                boolean Activ = rs.getBoolean("Active");
+                loaihh = new LoaiHH(Id,TenLoaiHH,DonVi,Activ);
+                if(loaihh.isActive() == true){
+                    loaiHH.add(loaihh);
+                }
             }
             return loaiHH;
         }
@@ -43,11 +48,11 @@ public class LoaiHHService {
     public List<HangHoa> getLoaiHHByLoai(String loaihh) throws SQLException{
        try(Connection conn = JDBCutils.getConn()){
     
-            PreparedStatement stm = conn.prepareStatement("SELECT * FROM hanghoa WHERE idLoaiHH in (SELECT idLoaiHH FROM loaihanghoa WHERE TenLoaiHH = N?)");
+            PreparedStatement stm = conn.prepareStatement("SELECT * FROM hanghoa WHERE idLoaiHH in (SELECT idLoaiHH FROM loaihanghoa WHERE TenLoaiHH = N? and Active = true) and Active = true");
             stm.setString(1,loaihh);
             ResultSet rs = stm.executeQuery();
-            
             List<HangHoa> hanghoa = new ArrayList<>();
+            HangHoa hh = null;
             while(rs.next()){
                 String Id = rs.getString("idHangHoa");
                 String TenLoaiHH = rs.getString("TenHangHoa");
@@ -57,7 +62,11 @@ public class LoaiHHService {
                 String AnhHH = rs.getString("AnhHH");
                 Double SL = rs.getDouble("SoLuong");
                 Double KG = rs.getDouble("KG");
-                hanghoa.add(new HangHoa(Id,TenLoaiHH,Gia,XuatXu,IDLoaiHH,AnhHH,SL,KG));
+                boolean Activ = rs.getBoolean("Active");
+                hh = new HangHoa(Id,TenLoaiHH,Gia,XuatXu,IDLoaiHH,AnhHH,SL,KG,Activ);
+                if(hh.isActive() == true){
+                    hanghoa.add(hh);
+                }
             }
             return hanghoa;
         }
@@ -65,7 +74,7 @@ public class LoaiHHService {
     public double getSL (String getSLloaihh) throws SQLException{
         double kq =0;
         try(Connection conn = JDBCutils.getConn()) {
-            PreparedStatement stm = conn.prepareStatement("SELECT KG,SoLuong FROM hanghoa WHERE TenHangHoa = N?");
+            PreparedStatement stm = conn.prepareStatement("SELECT KG,SoLuong FROM hanghoa WHERE TenHangHoa = N? and Active = true");
             stm.setString(1, getSLloaihh);
             ResultSet rs = stm.executeQuery();
             double sl = 0;
