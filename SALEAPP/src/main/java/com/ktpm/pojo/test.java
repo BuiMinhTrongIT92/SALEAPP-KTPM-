@@ -38,9 +38,9 @@ import utils.JDBCutils;
  */
 public class test {
     public static void main(String[] agrs) throws SQLException, ParseException{
-        double DoubleValue = 3.6987;
-        int IntValue = (int) Math.round(DoubleValue);
-        System.out.println(DoubleValue + " is now " + IntValue);
+        NhanVienService s  = new NhanVienService();
+        NhanVien q = s.findNVByID("d85ed478-a4ac-4359-ac24-1c3e88ddd278");
+        System.out.println(q.getTenNguoiDung());
     }
 }
 //        NhanVienController sss= new NhanVienController();
