@@ -741,6 +741,7 @@ public class BanHangController implements Initializable {
             bw.write("---------------------CÁM ƠN QUÝ KHÁCH!----------------------");
             bw.close();
     }
+    
     public String getDiaChi(String idNguoiDung) throws SQLException{
         try(Connection conn = JDBCutils.getConn()) {
             PreparedStatement stm = conn.prepareStatement("SELECT DiaChi FROM chinhanh WHERE idNguoiDung = ?");
