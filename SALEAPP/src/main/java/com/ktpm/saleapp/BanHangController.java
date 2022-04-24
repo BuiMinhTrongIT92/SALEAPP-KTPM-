@@ -189,7 +189,37 @@ public class BanHangController implements Initializable {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+        this.rdSinhNhat.selectedProperty().addListener(cl->{
+            if(rdSinhNhat.isSelected()){
+                if(tongTienCheckSN > 1000000){
+                    try {
+                        this.tfFindKH.setText("");
+                        findKH();
+                        this.khuyenmai = 0.1;
+                        this.lbKhuyenMai.setText("0.1");
+                        idKhachHang = null;
+                        tamTinh();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else
+                {
+                    this.lbKhuyenMai.setText("Không có khuyến mãi");
+                    rdSinhNhat.setSelected(false);
+                    utills.showBox("Đơn hàng chưa lớn hơn 1 triệu đồng", Alert.AlertType.WARNING).show();
+                }
+            }else
+            {
+                khuyenmai = 0.0;
+                try {
+                    tamTinh();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                
+        });
     }
     public void showHHByLoai(String loaiHH, String kw) throws SQLException{
         String aa = "";
@@ -297,7 +327,7 @@ public class BanHangController implements Initializable {
                             double k =tbvHH.get(i).getSL();
                             k++;
                             if(k > hanghoaSV.getSLCheck(tbvHH.get(i).getTenHangHoa()))
-                                utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
+                                utills.showBox("Số lượng trong kho không đủ (nếu là KG hãy nhập tay)", Alert.AlertType.WARNING).show();
                             else
                                 tbvHH.get(i).setSL(k);
                             this.tbvHangHoa.refresh();
@@ -389,11 +419,10 @@ public class BanHangController implements Initializable {
                 }
             }
         }
-//        if(tongtien < 1000000){
-//           this.lbKhuyenMai.setText("Không có khuyến mãi");
-//           this.rdSinhNhat.setSelected(false);
-//        }
-        if(!rdSinhNhat.isSelected() && this.lbKhuyenMai.getText() == "0.1" ){
+        if(tongtien < 1000000){
+           this.lbKhuyenMai.setText("Không có khuyến mãi");
+           this.rdSinhNhat.setSelected(false);
+        }        if(!rdSinhNhat.isSelected() && this.lbKhuyenMai.getText() == "0.1" ){
            this.lbKhuyenMai.setText("Không có khuyến mãi");
            this.rdSinhNhat.setSelected(false);
         }
@@ -404,7 +433,6 @@ public class BanHangController implements Initializable {
             tt = tt*(1 - Double.parseDouble(this.lbKhuyenMai.getText()));
             thanhtien = tt;
             lbThanhTien.setText(currencyVN.format(tt));
-            
         }
         else if(this.lbKhuyenMai.getText().contains("Không có khuyến mãi") || this.lbKhuyenMai.getText().isEmpty())
         {
@@ -422,8 +450,6 @@ public class BanHangController implements Initializable {
             tfTienKhachTra.setText("");
             lbTienThoi.setText("");
         }
-            
-       
     }
    
     public void thanhToan() throws SQLException{
@@ -463,21 +489,21 @@ public class BanHangController implements Initializable {
                         this.tfFindKH.setText("");
                         this.rdSinhNhat.setSelected(false);
                         for(int i =0;i<this.tbvHH.size();i++){
-                        hanghoaSV.UpdateHH(tbvHH.get(i));
+                            hanghoaSV.UpdateHH(tbvHH.get(i));
                         }
+                        this.tbvHH.clear();
+                        this.tfFindKH.setText("");
+                        findKH();
                     }else
                         utills.showBox("Lưu hóa đơn thất bại", Alert.AlertType.WARNING).show();
-                    this.tbvHH.clear();
-                    this.tbvHangHoa.refresh();
                 }
-
+                
             }
             else{
                 utills.showBox("Lỗi thanh toán", Alert.AlertType.WARNING).show();
             }
         }
-       
-       
+        this.tbvHangHoa.refresh();
     }
     public void setBtnNhap(Button btn){
         btn.setOnAction((evt) ->{
@@ -617,6 +643,7 @@ public class BanHangController implements Initializable {
                 this.rdSinhNhat.setSelected(false);
             }
             this.rdSinhNhat.setSelected(false);
+            tamTinh();
         }
         else if(kq2.size() >0){
             this.lbCheckKH.setText("Tồn tại");
@@ -637,6 +664,7 @@ public class BanHangController implements Initializable {
                 this.rdSinhNhat.setSelected(false);
             }
             this.rdSinhNhat.setSelected(false);
+            tamTinh();
         }
         else
         {
@@ -644,7 +672,6 @@ public class BanHangController implements Initializable {
             this.lbCheckKH.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 17px;");
             this.lbKhuyenMai.setText("Không có khuyến mãi");
         }
-        tamTinh();
     }
 //    public boolean checkKMKH(KhachHang kh, Date ngaydat){
 //        double tongtien = 0;
@@ -679,23 +706,7 @@ public class BanHangController implements Initializable {
         idNhanVien = id;
         
     }
-    public void checkSN() throws SQLException{
-        if(rdSinhNhat.isSelected()){
-            if(tongTienCheckSN > 1000000){
-                this.tfFindKH.setText("");
-                this.lbCheckKH.setText("");
-                khuyenmai = 0.1;
-                this.lbKhuyenMai.setText("0.1");
-                findKH();
-            }
-            else
-            {
-                this.lbKhuyenMai.setText("Không có khuyến mãi");
-                rdSinhNhat.setSelected(false);
-                utills.showBox("Đơn hàng chưa lớn hơn 1 triệu đồng", Alert.AlertType.WARNING).show();
-            }
-        }
-    }
+
     public void printDH(String idHD) throws SQLException, IOException{
          Writer bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("E:\\\\" + idHD + ".txt"), "UTF8"));
             bw.write("Địa Chỉ: "+ getDiaChi(this.idNhanVien));
