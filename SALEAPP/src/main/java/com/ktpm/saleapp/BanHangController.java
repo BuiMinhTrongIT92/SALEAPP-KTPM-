@@ -73,7 +73,7 @@ public class BanHangController implements Initializable {
     @FXML private Button loadAllHH;
     @FXML private Label lbNgayMua,lbSoluong,lbKhuyenMai,lbThanhTien,lbTienThoi,lbCheckKH;
     @FXML RadioButton rdSinhNhat;
-    public String idNhanVien;
+    public static String idNhanVien;
     public String idKhachHang;
     private static final LoaiHHService loaihhSV = new LoaiHHService();
     private static final HangHoaService hanghoaSV = new HangHoaService();
@@ -425,6 +425,9 @@ public class BanHangController implements Initializable {
     }
    
     public void thanhToan() throws SQLException{
+        if(rdSinhNhat.isSelected() == false){
+            findKH();
+        }
         if(this.tfTienKhachTra.getText() =="" || this.tfTienKhachTra.getText() == null){
             utills.showBox("Hãy nhập số tiền khách", Alert.AlertType.INFORMATION).show();
         }else
@@ -439,6 +442,7 @@ public class BanHangController implements Initializable {
                     if((hoadonSV.saveHoaDon(idHDD, ngaydat,this.nvSV.findNVByID(idNhanVien).getTenNguoiDung() , 
                             sl, thanhtien, khuyenmai, tienkh, tienthoi, String.valueOf(idNhanVien), String.valueOf(idKhachHang))) == true){
                         utills.showBox("Lưu hóa đơn thành công", Alert.AlertType.INFORMATION).show();
+                        this.rdSinhNhat.setSelected(false);
                         for(int i = 0;i< this.tbvHH.size();i++){
                             hoadonSV.upDateHH_DH(idHDD, this.tbvHH.get(i).getIdHangHoa());
                         }
@@ -459,7 +463,6 @@ public class BanHangController implements Initializable {
                         this.tfTienKhachTra.setText("");
                         this.lbTienThoi.setText("");
                         this.tfFindKH.setText("");
-                        this.rdSinhNhat.setSelected(false);
                         for(int i =0;i<this.tbvHH.size();i++){
                             hanghoaSV.UpdateHH(tbvHH.get(i));
                         }
@@ -469,13 +472,13 @@ public class BanHangController implements Initializable {
                     }else
                         utills.showBox("Lưu hóa đơn thất bại", Alert.AlertType.WARNING).show();
                 }
-                
             }
             else{
                 utills.showBox("Lỗi thanh toán", Alert.AlertType.WARNING).show();
             }
         }
         this.tbvHangHoa.refresh();
+
     }
     public void setBtnNhap(Button btn){
         btn.setOnAction((evt) ->{
@@ -670,6 +673,7 @@ public class BanHangController implements Initializable {
             this.lbCheckKH.setText("Không tồn tại");
             this.lbCheckKH.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 17px;");
             this.lbKhuyenMai.setText("Không có khuyến mãi");
+            
         }
     }
     public void setIDNV(String id){
@@ -756,7 +760,6 @@ public class BanHangController implements Initializable {
                     Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-                
         });
     }
 }
