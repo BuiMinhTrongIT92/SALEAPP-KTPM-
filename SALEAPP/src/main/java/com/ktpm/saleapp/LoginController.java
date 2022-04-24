@@ -37,6 +37,7 @@ public class LoginController implements Initializable {
     NhanVienController NVController = new NhanVienController();
     QuanLyController QLController = new QuanLyController();
     private static NhanVienService nvSV = new NhanVienService();
+    private static BanHangController s= new BanHangController();
     /**
      * Initializes the controller class.
      */
@@ -73,6 +74,7 @@ public class LoginController implements Initializable {
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.setMaximized(true);
+                    s.setIDNV(nvSV.findNVByUSPS(username.getText(), MD5(password.getText())).getIDNguoiDung());
                     stage.show();
                     }else{
                         throw new Exception();
