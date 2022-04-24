@@ -163,7 +163,7 @@ public class DSLoaiHH_DaXoaController implements Initializable {
     
     public void loadLoaiHH(String kwLoaiHH, Boolean active) throws SQLException {
         LoaiHHService lhhs = new LoaiHHService();
-        this.tbLoaiHH_DaXoa.setItems(FXCollections.observableList(lhhs.getLoaiHH(kwLoaiHH, active)));
+        this.tbLoaiHH_DaXoa.setItems(FXCollections.observableList(lhhs.getLoaiHH()));
     }
     
     public void xoaTextField() {
