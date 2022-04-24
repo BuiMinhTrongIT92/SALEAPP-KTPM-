@@ -10,9 +10,7 @@ package com.ktpm.pojo;
  */
 public class ChiNhanh {
 
-    /**
-     * @return the Active
-     */
+    
     public boolean isActive() {
         return Active;
     }
