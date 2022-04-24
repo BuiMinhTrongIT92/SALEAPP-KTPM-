@@ -7,7 +7,10 @@ package com.ktpm.saleapp;
 import com.ktpm.services.NhanVienService;
 import java.io.EOFException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -45,7 +48,7 @@ public class LoginController implements Initializable {
     public void openManage(ActionEvent event) throws IOException{
        if(username.getText() !=null & password.getText() !=null){
             try{
-                if(QLController.LoginQL(username.getText(), password.getText()) == true){
+                if(QLController.LoginQL(username.getText(), MD5(password.getText())) == true){
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrangQuanLy_Chinh.fxml"));
                 Parent root = (Parent)fxmlLoader.load();
                 Stage stage = new Stage();
@@ -64,7 +67,7 @@ public class LoginController implements Initializable {
         
             if(username.getText() !=null & password.getText() !=null){
                 try{
-                    if(NVController.LoginNVBH(username.getText(), password.getText()) == true){
+                    if(NVController.LoginNVBH(username.getText(), MD5(password.getText())) == true){
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("BanHang.fxml"));
                     Parent root = (Parent)fxmlLoader.load();
                     Stage stage = new Stage();
@@ -78,5 +81,15 @@ public class LoginController implements Initializable {
                     utills.showBox("Sai tên đăng nhập hoặc mật khẩu", Alert.AlertType.WARNING).show();  
              }
           }
+    }
+    public String MD5(String input) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(input.getBytes());
+        BigInteger number = new BigInteger(1, messageDigest);
+        String hashtext = number.toString(16);
+        while (hashtext.length() < 32)
+            hashtext = "0" + hashtext;
+        
+        return hashtext;
     }
 }
