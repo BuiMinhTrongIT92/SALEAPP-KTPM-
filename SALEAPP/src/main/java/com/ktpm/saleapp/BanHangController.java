@@ -189,37 +189,7 @@ public class BanHangController implements Initializable {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        this.rdSinhNhat.selectedProperty().addListener(cl->{
-            if(rdSinhNhat.isSelected()){
-                if(tongTienCheckSN > 1000000){
-                    try {
-                        this.tfFindKH.setText("");
-                        findKH();
-                        this.khuyenmai = 0.1;
-                        this.lbKhuyenMai.setText("0.1");
-                        idKhachHang = null;
-                        tamTinh();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                else
-                {
-                    this.lbKhuyenMai.setText("Không có khuyến mãi");
-                    rdSinhNhat.setSelected(false);
-                    utills.showBox("Đơn hàng chưa lớn hơn 1 triệu đồng", Alert.AlertType.WARNING).show();
-                }
-            }else
-            {
-                khuyenmai = 0.0;
-                try {
-                    tamTinh();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                
-        });
+        checkSN();
     }
     public void showHHByLoai(String loaiHH, String kw) throws SQLException{
         String aa = "";
@@ -420,8 +390,8 @@ public class BanHangController implements Initializable {
             }
         }
         if(tongtien < 1000000){
-           this.lbKhuyenMai.setText("Không có khuyến mãi");
            this.rdSinhNhat.setSelected(false);
+           khuyenmai = 0;
         }
         if(!rdSinhNhat.isSelected() && this.lbKhuyenMai.getText() == "0.1" ){
            this.lbKhuyenMai.setText("Không có khuyến mãi");
@@ -451,6 +421,7 @@ public class BanHangController implements Initializable {
             tfTienKhachTra.setText("");
             lbTienThoi.setText("");
         }
+        
     }
    
     public void thanhToan() throws SQLException{
@@ -548,6 +519,16 @@ public class BanHangController implements Initializable {
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            try {
+                tamTinh();
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                tamTinh();
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.tbvHangHoa.refresh();
         });
     }
@@ -563,6 +544,11 @@ public class BanHangController implements Initializable {
                     utills.showBox("Số lượng không được nhỏ hơn 1", Alert.AlertType.WARNING).show();
                 else
                     qs.setSL(sl);
+            try {
+                tamTinh();
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 this.tbvHangHoa.refresh();
             });
     }
@@ -586,6 +572,11 @@ public class BanHangController implements Initializable {
                 } catch (SQLException ex) {
                     Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            try {
+                tamTinh();
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 this.tbvHangHoa.refresh();
             });
     }
@@ -596,6 +587,7 @@ public class BanHangController implements Initializable {
                 
                 Optional<ButtonType> option = utills.showBox("Xác nhận xóa", Alert.AlertType.CONFIRMATION).showAndWait();
                 if(option.get() == ButtonType.OK){
+                    
                     tbvHH.remove(qs2);
                 }
                 this.tbvHangHoa.refresh();
@@ -605,7 +597,13 @@ public class BanHangController implements Initializable {
                     tienthoi = 0;
                     this.tfTienKhachTra.setText("");
                     this.lbTienThoi.setText("");
-               }
+                    try {
+                        this.tfFindKH.setText("");
+                        findKH();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 tamTinh();
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
@@ -674,38 +672,8 @@ public class BanHangController implements Initializable {
             this.lbKhuyenMai.setText("Không có khuyến mãi");
         }
     }
-//    public boolean checkKMKH(KhachHang kh, Date ngaydat){
-//        double tongtien = 0;
-//        boolean kq = false;
-//        if(kh.getNgaySinh().getDate() == ngaydat.getDate() && (kh.getNgaySinh().getMonth()+1) == (ngaydat.getMonth()+1)){
-//            for(int i =0;i<tbvHH.size();i++){
-//            if(tbvHH.get(i).getGiaGiam() == null){
-//                if(tbvHH.get(i).getKG() == 0){
-//                    tongtien +=tbvHH.get(i).getGia() * tbvHH.get(i).getSL();
-//                }else if(tbvHH.get(i).getSL() == 0){
-//                    tongtien +=tbvHH.get(i).getGia() * tbvHH.get(i).getKG();
-//                }
-//            }
-//            else if(tbvHH.get(i).getGiaGiam() >0){
-//                 if(tbvHH.get(i).getKG() == 0){
-//                    tongtien +=tbvHH.get(i).getGiaGiam() * tbvHH.get(i).getSL();
-//                }else if(tbvHH.get(i).getSL() == 0){
-//                    tongtien +=tbvHH.get(i).getGiaGiam() * tbvHH.get(i).getKG();
-//                }
-//            }
-//            }
-//            if(this.lbKhuyenMai.getText().contains("10%")){
-//                tongtien = tongtien*0.9;
-//            }
-//            if(tongtien > 1000000)
-//                kq = true;
-//        }
-//        return kq;
-//        
-//    }
     public void setIDNV(String id){
         idNhanVien = id;
-        
     }
 
     public void printDH(String idHD) throws SQLException, IOException{
@@ -741,7 +709,6 @@ public class BanHangController implements Initializable {
             bw.write("---------------------CÁM ƠN QUÝ KHÁCH!----------------------");
             bw.close();
     }
-    
     public String getDiaChi(String idNguoiDung) throws SQLException{
         try(Connection conn = JDBCutils.getConn()) {
             PreparedStatement stm = conn.prepareStatement("SELECT DiaChi FROM chinhanh WHERE idNguoiDung = ?");
@@ -753,5 +720,43 @@ public class BanHangController implements Initializable {
             }
             return diachi;
         }
+    }
+    public void checkSN(){
+        this.rdSinhNhat.selectedProperty().addListener(cl->{
+            if(rdSinhNhat.isSelected()){
+                if(tongTienCheckSN > 1000000){
+                    try {
+                        this.tfFindKH.setText("");
+                        findKH();
+                        this.khuyenmai = 0.1;
+                        this.lbKhuyenMai.setText("0.1");
+                        idKhachHang = null;
+                        tamTinh();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else
+                {
+                    this.lbKhuyenMai.setText("Không có khuyến mãi");
+                    rdSinhNhat.setSelected(false);
+                    utills.showBox("Đơn hàng chưa lớn hơn 1 triệu đồng", Alert.AlertType.WARNING).show();
+                    try {
+                        findKH();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }else
+            {
+                khuyenmai = 0.0;
+                try {
+                    tamTinh();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                
+        });
     }
 }
