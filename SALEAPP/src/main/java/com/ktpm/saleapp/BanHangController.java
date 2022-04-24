@@ -422,7 +422,8 @@ public class BanHangController implements Initializable {
         if(tongtien < 1000000){
            this.lbKhuyenMai.setText("Không có khuyến mãi");
            this.rdSinhNhat.setSelected(false);
-        }        if(!rdSinhNhat.isSelected() && this.lbKhuyenMai.getText() == "0.1" ){
+        }
+        if(!rdSinhNhat.isSelected() && this.lbKhuyenMai.getText() == "0.1" ){
            this.lbKhuyenMai.setText("Không có khuyến mãi");
            this.rdSinhNhat.setSelected(false);
         }

@@ -46,13 +46,13 @@ public class LoginController implements Initializable {
        if(username.getText() !=null & password.getText() !=null){
             try{
                 if(QLController.LoginQL(username.getText(), password.getText()) == true){
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QuanLy.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TrangQuanLy_Chinh.fxml"));
                 Parent root = (Parent)fxmlLoader.load();
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.setMaximized(true);
                 stage.show();
-                }else{
+                }else {
                     throw new Exception();
                 }
             }catch(Exception ex){
@@ -61,13 +61,12 @@ public class LoginController implements Initializable {
         }
     }
     public void openSale(ActionEvent event) throws SQLException, IOException{
+        
             if(username.getText() !=null & password.getText() !=null){
                 try{
                     if(NVController.LoginNVBH(username.getText(), password.getText()) == true){
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("BanHang.fxml"));
                     Parent root = (Parent)fxmlLoader.load();
-                    BanHangController banhangcontrol = fxmlLoader.getController();
-                    banhangcontrol.setIDNV(nvSV.findNVByUSPS(username.getText(), password.getText()).getIDNguoiDung());
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.setMaximized(true);
@@ -79,6 +78,5 @@ public class LoginController implements Initializable {
                     utills.showBox("Sai tên đăng nhập hoặc mật khẩu", Alert.AlertType.WARNING).show();  
              }
           }
-        
     }
 }

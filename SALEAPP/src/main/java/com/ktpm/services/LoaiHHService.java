@@ -45,6 +45,16 @@ public class LoaiHHService {
         }
         
     }
+    public int xoaLoaiHH(String lId) throws SQLException {
+       try (Connection conn = JDBCutils.getConn()) {
+           PreparedStatement stm = conn.prepareStatement("DELETE FROM loaihanghoa WHERE idLoaiHH =? AND Active = ?");
+           stm.setString(1, lId);
+           stm.setBoolean(2, false);
+           
+           int i = stm.executeUpdate();  
+           return i;
+       }    
+   }
     public List<HangHoa> getLoaiHHByLoai(String loaihh) throws SQLException{
        try(Connection conn = JDBCutils.getConn()){
     
@@ -102,7 +112,80 @@ public class LoaiHHService {
             return false;
         }
     }
-  
+    public List<LoaiHH> getLoaiHH(String kwLHH, Boolean active) throws SQLException {
+        List<LoaiHH> listLoaiHH = new ArrayList<>();
+        try (Connection conn = JDBCutils.getConn()) {
+            String sql = "SELECT * FROM loaihanghoa WHERE Active = ?";
+            
+            if (kwLHH != null && !kwLHH.isEmpty()) {
+                sql = "SELECT * FROM loaihanghoa WHERE Active = ? AND TenLoaiHH like concat('%', ?, '%') OR Active = ? AND DonVi like concat('%', ?, '%')";
+            }
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setBoolean(1, active);
+            
+            if (kwLHH != null && !kwLHH.isEmpty()) {
+                    stm.setBoolean(1, active);
+                    stm.setString(2, kwLHH);
+                    stm.setBoolean(3, active);
+                    stm.setString(4, kwLHH); 
+            }
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                while (rs.next()) {
+                    LoaiHH l = new LoaiHH(rs.getString("idLoaiHH"), 
+                            rs.getString("TenLoaiHH"), 
+                            rs.getString("DonVi"), 
+                            rs.getBoolean("Active"));
+                    listLoaiHH.add(l);
+                }
+            }              
+        }
+        return listLoaiHH;  
+    }
+    public void themLoaiHH(LoaiHH lhh) throws SQLException {
+        try(Connection conn = JDBCutils.getConn()) {
+            String sql = "INSERT INTO loaihanghoa (idLoaiHH, TenLoaiHH, DonVi, Active) VALUES(?, ?, ?, ?)";
+            conn.setAutoCommit(false);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, lhh.getIDloaiHH());
+            stm.setString(2, lhh.getTenLoaiHH());
+            stm.setString(3, lhh.getDonVi());
+            stm.setBoolean(4, true);
+            
+            stm.executeUpdate();
+            
+            conn.commit();
+        }     
+    }
+    public int capNhatLoaiHH(LoaiHH l) throws SQLException {
+        try(Connection conn = JDBCutils.getConn()) {
+            String sql = "UPDATE loaihanghoa SET TenLoaiHH = ?, DonVi = ? WHERE idLoaiHH = ?";
+            conn.setAutoCommit(false);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, l.getTenLoaiHH());
+            stm.setString(2, l.getDonVi());
+            stm.setString(3, l.getIDloaiHH());
+            
+            int i = stm.executeUpdate();
+            conn.commit();
+            return i;
+        }
+    }
+    public int xoaLoaiHH_TamThoi(String lId) throws SQLException {
+        try(Connection conn = JDBCutils.getConn()) {
+            String sql = "UPDATE loaihanghoa SET Active = ? WHERE idLoaiHH = ?";
+            conn.setAutoCommit(false);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setBoolean(1, false);
+            stm.setString(2, lId);
+            
+            int i = stm.executeUpdate();
+            conn.commit();
+            return i;   
+        }
+    }
 }
            
 

@@ -176,6 +176,96 @@ public class HangHoaService {
             conn.commit();
         }
     }
-    
+    public List<HangHoa> getHangHoa(String kwHH, Boolean active) throws SQLException {
+        List<HangHoa> listHangHoa = new ArrayList<>();
+        try (Connection conn = JDBCutils.getConn()) {
+            String sql = "SELECT * FROM hanghoa WHERE Active = ?";
+            
+            if (kwHH != null && !kwHH.isEmpty()) {
+                sql = "SELECT * FROM hanghoa WHERE Active = ? AND TenHangHoa like concat('%', ?, '%')";
+            }
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setBoolean(1, active);
+            
+            if (kwHH != null && !kwHH.isEmpty()) {
+                    stm.setBoolean(1, active);
+                    stm.setString(2, kwHH);
+            }
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                HangHoa h = new HangHoa(rs.getString("idHangHoa"), 
+                        rs.getString("TenHangHoa"), rs.getDouble("Gia"), 
+                        rs.getString("XuatXu"), rs.getString("idLoaiHH"), 
+                        rs.getString("AnhHH"), rs.getDouble("SoLuong"), 
+                        rs.getDouble("KG"), rs.getBoolean("Active"));                
+                listHangHoa.add(h);
+            }              
+        }
+        return listHangHoa;  
+    }
+    public int xoaHangHoa(String hId) throws SQLException {
+       try (Connection conn = JDBCutils.getConn()) {
+           PreparedStatement stm = conn.prepareStatement("DELETE FROM hanghoa WHERE idHangHoa =? AND Active = ?");
+           stm.setString(1, hId);
+           stm.setBoolean(2, false);
+           
+           int i = stm.executeUpdate();  
+           return i;
+       }    
+   }
+    public void themHangHoa(HangHoa h) throws SQLException {
+        try(Connection conn = JDBCutils.getConn()) {
+            String sql = "INSERT INTO hanghoa (idHangHoa, TenHangHoa, Gia, XuatXu, idLoaiHH, AnhHH, SoLuong, KG, Active) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            conn.setAutoCommit(false);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, h.getIdHangHoa());
+            stm.setString(2, h.getTenHangHoa());
+            stm.setDouble(3, h.getGia());
+            stm.setString(4, h.getXuatXu());
+            stm.setString(5, h.getIDLoaiHH());
+            stm.setString(6, h.getAnhHH());
+            stm.setDouble(7, h.getSL());
+            stm.setDouble(8, h.getKG());
+            stm.setBoolean(9, true);
+            
+            stm.executeUpdate();
+            
+            conn.commit();
+        }     
+    }
+    public int capNhatHangHoa(HangHoa hh) throws SQLException {
+        try(Connection conn = JDBCutils.getConn()) {
+            String sql = "UPDATE hanghoa SET idLoaiHH = ?, TenHangHoa = ?, Gia = ?, XuatXu = ?, AnhHH = ?, SoLuong = ?, KG = ? WHERE idHangHoa = ?";
+            conn.setAutoCommit(false);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, hh.getIDLoaiHH());
+            stm.setString(2, hh.getTenHangHoa());
+            stm.setDouble(3, hh.getGia());
+            stm.setString(4, hh.getXuatXu());
+            stm.setString(5, hh.getAnhHH());
+            stm.setDouble(6, hh.getSL());
+            stm.setDouble(7, hh.getKG());
+            stm.setString(8, hh.getIdHangHoa());
+            
+            int i = stm.executeUpdate();
+            conn.commit();
+            return i;
+        }
+    }
+    public int xoaHangHoa_TamThoi(String hId) throws SQLException {
+        try(Connection conn = JDBCutils.getConn()) {
+            String sql = "UPDATE hanghoa SET Active = ? WHERE idHangHoa = ?";
+            conn.setAutoCommit(false);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setBoolean(1, false);
+            stm.setString(2, hId);
+            
+            int i = stm.executeUpdate();
+            conn.commit();
+            return i;   
+        }
+    }
 }
 

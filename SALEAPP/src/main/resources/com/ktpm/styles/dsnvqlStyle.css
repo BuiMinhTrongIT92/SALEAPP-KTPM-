@@ -1,0 +1,29 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+VBox {
+    -fx-padding: 20;
+    -fx-spacing: 10;
+}
+
+Text.main_title {
+    -fx-text-fill: darkblue;
+}
+
+Button.menu_button {
+    -fx-margin: 20;
+    -fx-background-color: darkblue;
+    -fx-text-fill: white;
+    -fx-margin: 20;
+    -fx-spacing: 20;
+}
+
+TextField {
+    -fx-margin: 10;
+    -fx-pref-width:250;
+}
+
+HBox {
+    -fx-spacing: 10;
+}

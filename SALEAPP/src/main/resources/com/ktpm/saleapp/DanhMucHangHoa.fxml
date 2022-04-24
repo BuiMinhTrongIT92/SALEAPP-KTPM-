@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<VBox fx:id="vbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="760.0" stylesheets="@../styles/danhmuchanghoaStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ktpm.saleapp.DanhMucHangHoaController">
+   <children>
+      <TextFlow prefHeight="34.0" prefWidth="760.0" styleClass="main" textAlignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main_title" text="DANH MỤC HÀNG HÓA" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Bold" size="30.0" />
+               </font>
+            </Text>
+         </children>
+      </TextFlow>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Loại hàng hóa:" />
+            <ComboBox fx:id="cbLoaiHH" prefWidth="150.0" promptText="-- Lựa chọn --" />
+         </children>
+      </HBox>
+      <HBox prefHeight="36.0" prefWidth="760.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID Hàng hóa:" />
+            <TextField fx:id="txtIDHangHoa" />
+         </children>
+      </HBox>
+      <HBox prefHeight="36.0" prefWidth="760.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên hàng hóa:" />
+            <TextField fx:id="txtTenHangHoa" />
+         </children>
+      </HBox>
+      <HBox prefHeight="36.0" prefWidth="760.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giá:" />
+            <TextField fx:id="txtGia" prefHeight="25.0" prefWidth="662.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(VNĐ)" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Xuất xứ:" />
+            <TextField fx:id="txtXuatXu" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số lượng:" />
+                  <TextField fx:id="txtSoLuong" />
+               </children>
+            </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Khối lượng:" />
+            <TextField fx:id="txtKhoiLuong" />
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" prefHeight="233.0" prefWidth="720.0">
+         <children>
+            <ImageView fx:id="imgAnh" fitHeight="74.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
+            <TextField fx:id="txtPathAnh" />
+            <Button fx:id="themAnh" mnemonicParsing="false" onAction="#themAnhHandler" text="Thêm ảnh">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="52.0" prefWidth="719.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#themHangHoaHandler" styleClass="menu_button" text="Thêm">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#capnhatHangHoaHandler" styleClass="menu_button" text="Cập nhật">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDeleteChiNhanh" mnemonicParsing="false" onAction="#xoaHangHoa_TamThoi_Handler" styleClass="menu_button" text="Xóa">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#xoaONhapLieu" styleClass="menu_button" text="Xóa nhập liệu ">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#openDSHH" styleClass="menu_button" text="Xem danh sách hàng hóa">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#openDSHH_DaXoa" styleClass="menu_button" text="Danh sách đã xóa">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnCloseDMHH" mnemonicParsing="false" onAction="#closeDMHH" styleClass="menu_button" text="Đóng">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="41.0" prefWidth="720.0">
+         <children>
+            <TextField fx:id="txtkwHH" promptText="Nhập từ khóa (tên hàng hóa)...">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+      <TableView fx:id="tbHangHoa" prefHeight="422.0" prefWidth="720.0" />
+   </children>
+</VBox>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="760.0" stylesheets="@../styles/dschinhanhStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ktpm.saleapp.DSChiNhanhController">
+   <children>
+      <TextFlow prefHeight="34.0" prefWidth="742.0" styleClass="main" textAlignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main_title" text="DANH SÁCH CHI NHÁNH" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Bold" size="30.0" />
+               </font>
+            </Text>
+         </children>
+      </TextFlow>
+      <HBox prefHeight="33.0" prefWidth="721.0" />
+      <TableView fx:id="tbDSChiNhanh" prefHeight="520.0" prefWidth="760.0" stylesheets="@../styles/dsloaihh.css" />
+      <HBox alignment="CENTER" prefHeight="42.0" prefWidth="699.0">
+         <children>
+            <Button fx:id="btnCloseDSChiNhanh" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#closeDSChiNhanh" styleClass="menu_button" text="Đóng">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

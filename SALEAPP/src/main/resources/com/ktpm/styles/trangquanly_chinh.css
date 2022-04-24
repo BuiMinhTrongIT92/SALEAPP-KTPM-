@@ -1,0 +1,33 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+Button.menu_button {
+    -fx-margin: 20;
+    -fx-background-color: darkblue;
+    -fx-text-fill: white;
+    -fx-margin: 20;
+    -fx-spacing: 20;
+}
+
+TextFlow {
+    -fx-padding-top: 50;
+}
+
+Text.main {
+    -fx-padding: 40;
+}
+
+ImageView {
+    -fx-background-color: red;
+    -fx-padding: 40;
+}
+
+VBox {
+    -fx-padding: 40;
+}
+
+HBox {
+    -fx-spacing: 10;
+    -fx-padding: 40;
+}

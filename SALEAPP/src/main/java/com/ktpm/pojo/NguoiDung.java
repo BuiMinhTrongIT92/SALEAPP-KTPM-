@@ -195,5 +195,10 @@ public abstract class NguoiDung {
     public void setNgaySinh(Date NgaySinh) {
         this.NgaySinh = NgaySinh;
     }
-   
+
+    @Override
+    public String toString() {
+        return IDNguoiDung;
+    }
+    
 }

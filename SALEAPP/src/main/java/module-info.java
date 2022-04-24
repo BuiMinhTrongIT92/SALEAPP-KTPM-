@@ -3,6 +3,7 @@ module com.ktpm.saleapp {
     requires javafx.fxml;
     requires java.base;
     requires java.sql;
+    requires javafx.swing;
 
     opens com.ktpm.saleapp to javafx.fxml;
     exports com.ktpm.saleapp;
