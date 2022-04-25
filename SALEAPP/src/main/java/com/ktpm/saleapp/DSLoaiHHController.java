@@ -107,6 +107,6 @@ public class DSLoaiHHController implements Initializable {
     
     public void loadLoaiHH(String kwLoaiHH, Boolean active) throws SQLException {
         LoaiHHService lhhs = new LoaiHHService();
-        this.tbLoaiHH.setItems(FXCollections.observableList(lhhs.getLoaiHH(kwLoaiHH, active)));
+        this.tbLoaiHH.setItems(FXCollections.observableList(lhhs.getLoaiHH()));
     }
 }

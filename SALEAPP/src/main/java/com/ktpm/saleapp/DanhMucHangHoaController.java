@@ -547,13 +547,15 @@ public class DanhMucHangHoaController implements Initializable {
     }
     
     public void luuAnhHH(ImageView imgAnh) {
-        
         Image imgSave = imgAnh.getImage();
-       // File outputFile = new File("/souresImage/" + txtPathAnh.getText().substring(0, txtPathAnh.getLength() - 4) + ".png");
-         File outputFile = new File("D:/" + txtPathAnh.getText().substring(0, txtPathAnh.getLength() - 4) + ".png");
+        
+        String path = new File("src/main/resources/souresImage").getAbsolutePath();
+        File outputFile = new File(path + "/" + txtPathAnh.getText());
+//        File outputFile = new File("C:/Users/Administrator/OneDrive/Desktop/1/SALEAPP/src/main/resources/souresImage/" + txtPathAnh.getText());
         
         try {
-            ImageIO.write((SwingFXUtils.fromFXImage(imgSave, null)), ".png", outputFile);
+            ImageIO.write((SwingFXUtils.fromFXImage(imgSave, null)), "jpg", outputFile);
+            
         } catch (IOException ex) {
             Logger.getLogger(DanhMucHangHoaController.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -584,7 +586,7 @@ public class DanhMucHangHoaController implements Initializable {
         HangHoa h = new HangHoa(txtIDHangHoa.getText(), txtTenHangHoa.getText(), 
                 gia, txtXuatXu.getText(), 
                 cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH(), 
-                txtPathAnh.getText(), soLuong, khoiLuong, true);
+                txtPathAnh.getText().substring(0, txtPathAnh.getText().length() - 4), soLuong, khoiLuong, true);
         
         HangHoaService hhs = new HangHoaService();
         try {
@@ -608,7 +610,7 @@ public class DanhMucHangHoaController implements Initializable {
         HangHoa h = new HangHoa(txtIDHangHoa.getText(), txtTenHangHoa.getText(), 
                 gia, txtXuatXu.getText(), 
                 cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH().toString(), 
-                txtPathAnh.getText(), soLuong, khoiLuong, true);
+                txtPathAnh.getText().substring(0, txtPathAnh.getText().length() - 4), soLuong, khoiLuong, true);
         
         HangHoaService hhs = new HangHoaService();
         
@@ -642,7 +644,8 @@ public class DanhMucHangHoaController implements Initializable {
         if (f != null) {
             img = new Image(f.getAbsoluteFile().toURI().toString());
             imgAnh.setImage(img);
-            txtPathAnh.setText(f.getName().substring(0, f.getName().length() - 4));
+            txtPathAnh.setText(f.getName());
+//            txtPathAnh.setText(f.getName().substring(0, f.getName().length() - 4));
         }   
     }
     

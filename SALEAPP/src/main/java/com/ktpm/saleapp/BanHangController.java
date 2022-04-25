@@ -152,7 +152,7 @@ public class BanHangController implements Initializable {
                 }else
                     this.tfFindHHInLoai.setVisible(false);
                 this.GridItems.getChildren().clear();
-                if(this.tfFindHH.getText().contains("%") == false && this.tfFindHH.getText().contains("_") == false){
+                if(this.tfFindHH.getText().contains("%") == false){
                     showAllHH(this.tfFindHH.getText());
                 }else
                 {
@@ -171,7 +171,7 @@ public class BanHangController implements Initializable {
                 }else
                     this.tfFindHH.setVisible(false);
                 this.GridItems.getChildren().clear();
-                if(this.tfFindHHInLoai.getText().contains("%") == false && this.tfFindHHInLoai.getText().contains("_") == false){
+                if(this.tfFindHHInLoai.getText().contains("%") == false){
                     showHHByLoai(HHbyLoai, this.tfFindHHInLoai.getText());
                 }else{
                     utills.showBox("Coi chừng đó là coi chừng đó", Alert.AlertType.WARNING).show();
@@ -488,7 +488,7 @@ public class BanHangController implements Initializable {
         TableCell tbc = (TableCell)((Button)evt.getSource()).getParent();
         HangHoa qs = (HangHoa)tbc.getTableRow().getItem();
         try {
-            if(Double.parseDouble(ans.get()) >= 0.5){
+            if(Double.parseDouble(ans.get()) >0){
                 if(Double.parseDouble(ans.get()) <= hanghoaSV.getSLCheck(qs.getTenHangHoa())){
 //                    qs.setSL(Double.parseDouble(ans.get()));  
                     double kq = Double.parseDouble(ans.get());
@@ -563,10 +563,9 @@ public class BanHangController implements Initializable {
                 TableCell tbc1 = (TableCell)((Button)evt1.getSource()).getParent();
                 HangHoa qs1 = (HangHoa)tbc1.getTableRow().getItem();
                 try {
-                    double kq = Double.parseDouble(ans1.get());
-                    if(Math.ceil(kq*10)/10 > 0){
-                        if(Math.ceil(kq*10)/10 <= hanghoaSV.getKGCheck(qs1.getTenHangHoa())){
-                            qs1.setKG(Math.ceil(kq*10)/10);
+                    if(Double.parseDouble(ans1.get()) >0){
+                        if(Double.parseDouble(ans1.get()) <= hanghoaSV.getKGCheck(qs1.getTenHangHoa())){
+                            qs1.setKG(Double.parseDouble(ans1.get()));
                         }
                         else
                             utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
@@ -576,12 +575,12 @@ public class BanHangController implements Initializable {
                 } catch (SQLException ex) {
                     Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                this.tbvHangHoa.refresh();
-                try {
+            try {
                 tamTinh();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                this.tbvHangHoa.refresh();
             });
     }
     public void setBtnXoa(Button btn){
@@ -729,7 +728,7 @@ public class BanHangController implements Initializable {
     public void checkSN(){
         this.rdSinhNhat.selectedProperty().addListener(cl->{
             if(rdSinhNhat.isSelected()){
-                if(tongTienCheckSN >= 1000000){
+                if(tongTienCheckSN > 1000000){
                     try {
                         this.tfFindKH.setText("");
                         findKH();
