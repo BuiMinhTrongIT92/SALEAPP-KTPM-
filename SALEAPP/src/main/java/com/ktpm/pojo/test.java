@@ -49,22 +49,19 @@ import utils.JDBCutils;
  */
 public class test {
     public static void main(String[] agrs) throws SQLException, ParseException, UnsupportedEncodingException, IOException{
-            String path = new File("src/main/resources/HoaDon").getAbsolutePath();
-            System.out.println(path);
-//            File[] file = new File(path).listFiles();
-//            List<String> kq = new ArrayList<>();
-//            boolean fil = false;
-//            for(int i =0;i< file.length;i++){
-//                if(file[i].getName().contains(imgname + ".jpg")){
-//                    fil = true;
-//                }
-//            }
-//            return false;
-//            for(int i =0;i< kq.size();i++){
-//                if(kq.get(i).contains("MiChuaCay.jpg")){
-//                    System.out.println("OK");
-//                }
-//            }
+        LoaiHHService loaihhSV = new LoaiHHService();
+        String id = "";
+//        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", true);
+//            loaihhSV.themLoaiHH(lhh);
+            try(Connection conn = JDBCutils.getConn()){
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
+                
+                while (rs.next()) {
+                    id = rs.getString("idLoaiHH");
+                }
+            }
+            System.out.println(id);
     }
 }
 //        NhanVienController sss= new NhanVienController();
