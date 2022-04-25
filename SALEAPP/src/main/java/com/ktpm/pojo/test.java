@@ -11,6 +11,17 @@ import com.ktpm.services.KhachHangService;
 import com.ktpm.services.KhuyenMaiService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,9 +48,23 @@ import utils.JDBCutils;
  * @author ACER
  */
 public class test {
-    public static void main(String[] agrs) throws SQLException, ParseException{
-        LoaiHHService kk = new LoaiHHService();
-        System.out.println(kk.getAllNameImg("pepsi"));
+    public static void main(String[] agrs) throws SQLException, ParseException, UnsupportedEncodingException, IOException{
+            String path = new File("src/main/resources/HoaDon").getAbsolutePath();
+            System.out.println(path);
+//            File[] file = new File(path).listFiles();
+//            List<String> kq = new ArrayList<>();
+//            boolean fil = false;
+//            for(int i =0;i< file.length;i++){
+//                if(file[i].getName().contains(imgname + ".jpg")){
+//                    fil = true;
+//                }
+//            }
+//            return false;
+//            for(int i =0;i< kq.size();i++){
+//                if(kq.get(i).contains("MiChuaCay.jpg")){
+//                    System.out.println("OK");
+//                }
+//            }
     }
 }
 //        NhanVienController sss= new NhanVienController();

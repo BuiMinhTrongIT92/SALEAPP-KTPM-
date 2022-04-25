@@ -13,6 +13,7 @@ import com.ktpm.services.KhuyenMaiService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -682,7 +683,8 @@ public class BanHangController implements Initializable {
     }
 
     public void printDH(String idHD) throws SQLException, IOException{
-         Writer bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("E:\\\\" + idHD + ".txt"), "UTF8"));
+        String path = new File("src/main/resources/HoaDon").getAbsolutePath();
+         Writer bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "/" + idHD + ".txt"), "UTF8"));
             bw.write("Địa Chỉ: "+ getDiaChi(this.idNhanVien));
             bw.write("\t\t\tPhiếu thanh toán\r\n\r\n");
             bw.write("Mã hóa đơn: " + idHD + "\r\n");
@@ -690,7 +692,7 @@ public class BanHangController implements Initializable {
             bw.write("Thời gian: " + h + "\r\n");
             bw.write("NHÂN VIÊN: " + nvSV.findNVByID(this.idNhanVien).getTenNguoiDung() + "\r\n");
             bw.write("------------------------------------------------------------\r\n");
-            bw.write("Tên Sản Phẩm\tSố lượng\tGiá bán\r\n");
+            bw.write("ID\tTên Sản Phẩm\tSố lượng\tKG\tGiá bán\r\n");
             bw.write("-----------------------------------------------------------\r\n");
             //Ghi sản phẩm
             int quantotal = 0;
@@ -698,8 +700,9 @@ public class BanHangController implements Initializable {
                 String id = String.valueOf(i);
                 String TenSP = tbvHH.get(i).getTenHangHoa();
                 String SL = String.valueOf(tbvHH.get(i).getSL());
+                String KG = String.valueOf(tbvHH.get(i).getKG());
                 String Gia = String.valueOf(tbvHH.get(i).getGia()) + " || " +String.valueOf(tbvHH.get(i).getGiaGiam());
-                bw.write(id + "\t" + TenSP + "\t\t" + SL + "\t\t" + Gia + "\r\n\r\n");
+                bw.write(id + "\t" + TenSP + "\t\t" + SL + "\t\t"+ KG + "\t\t" + Gia + "\r\n\r\n");
                 
             }
             bw.write("------------------------------------------------------------\r\n");

@@ -139,4 +139,8 @@ public class LoaiHHTEST {
     public void testExistgetAllNameImg() throws SQLException {
         Assertions.assertTrue(loaihhSV.getAllNameImg("pepsi"));
     }
+    @Test
+    public void testNotExistgetAllNameImg() throws SQLException {
+        Assertions.assertFalse(loaihhSV.getAllNameImg("peps"));
+    }
 }
