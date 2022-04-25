@@ -105,12 +105,22 @@ public class LoaiHHService {
     
     
     public boolean getAllNameImg(String imgname) throws SQLException{
-        try {
-            ImageView imgv = new ImageView("/souresImage/" + imgname + ".jpg");
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+            boolean sl = false;
+            try(Connection conn = JDBCutils.getConn()) {
+                try {
+                    PreparedStatement stm = conn.prepareStatement("SELECT AnhHH FROM hanghoa WHERE AnhHH = N? and Active = true");
+                    stm.setString(1, imgname);
+                    ResultSet rs = stm.executeQuery();
+                    while(rs.next()){
+                        if(rs.getString("AnhHH").isEmpty() || rs.getString("AnhHH") == ""){
+                            sl = false;
+                        }else
+                            sl = true;
+                    }
+                } catch (Exception e) {
+                }
+            }
+            return sl;
     }
     public List<LoaiHH> getLoaiHH(String kwLHH, Boolean active) throws SQLException {
         List<LoaiHH> listLoaiHH = new ArrayList<>();

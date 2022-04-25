@@ -38,9 +38,8 @@ import utils.JDBCutils;
  */
 public class test {
     public static void main(String[] agrs) throws SQLException, ParseException{
-        NhanVienService s  = new NhanVienService();
-        NhanVien q = s.findNVByID("d85ed478-a4ac-4359-ac24-1c3e88ddd278");
-        System.out.println(q.getTenNguoiDung());
+        LoaiHHService kk = new LoaiHHService();
+        System.out.println(kk.getAllNameImg("pepsi"));
     }
 }
 //        NhanVienController sss= new NhanVienController();

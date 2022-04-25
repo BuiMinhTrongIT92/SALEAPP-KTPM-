@@ -552,7 +552,7 @@ public class DanhMucHangHoaController implements Initializable {
         String path = new File("src/main/resources/souresImage").getAbsolutePath();
         File outputFile = new File(path + "/" + txtPathAnh.getText());
 //        File outputFile = new File("C:/Users/Administrator/OneDrive/Desktop/1/SALEAPP/src/main/resources/souresImage/" + txtPathAnh.getText());
-        
+       
         try {
             ImageIO.write((SwingFXUtils.fromFXImage(imgSave, null)), "jpg", outputFile);
             
