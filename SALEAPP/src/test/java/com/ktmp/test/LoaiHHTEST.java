@@ -50,28 +50,28 @@ public class LoaiHHTEST {
         }
     }
     //getLoaiHH
-//    @Test
-//    public void testExistgetLoaiHH() throws SQLException{
-//        List<LoaiHH> loaiHH = loaihhSV.getLoaiHH();
-//        List<String> tenloaihh = new ArrayList<>();
-//        tenloaihh.add("Nước ngọt");
-//        tenloaihh.add("Bánh");
-//        tenloaihh.add("Sữa");
-//        for(int i =0;i<loaiHH.size();i++){
-//            Assertions.assertEquals(tenloaihh.get(i), loaiHH.get(i).getTenLoaiHH());
-//        }
-//    }
-//    @Test
-//    public void testNotExistgetLoaiHH() throws SQLException{
-//        List<LoaiHH> loaiHH = loaihhSV.getLoaiHH();
-//        List<String> tenloaihh = new ArrayList<>();
-//        tenloaihh.add("Dầu ăn");
-//        tenloaihh.add("Kẹo");
-//        tenloaihh.add("Nước mắm");
-//        for(int i =0;i<loaiHH.size();i++){
-//            Assertions.assertNotEquals(tenloaihh.get(i), loaiHH.get(i).getTenLoaiHH());
-//        }
-//    }
+    @Test
+    public void testExistgetLoaiHH() throws SQLException{
+        List<LoaiHH> loaiHH = loaihhSV.getLoaiHH();
+        List<String> tenloaihh = new ArrayList<>();
+        tenloaihh.add("Nước ngọt");
+        tenloaihh.add("Bánh");
+        tenloaihh.add("Sữa");
+        for(int i =0;i<loaiHH.size();i++){
+            Assertions.assertEquals(tenloaihh.get(i), loaiHH.get(i).getTenLoaiHH());
+        }
+    }
+    @Test
+    public void testNotExistgetLoaiHH() throws SQLException{
+        List<LoaiHH> loaiHH = loaihhSV.getLoaiHH();
+        List<String> tenloaihh = new ArrayList<>();
+        tenloaihh.add("Dầu ăn");
+        tenloaihh.add("Kẹo");
+        tenloaihh.add("Nước mắm");
+        for(int i =0;i<loaiHH.size();i++){
+            Assertions.assertNotEquals(tenloaihh.get(i), loaiHH.get(i).getTenLoaiHH());
+        }
+    }
     //getLoaiHHByLoai
     @Test
     public void testGetLoaiHHByLoai() throws SQLException{
@@ -148,36 +148,36 @@ public class LoaiHHTEST {
     }
 
     //themLoaiHH
-//    @Test
-//    public void testthemLoaiHH() throws SQLException{
-//        String id = "";
-//        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", true);
-//        loaihhSV.themLoaiHH(lhh);
-//        try(Connection conn = JDBCutils.getConn()){
-//            Statement stm = conn.createStatement();
-//            ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
-//
-//            while (rs.next()) {
-//                id = rs.getString("idLoaiHH");
-//            }
-//            Assertions.assertEquals("4", id);
-//        }
-//    }
-//    @Test
-//    public void testNotthemLoaiHH() throws SQLException{
-//        String id = "";
-//        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", true);
-//        loaihhSV.themLoaiHH(lhh);
-//        try(Connection conn = JDBCutils.getConn()){
-//            Statement stm = conn.createStatement();
-//            ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
-//
-//            while (rs.next()) {
-//                id = rs.getString("idLoaiHH");
-//            }
-//            Assertions.assertNotEquals("5", id);
-//        }
-//    }
+    @Test
+    public void testthemLoaiHH() throws SQLException{
+        String id = "";
+        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", true);
+        loaihhSV.themLoaiHH(lhh);
+        try(Connection conn = JDBCutils.getConn()){
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
+
+            while (rs.next()) {
+                id = rs.getString("idLoaiHH");
+            }
+            Assertions.assertEquals("4", id);
+        }
+    }
+    @Test
+    public void testNotthemLoaiHH() throws SQLException{
+        String id = "";
+        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", true);
+        loaihhSV.themLoaiHH(lhh);
+        try(Connection conn = JDBCutils.getConn()){
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
+
+            while (rs.next()) {
+                id = rs.getString("idLoaiHH");
+            }
+            Assertions.assertNotEquals("5", id);
+        }
+    }
     //capNhatLoaiHH
     @Test
     public void testExistcapNhatLoaiHH(){
@@ -217,21 +217,20 @@ public class LoaiHHTEST {
     }
     //xoaLoaiHH
     @Test
-    public void testSuccessxoaLoaiHH(){
-        try {
+    public void testSuccessxoaLoaiHH() throws SQLException{
+//        try {
             loaihhSV.xoaLoaiHH("4");
-            try(Connection conn = JDBCutils.getConn()){
-                Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
-                String donvi = "";
-                while (rs.next()) {
-                    donvi = rs.getString("DonVi");
-                }
-                Assertions.assertNotEquals("Can", donvi);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(LoaiHHTEST.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+//            try(Connection conn = JDBCutils.getConn()){
+//                Statement stm = conn.createStatement();
+//                ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
+//                String donvi = "";
+//                while (rs.next()) {
+//                    donvi = rs.getString("DonVi");
+//                }
+//                Assertions.assertNotEquals("Can", donvi);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(LoaiHHTEST.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }
