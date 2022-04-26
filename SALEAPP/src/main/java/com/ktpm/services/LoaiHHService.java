@@ -6,6 +6,7 @@ package com.ktpm.services;
 
 import com.ktpm.pojo.HangHoa;
 import com.ktpm.pojo.LoaiHH;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -122,17 +123,20 @@ public class LoaiHHService {
             return kq;
         }
     }
-    
-    
-    
-    public boolean getAllNameImg(String imgname) throws SQLException{
-        try {
-            ImageView imgv = new ImageView("/souresImage/" + imgname + ".jpg");
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+
+     public boolean getAllNameImg(String imgname) throws SQLException{
+            String path = new File("src/main/resources/souresImage").getAbsolutePath();
+            File[] file = new File(path).listFiles();
+            List<String> kq = new ArrayList<>();
+            boolean fil = false;
+            for(int i =0;i< file.length;i++){
+                if(file[i].getName().contains(imgname + ".jpg")){
+                    fil = true;
+                }
+            }
+            return fil;
     }
+   
     public List<LoaiHH> getLoaiHH(String kwLHH, Boolean active) throws SQLException {
         List<LoaiHH> listLoaiHH = new ArrayList<>();
         try (Connection conn = JDBCutils.getConn()) {
