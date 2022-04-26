@@ -530,51 +530,72 @@ public class DanhMucNhanVienController implements Initializable {
     }
     
     public void themNhanVienHandler(ActionEvent event) throws SQLException, NoSuchAlgorithmException {
-        int SDT = Integer.parseInt(txtSDT.getText());  
-        NhanVien n = new NhanVien(UUID.randomUUID().toString(), txtTenNhanVien.getText(), 
-                txtTaiKhoan.getText(), MD5(txtMatKhau.getText()), cbGioiTinh.getSelectionModel().getSelectedItem().toString(), 
-                true, txtEmail.getText(), getDateFromDatePicket(dpNgayTao),
-                SDT, cbVaiTro.getSelectionModel().getSelectedItem().toString(), getDateFromDatePicket(dpNgaySinh));
-        
-        NhanVienService nvs = new NhanVienService();
-        try {
-            nvs.themNhanVien(n);
-            utils.utills.showBox("Thêm nhân viên thành công!", Alert.AlertType.INFORMATION).show();
-            loadDataNhanVien(null, true);
-            xoa();
-        } catch (SQLException ex) {
-            utils.utills.showBox("Thêm không thành công!" + ex, Alert.AlertType.WARNING).show();
-        }
+        if ((txtTenNhanVien.getText().length() != 0 && cbGioiTinh.getSelectionModel().getSelectedItem() != null &&
+                dpNgaySinh.getValue() != null && txtEmail.getText().length() != 0
+                 && txtSDT.getText().length() != 0 && cbVaiTro.getValue() != null
+                && txtTaiKhoan.getText().length() != 0 && txtMatKhau.getText().length() != 0
+                && dpNgayTao.getValue() != null) 
+                || (txtTenNhanVien.getText().length() != 0 && cbGioiTinh.getSelectionModel().getSelectedItem() != null &&
+                dpNgaySinh.getValue() != null && txtEmail.getText().length() != 0
+                 && txtSDT.getText().length() != 0 && cbVaiTro.getValue() != null)) {
+            int SDT = Integer.parseInt(txtSDT.getText());  
+            NhanVien n = new NhanVien(UUID.randomUUID().toString(), txtTenNhanVien.getText(), 
+                    txtTaiKhoan.getText(), MD5(txtMatKhau.getText()), cbGioiTinh.getSelectionModel().getSelectedItem().toString(), 
+                    true, txtEmail.getText(), getDateFromDatePicket(dpNgayTao),
+                    SDT, cbVaiTro.getSelectionModel().getSelectedItem().toString(), getDateFromDatePicket(dpNgaySinh));
+
+            NhanVienService nvs = new NhanVienService();
+            try {
+                nvs.themNhanVien(n);
+                utils.utills.showBox("Thêm nhân viên thành công!", Alert.AlertType.INFORMATION).show();
+                loadDataNhanVien(null, true);
+                xoa();
+            } catch (SQLException ex) {
+                utils.utills.showBox("Thêm không thành công!", Alert.AlertType.WARNING).show();
+            }
+        } else {
+            utils.utills.showBox("Cần nhập đủ các trường thông tin!", Alert.AlertType.WARNING).show();
+        }             
     }
     
     public void capNhatNhanVienHandler(ActionEvent event) throws NoSuchAlgorithmException, SQLException {
-        int SDT = Integer.parseInt(txtSDT.getText());
+        if (txtTenNhanVien.getText().length() != 0 && cbGioiTinh.getSelectionModel().getSelectedItem() != null &&
+                dpNgaySinh.getValue() != null && txtEmail.getText().length() != 0
+                 && txtSDT.getText().length() != 0 && cbVaiTro.getValue() != null) {
+            int SDT = Integer.parseInt(txtSDT.getText());
         
-        NhanVien n = new NhanVien(txtID.getText(), txtTenNhanVien.getText(), 
-                null, null, cbGioiTinh.getSelectionModel().getSelectedItem().toString(), 
-                true, txtEmail.getText(), null,
-                SDT, cbVaiTro.getSelectionModel().getSelectedItem().toString(), getDateFromDatePicket(dpNgaySinh));
-        
-        NhanVienService nvs = new NhanVienService();
-        
-        if (nvs.capNhatNhanVien(n) > 0) {
-            utils.utills.showBox("Cập nhật nhân viên thành công!", Alert.AlertType.INFORMATION).show();
-            loadDataNhanVien(null, true);        
+            NhanVien n = new NhanVien(txtID.getText(), txtTenNhanVien.getText(), 
+                    null, null, cbGioiTinh.getSelectionModel().getSelectedItem().toString(), 
+                    true, txtEmail.getText(), null,
+                    SDT, cbVaiTro.getSelectionModel().getSelectedItem().toString(), getDateFromDatePicket(dpNgaySinh));
+
+            NhanVienService nvs = new NhanVienService();
+
+            if (nvs.capNhatNhanVien(n) > 0) {
+                utils.utills.showBox("Cập nhật nhân viên thành công!", Alert.AlertType.INFORMATION).show();
+                loadDataNhanVien(null, true);        
+            } else {
+                utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
+            }
         } else {
-            utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
-        } 
+            utils.utills.showBox("Cần chọn nhân viên cần cập nhật!", Alert.AlertType.WARNING).show();
+        }     
     }
     
     public void xoaNhanVien_TamThoi_Handler(ActionEvent event) throws SQLException {
-        NhanVienService cns = new NhanVienService();
+        if (txtNV.getText().length() != 0 && txtID.getText().length() != 0) {
+            NhanVienService cns = new NhanVienService();
         
-        if (cns.xoaNhanVien_TamThoi(txtID.getText()) > 0) {
-            utils.utills.showBox("Xóa nhân viên thành công!", Alert.AlertType.INFORMATION).show();
-            xoa();
-            loadDataNhanVien(null, true);
+            if (cns.xoaNhanVien_TamThoi(txtID.getText()) > 0) {
+                utils.utills.showBox("Xóa nhân viên thành công!", Alert.AlertType.INFORMATION).show();
+                xoa();
+                loadDataNhanVien(null, true);
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }  
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }  
+            utils.utills.showBox("Cần chọn nhân viên cần xóa!", Alert.AlertType.WARNING).show();
+        }      
     }
     
     public Date LocalDateToDate(LocalDate lcd) {
@@ -603,12 +624,20 @@ public class DanhMucNhanVienController implements Initializable {
                 txtEmail.setText(nv.getEmail());
                 txtSDT.setText(String.valueOf(nv.getSDT()));
                 cbVaiTro.setValue(nv.getRole());
-                dpNgayTao.setValue(LocalDate.parse(nv.getNgayTao().toString()));         
+                dpNgayTao.setValue(LocalDate.parse(nv.getNgayTao().toString()));
             }
         });
     }
     
     public void xoaONhapLieu(ActionEvent event) {
-        xoa();
+        if (txtTenNhanVien.getText().length() != 0 || cbGioiTinh.getSelectionModel().getSelectedItem() != null ||
+                dpNgaySinh.getValue() != null || txtEmail.getText().length() != 0
+                 || txtSDT.getText().length() != 0 || cbVaiTro.getValue() != null
+                || txtTaiKhoan.getText().length() != 0 || txtMatKhau.getText().length() != 0
+                || dpNgayTao.getValue() != null) {
+            xoa();
+        } else {
+            utils.utills.showBox("Các ô nhập liệu hiện đang trống!", Alert.AlertType.INFORMATION).show();
+        }  
     }
 }

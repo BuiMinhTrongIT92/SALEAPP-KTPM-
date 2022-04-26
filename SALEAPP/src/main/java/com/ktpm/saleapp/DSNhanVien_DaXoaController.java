@@ -196,15 +196,19 @@ public class DSNhanVien_DaXoaController implements Initializable {
     }
     
     public void xoaNhanVienHandler(ActionEvent event) throws SQLException {
-        NhanVienService nvs = new NhanVienService();
+        if (txtIDNhanVien.getText().length() != 0 && txtID.getText().length() != 0) {
+            NhanVienService nvs = new NhanVienService();
          
-        if (nvs.xoaNhanVien(txtID.getText()) > 0) {
-            utils.utills.showBox("Xóa nhân viên thành công!", Alert.AlertType.INFORMATION).show();
-            xoaText();
-            loadDataNhanVien(null, false);
+            if (nvs.xoaNhanVien(txtID.getText()) > 0) {
+                utils.utills.showBox("Xóa nhân viên thành công!", Alert.AlertType.INFORMATION).show();
+                xoaText();
+                loadDataNhanVien(null, false);
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }
+            utils.utills.showBox("Cần chọn nhân viên cần xóa!", Alert.AlertType.WARNING).show();
+        }       
     }
     
     public void loadDataFromTableView() {

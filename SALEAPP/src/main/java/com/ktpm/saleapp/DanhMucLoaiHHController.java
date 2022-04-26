@@ -222,16 +222,21 @@ public class DanhMucLoaiHHController implements Initializable {
 //    }
     
     public void themLoaiHHHandler(ActionEvent event) throws SQLException {
-        LoaiHH lhh = new LoaiHH(txtIDLoaiHH.getText(), txtTenLoaiHH.getText(), txtDonVi.getText(), true);
-        LoaiHHService lhhs = new LoaiHHService();
-        
-        try {
-            lhhs.themLoaiHH(lhh);
-            utils.utills.showBox("Thêm loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            loadLoaiHH(null, true);
-        } catch (SQLException ex) {
-            utils.utills.showBox("Thêm không thành công!", Alert.AlertType.WARNING).show();
-        }
+        if (txtIDLoaiHH.getText().length() != 0 && txtTenLoaiHH.getText().length() != 0
+                && txtDonVi.getText().length() != 0) {
+            LoaiHH lhh = new LoaiHH(txtIDLoaiHH.getText(), txtTenLoaiHH.getText(), txtDonVi.getText(), true);
+            LoaiHHService lhhs = new LoaiHHService();
+
+            try {
+                lhhs.themLoaiHH(lhh);
+                utils.utills.showBox("Thêm loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                loadLoaiHH(null, true);
+            } catch (SQLException ex) {
+                utils.utills.showBox("Thêm không thành công!", Alert.AlertType.WARNING).show();
+            }
+        } else {
+            utils.utills.showBox("Cần nhập đủ các trường thông tin!", Alert.AlertType.WARNING).show();
+        }    
     }
     
     public void xoaTextField() {
@@ -253,28 +258,38 @@ public class DanhMucLoaiHHController implements Initializable {
     }
     
     public void capNhatLoaiHHHandler(ActionEvent event) throws SQLException {
-        LoaiHH lhh = new LoaiHH(txtIDLoaiHH.getText(), txtTenLoaiHH.getText(), txtDonVi.getText(), true);
-        LoaiHHService lhhs = new LoaiHHService();
-        
-        if (lhhs.capNhatLoaiHH(lhh) > 0) {
-            utils.utills.showBox("Cập nhật loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadLoaiHH(null, true);
+        if (txtIDLoaiHH.getText().length() != 0 && txtTenLoaiHH.getText().length() != 0
+                && txtDonVi.getText().length() != 0) {
+            LoaiHH lhh = new LoaiHH(txtIDLoaiHH.getText(), txtTenLoaiHH.getText(), txtDonVi.getText(), true);
+            LoaiHHService lhhs = new LoaiHHService();
+
+            if (lhhs.capNhatLoaiHH(lhh) > 0) {
+                utils.utills.showBox("Cập nhật loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                xoaTextField();
+                loadLoaiHH(null, true);
+            } else {
+                utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
+            }   
         } else {
-            utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
-        }   
+            utils.utills.showBox("Cần chọn loại hàng hóa cần cập nhật!", Alert.AlertType.WARNING).show();
+        }       
     }
     
     public void xoaLoaiHH_TamThoi_Handler(ActionEvent event) throws SQLException {
-        LoaiHHService lhhs = new LoaiHHService();
+        if (txtIDLoaiHH.getText().length() != 0 && txtTenLoaiHH.getText().length() != 0
+                && txtDonVi.getText().length() != 0) {
+            LoaiHHService lhhs = new LoaiHHService();
         
-        if (lhhs.xoaLoaiHH_TamThoi(txtIDLoaiHH.getText()) > 0) {
-            utils.utills.showBox("Xóa loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadLoaiHH(null, true);
+            if (lhhs.xoaLoaiHH_TamThoi(txtIDLoaiHH.getText()) > 0) {
+                utils.utills.showBox("Xóa loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                xoaTextField();
+                loadLoaiHH(null, true);
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }  
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }  
+            utils.utills.showBox("Cần chọn loại hàng hóa cần xóa!", Alert.AlertType.WARNING).show();
+        }      
     }
     
     public void loadDataToTextField() {
@@ -290,6 +305,11 @@ public class DanhMucLoaiHHController implements Initializable {
     }
     
     public void xoaONhapLieu(ActionEvent event) {
-        xoaTextField();
+        if (txtIDLoaiHH.getText().length() != 0 || txtTenLoaiHH.getText().length() != 0
+                || txtDonVi.getText().length() != 0) {
+            xoaTextField();
+        } else {
+            utils.utills.showBox("Các ô nhập liệu hiện đang trống!", Alert.AlertType.INFORMATION).show();
+        }    
     }
  }

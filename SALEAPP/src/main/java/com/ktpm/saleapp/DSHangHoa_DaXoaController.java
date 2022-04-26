@@ -237,15 +237,19 @@ public class DSHangHoa_DaXoaController implements Initializable {
     }
     
     public void xoaHangHoaHandler(ActionEvent event) throws SQLException {
-        HangHoaService hhs = new HangHoaService();
+        if (txtIDHangHoa.getText().length() != 0 && txtID.getText().length() != 0) {
+            HangHoaService hhs = new HangHoaService();
         
-        if (hhs.xoaHangHoa(txtID.getText()) > 0) {
-            utils.utills.showBox("Xóa hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadHangHoa(null, false);
+            if (hhs.xoaHangHoa(txtID.getText()) > 0) {
+                utils.utills.showBox("Xóa hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                xoaTextField();
+                loadHangHoa(null, false);
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }
+            utils.utills.showBox("Cần chọn hàng hóa cần xóa!", Alert.AlertType.WARNING).show();
+        }      
     }
     
     public void loadDataFromTableView() {

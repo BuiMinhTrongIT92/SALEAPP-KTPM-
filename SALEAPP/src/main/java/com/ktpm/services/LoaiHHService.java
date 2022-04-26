@@ -6,6 +6,7 @@ package com.ktpm.services;
 
 import com.ktpm.pojo.HangHoa;
 import com.ktpm.pojo.LoaiHH;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,9 +43,30 @@ public class LoaiHHService {
                 }
             }
             return loaiHH;
-        }
-        
+        } 
     }
+    
+    public List<LoaiHH> getLoaiHH_2() throws SQLException{
+        try(Connection conn = JDBCutils.getConn()){
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa");
+            List<LoaiHH> loaiHH = new ArrayList<>();
+            LoaiHH loaihh = null;
+            while(rs.next()){
+                String Id = rs.getString("idLoaiHH");
+                String TenLoaiHH = rs.getString("TenLoaiHH");
+                String DonVi = rs.getString("DonVi");
+                boolean Activ = rs.getBoolean("Active");
+                loaihh = new LoaiHH(Id,TenLoaiHH,DonVi,Activ);
+                if(loaihh.isActive() == false){
+                    loaiHH.add(loaihh);
+                }
+            }
+            return loaiHH;
+        } 
+    }
+    
+    
     public int xoaLoaiHH(String lId) throws SQLException {
        try (Connection conn = JDBCutils.getConn()) {
            PreparedStatement stm = conn.prepareStatement("DELETE FROM loaihanghoa WHERE idLoaiHH =? AND Active = ?");
@@ -101,17 +123,20 @@ public class LoaiHHService {
             return kq;
         }
     }
-    
-    
-    
-    public boolean getAllNameImg(String imgname) throws SQLException{
-        try {
-            ImageView imgv = new ImageView("/souresImage/" + imgname + ".jpg");
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+
+     public boolean getAllNameImg(String imgname) throws SQLException{
+            String path = new File("src/main/resources/souresImage").getAbsolutePath();
+            File[] file = new File(path).listFiles();
+            List<String> kq = new ArrayList<>();
+            boolean fil = false;
+            for(int i =0;i< file.length;i++){
+                if(file[i].getName().contains(imgname + ".jpg")){
+                    fil = true;
+                }
+            }
+            return fil;
     }
+   
     public List<LoaiHH> getLoaiHH(String kwLHH, Boolean active) throws SQLException {
         List<LoaiHH> listLoaiHH = new ArrayList<>();
         try (Connection conn = JDBCutils.getConn()) {
@@ -183,7 +208,7 @@ public class LoaiHHService {
             
             int i = stm.executeUpdate();
             conn.commit();
-            return i;   
+            return i;
         }
     }
 }

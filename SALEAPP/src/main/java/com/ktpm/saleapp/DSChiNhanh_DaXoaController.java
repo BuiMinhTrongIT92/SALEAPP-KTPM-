@@ -173,15 +173,19 @@ public class DSChiNhanh_DaXoaController implements Initializable {
     }
     
     public void xoaChiNhanhHandler(ActionEvent event) throws SQLException {
-        ChiNhanhService cns = new ChiNhanhService();
+        if (txtIDChiNhanh.getText().length() != 0 && txtID.getText().length() != 0) {
+            ChiNhanhService cns = new ChiNhanhService();
         
-        if (cns.xoaChiNhanh(txtID.getText()) > 0) {
-            utils.utills.showBox("Xóa chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadDSCN(null, false);   
+            if (cns.xoaChiNhanh(txtID.getText()) > 0) {
+                utils.utills.showBox("Xóa chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
+                xoaTextField();
+                loadDSCN(null, false);   
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }
+            utils.utills.showBox("Cần chọn chi nhánh cần xóa!", Alert.AlertType.WARNING).show();
+        }       
     }
     
     public void loadDataFromTableView() {

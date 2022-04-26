@@ -13,6 +13,7 @@ import com.ktpm.services.KhuyenMaiService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -152,7 +153,7 @@ public class BanHangController implements Initializable {
                 }else
                     this.tfFindHHInLoai.setVisible(false);
                 this.GridItems.getChildren().clear();
-                if(this.tfFindHH.getText().contains("%") == false){
+                if(this.tfFindHH.getText().contains("%") == false && this.tfFindHH.getText().contains("_") == false){
                     showAllHH(this.tfFindHH.getText());
                 }else
                 {
@@ -171,7 +172,7 @@ public class BanHangController implements Initializable {
                 }else
                     this.tfFindHH.setVisible(false);
                 this.GridItems.getChildren().clear();
-                if(this.tfFindHHInLoai.getText().contains("%") == false){
+                if(this.tfFindHHInLoai.getText().contains("%") == false && this.tfFindHHInLoai.getText().contains("_") == false){
                     showHHByLoai(HHbyLoai, this.tfFindHHInLoai.getText());
                 }else{
                     utills.showBox("Coi chừng đó là coi chừng đó", Alert.AlertType.WARNING).show();
@@ -488,7 +489,7 @@ public class BanHangController implements Initializable {
         TableCell tbc = (TableCell)((Button)evt.getSource()).getParent();
         HangHoa qs = (HangHoa)tbc.getTableRow().getItem();
         try {
-            if(Double.parseDouble(ans.get()) >0){
+            if(Double.parseDouble(ans.get()) >= 0.5){
                 if(Double.parseDouble(ans.get()) <= hanghoaSV.getSLCheck(qs.getTenHangHoa())){
 //                    qs.setSL(Double.parseDouble(ans.get()));  
                     double kq = Double.parseDouble(ans.get());
@@ -517,8 +518,11 @@ public class BanHangController implements Initializable {
             try {
                 if(sl > hanghoaSV.getSLCheck(qs.getTenHangHoa()))
                     utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
-                else
+                else{
                     qs.setSL(sl);
+                    this.tbvHangHoa.refresh();
+                }
+                    
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -527,12 +531,7 @@ public class BanHangController implements Initializable {
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            try {
-                tamTinh();
-            } catch (SQLException ex) {
-                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.tbvHangHoa.refresh();
+            
         });
     }
     
@@ -545,14 +544,16 @@ public class BanHangController implements Initializable {
                 sl--;
                 if(sl <1)
                     utills.showBox("Số lượng không được nhỏ hơn 1", Alert.AlertType.WARNING).show();
-                else
+                else{
                     qs.setSL(sl);
+                    this.tbvHangHoa.refresh();
+                }
             try {
                 tamTinh();
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
-                this.tbvHangHoa.refresh();
+                
             });
     }
     public void setBtnNhapKG(Button btn){
@@ -563,9 +564,10 @@ public class BanHangController implements Initializable {
                 TableCell tbc1 = (TableCell)((Button)evt1.getSource()).getParent();
                 HangHoa qs1 = (HangHoa)tbc1.getTableRow().getItem();
                 try {
-                    if(Double.parseDouble(ans1.get()) >0){
-                        if(Double.parseDouble(ans1.get()) <= hanghoaSV.getKGCheck(qs1.getTenHangHoa())){
-                            qs1.setKG(Double.parseDouble(ans1.get()));
+                    double kq = Double.parseDouble(ans1.get());
+                    if(Math.ceil(kq*10)/10 > 0){
+                        if(Math.ceil(kq*10)/10 <= hanghoaSV.getKGCheck(qs1.getTenHangHoa())){
+                            qs1.setKG(Math.ceil(kq*10)/10);
                         }
                         else
                             utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
@@ -575,12 +577,12 @@ public class BanHangController implements Initializable {
                 } catch (SQLException ex) {
                     Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            try {
-                tamTinh();
-            } catch (SQLException ex) {
-                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
                 this.tbvHangHoa.refresh();
+                try {
+                tamTinh();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             });
     }
     public void setBtnXoa(Button btn){
@@ -681,7 +683,8 @@ public class BanHangController implements Initializable {
     }
 
     public void printDH(String idHD) throws SQLException, IOException{
-         Writer bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("E:\\\\" + idHD + ".txt"), "UTF8"));
+        String path = new File("src/main/resources/HoaDon").getAbsolutePath();
+         Writer bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "/" + idHD + ".txt"), "UTF8"));
             bw.write("Địa Chỉ: "+ getDiaChi(this.idNhanVien));
             bw.write("\t\t\tPhiếu thanh toán\r\n\r\n");
             bw.write("Mã hóa đơn: " + idHD + "\r\n");
@@ -689,7 +692,7 @@ public class BanHangController implements Initializable {
             bw.write("Thời gian: " + h + "\r\n");
             bw.write("NHÂN VIÊN: " + nvSV.findNVByID(this.idNhanVien).getTenNguoiDung() + "\r\n");
             bw.write("------------------------------------------------------------\r\n");
-            bw.write("Tên Sản Phẩm\tSố lượng\tGiá bán\r\n");
+            bw.write("ID\tTên Sản Phẩm\tSố lượng\tKG\tGiá bán\r\n");
             bw.write("-----------------------------------------------------------\r\n");
             //Ghi sản phẩm
             int quantotal = 0;
@@ -697,8 +700,9 @@ public class BanHangController implements Initializable {
                 String id = String.valueOf(i);
                 String TenSP = tbvHH.get(i).getTenHangHoa();
                 String SL = String.valueOf(tbvHH.get(i).getSL());
+                String KG = String.valueOf(tbvHH.get(i).getKG());
                 String Gia = String.valueOf(tbvHH.get(i).getGia()) + " || " +String.valueOf(tbvHH.get(i).getGiaGiam());
-                bw.write(id + "\t" + TenSP + "\t\t" + SL + "\t\t" + Gia + "\r\n\r\n");
+                bw.write(id + "\t" + TenSP + "\t\t" + SL + "\t\t"+ KG + "\t\t" + Gia + "\r\n\r\n");
                 
             }
             bw.write("------------------------------------------------------------\r\n");
@@ -728,7 +732,7 @@ public class BanHangController implements Initializable {
     public void checkSN(){
         this.rdSinhNhat.selectedProperty().addListener(cl->{
             if(rdSinhNhat.isSelected()){
-                if(tongTienCheckSN > 1000000){
+                if(tongTienCheckSN >= 1000000){
                     try {
                         this.tfFindKH.setText("");
                         findKH();

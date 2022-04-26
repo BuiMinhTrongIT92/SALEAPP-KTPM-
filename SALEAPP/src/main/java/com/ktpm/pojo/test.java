@@ -11,6 +11,17 @@ import com.ktpm.services.KhachHangService;
 import com.ktpm.services.KhuyenMaiService;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,10 +48,16 @@ import utils.JDBCutils;
  * @author ACER
  */
 public class test {
-    public static void main(String[] agrs) throws SQLException, ParseException{
-        NhanVienService s  = new NhanVienService();
-        NhanVien q = s.findNVByID("d85ed478-a4ac-4359-ac24-1c3e88ddd278");
-        System.out.println(q.getTenNguoiDung());
+    public static void main(String[] agrs) throws SQLException, ParseException, UnsupportedEncodingException, IOException{
+        LoaiHHService loaihhSV = new LoaiHHService();
+         String id = "";
+        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", false);
+        try {
+            loaihhSV.themLoaiHH(lhh);
+        } catch (SQLException e) {
+            id = e.getMessage();
+        }
+        System.out.println(id);
     }
 }
 //        NhanVienController sss= new NhanVienController();
