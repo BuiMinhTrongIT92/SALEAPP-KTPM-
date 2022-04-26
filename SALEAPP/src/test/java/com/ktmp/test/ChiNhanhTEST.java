@@ -115,7 +115,71 @@ public class ChiNhanhTEST {
            ex.getMessage();
         }
     }
-     
-
     
+    @Test
+    public void testFailCapNhat() throws SQLException {
+        String idChiNhanh = "1";
+        ChiNhanh cn = new ChiNhanh("1", "", "24 Trường Chinh", "d85ed478-a4ac-4359-ac24-1c3e88ddd278", true);
+        chinhanhSV.capNhatChiNhanh(cn);
+        try (Connection conn = JDBCutils.getConn()) { 
+            String sql = "SELECT TenChiNhanh FROM chinhanh WHERE idChiNhanh = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, idChiNhanh);
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                Assertions.assertNotEquals("", rs.getString("TenChiNhanh"));    
+            }   
+        }
+    }
+    
+    @Test
+    public void testFailCapNhat_2() throws SQLException {
+        ChiNhanh cn = new ChiNhanh("1", "Chi Nhánh 3", "24 Trường Chinh", "d85ed478-a4ac-4359-ac24-1c3e88ddd278", true); 
+        try {
+            chinhanhSV.capNhatChiNhanh(cn);
+        } catch (SQLException ex) {
+            Assertions.assertEquals("Duplicate entry 'Chi Nhánh 3' for key 'chinhanh.TenChiNhanh_UNIQUE'", ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testSuccessXoa_TamThoi() throws SQLException {
+        ChiNhanh cn = new ChiNhanh("5", "Chi Nhánh 6", "24 Lê Lợi", "1", true);
+        
+        try (Connection conn = JDBCutils.getConn()) {
+            chinhanhSV.xoaChiNhanh_TamThoi("5");
+            
+            String sql = "SELECT idChiNhanh FROM chinhanh WHERE Active = ?";
+            
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setBoolean(1, true);
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                Assertions.assertNotEquals("5", rs.getString("idChiNhanh"));    
+            }   
+        }   
+    }
+    
+    @Test
+    public void testSuccessXoa() throws SQLException {
+        ChiNhanh cn = new ChiNhanh("5", "Chi Nhánh 6", "24 Lê Lợi", "1", false);
+        try (Connection conn = JDBCutils.getConn()) {
+            chinhanhSV.xoaChiNhanh("5");
+            
+            String sql = "SELECT idChiNhanh FROM chinhanh WHERE Active = ?";
+            
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setBoolean(1, false);
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                Assertions.assertNotEquals("5", rs.getString("idChiNhanh"));    
+            }
+        }
+    }
 }

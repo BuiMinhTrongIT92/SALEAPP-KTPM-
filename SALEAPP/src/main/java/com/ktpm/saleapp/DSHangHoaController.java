@@ -32,6 +32,20 @@ import javafx.stage.Stage;
 public class DSHangHoaController implements Initializable {
 
     /**
+     * @return the btnTatCa
+     */
+    public Button getBtnTatCa() {
+        return btnTatCa;
+    }
+
+    /**
+     * @param btnTatCa the btnTatCa to set
+     */
+    public void setBtnTatCa(Button btnTatCa) {
+        this.btnTatCa = btnTatCa;
+    }
+
+    /**
      * @return the tbDSHangHoa
      */
     public TableView getTbDSHangHoa() {
@@ -78,6 +92,9 @@ public class DSHangHoaController implements Initializable {
 
     @FXML
     private Button btnCloseDSHH;
+    
+    @FXML
+    private Button btnTatCa;
 
     private Stage stage;
     
@@ -158,4 +175,19 @@ public class DSHangHoaController implements Initializable {
         this.tbDSHangHoa.setItems(FXCollections.observableList(hhs.getHangHoa(kwHH, Active)));     
     }
     
+    public void loadHHTheoLoai(String idHangHoa) throws SQLException {
+        HangHoaService hhs = new HangHoaService();
+        this.tbDSHangHoa.setItems(FXCollections.observableList(hhs.getHHTHeoLoai(idHangHoa)));     
+    }
+    
+    public void loadHHTheoLoai(ActionEvent event) throws SQLException {
+        HangHoaService hhs = new HangHoaService();   
+        String s = cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH();     
+        loadHHTheoLoai(s);
+    }
+    
+    public void loadTatCaHH(ActionEvent event) throws SQLException {
+        loadTableHangHoa();
+        loadHangHoa(null, true);    
+    }
 }
