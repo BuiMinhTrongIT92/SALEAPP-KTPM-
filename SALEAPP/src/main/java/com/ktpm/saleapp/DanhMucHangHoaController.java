@@ -43,6 +43,7 @@ import javafx.stage.Stage;
 import javafx.embed.swing.SwingFXUtils;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.EventHandler;
@@ -676,30 +677,10 @@ public class DanhMucHangHoaController implements Initializable {
         }
     }
     
-     public void loadImage(String imageName) {
-//        String path = new File("src/main/resources/souresImage").getAbsolutePath();
-//        imgAnh = new ImageView(path + "/" + imageName + ".jpg");
- 
-//        String path = new File("src/main/resources/souresImage").getAbsolutePath();
-//        Image image = new Image(path + "/" + imageName + ".jpg");
-//        imgAnh.setImage(image);
-
-
-
-
-
-//         Image img = null;
-//        String path = new File("src/main/resources/souresImage").getAbsolutePath();
-//        
-//        try 
-//        {
-//            img = ImageIO.read(new File(path + "/" + txtPathAnh.getText()));
-//            imgAnh.setImage(img);
-//        } 
-//        catch (IOException e) 
-//        {
-//            e.printStackTrace();
-//        }
+     public void loadImage(String imageName) throws FileNotFoundException {
+        String path = new File("src/main/resources/souresImage").getAbsolutePath();
+          Image image = new Image(new FileInputStream(path + "/" + imageName + ".jpg"));
+          imgAnh.setImage(image);
     }
     
     public void closeDMHH(ActionEvent event) {
@@ -781,15 +762,22 @@ public class DanhMucHangHoaController implements Initializable {
     }
     
     public void xoaHangHoa_TamThoi_Handler(ActionEvent event) throws SQLException {
-        HangHoaService hhs = new HangHoaService();
+        if (txtIDHangHoa.getText().length() != 0 && txtTenHangHoa.getText().length() != 0
+                && txtGia.getText().length() != 0 && txtXuatXu.getText().length() != 0
+                && txtSoLuong.getText().length() != 0 && txtKhoiLuong.getText().length() != 0
+                && txtPathAnh.getText().length() != 0) {
+            HangHoaService hhs = new HangHoaService();
         
-        if (hhs.xoaHangHoa_TamThoi(txtIDHangHoa.getText()) > 0) {
-            utils.utills.showBox("Xóa hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            xoa();
-            loadHangHoa(null, true);
+            if (hhs.xoaHangHoa_TamThoi(txtIDHangHoa.getText()) > 0) {
+                utils.utills.showBox("Xóa hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                xoa();
+                loadHangHoa(null, true);
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }  
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }  
+            utils.utills.showBox("Cần chọn hàng hóa cần xóa!", Alert.AlertType.WARNING).show();
+        }   
     }
     
     public void themAnhHandler(ActionEvent event) {
@@ -819,17 +807,27 @@ public class DanhMucHangHoaController implements Initializable {
                 txtXuatXu.setText(hh.getXuatXu());
                 cbDonViTinh.setValue(null);
                 txtPathAnh.setText(hh.getAnhHH() + ".jpg");
-                loadImage(hh.getAnhHH().toString());
-//                cbLoaiHH.setValue(t);
-                
+                try {
+                    loadImage(hh.getAnhHH().toString());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(DanhMucHangHoaController.class.getName()).log(Level.SEVERE, null, ex);
+                }  
                 hienDonVi();
-                
             }
         });
     }
     
     public void xoaONhapLieu(ActionEvent event) {
-        xoa();
-        anDonVi();
+        if (cbLoaiHH.getSelectionModel().getSelectedItem() != null && 
+                txtIDHangHoa.getText().length() != 0 || txtTenHangHoa.getText().length() != 0
+                || txtGia.getText().length() != 0 || txtXuatXu.getText().length() != 0
+                || cbDonViTinh.getSelectionModel().getSelectedItem() != null
+                || txtSoLuong.getText().length() != 0 || txtKhoiLuong.getText().length() != 0
+                || txtPathAnh.getText().length() != 0) {
+            xoa();
+            anDonVi();
+        } else {
+            utils.utills.showBox("Các ô nhập liệu hiện đang trống!", Alert.AlertType.INFORMATION).show();
+        } 
     }
 }
