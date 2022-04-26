@@ -9,7 +9,9 @@ import com.ktpm.pojo.NhanVien;
 import com.ktpm.services.LoaiHHService;
 import com.ktpm.services.NhanVienService;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -93,10 +95,91 @@ public class NhanVienTEST {
         NhanVien nvv = nvSV.findNVByID("1f12c88e-c578-11ec-9d64-0242ac120002");
         Assertions.assertNotEquals("1f12c88e-c578-11ec-9d64-0242ac120002",nvv.getIDNguoiDung());
     }
-//    @Test
-//    public void testFailxoaNhanVien() throws SQLException{
-//        nvSV.xoaNhanVien("")
-//        Assertions.assertEquals("Ha Lan", nvSV.findNVByID("").getTenNguoiDung());
-//    }
+ //XoaNhanVien_TamThoi
+      @Test
+    public void testExistxoaNhanVien_TamThoi() throws SQLException{
+         
+        Date n = new Date();
+        Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
+        NhanVien nv = new NhanVien("1f12c88e-c578-11ec-9d64-0242ac120002", "Biec", "Biec", "202cb962ac59075b964b07152d234b70", "Nam", true, "Biec@gmail.com", ngaydat, 986521405,"NhanVien" , ngaydat);
+        nvSV.capNhatNhanVien(nv);
+            nvSV.xoaNhanVien_TamThoi("1f12c88e-c578-11ec-9d64-0242ac120002");
+            try(Connection conn = JDBCutils.getConn()){
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT Active FROM nguoidung WHERE idNguoiDung = '1f12c88e-c578-11ec-9d64-0242ac120002'" );
+                boolean active = true;
+                while (rs.next()) {
+                    active = rs.getBoolean("Active");
+                }
+                Assertions.assertFalse(active);
+            }
+    }
+       @Test
+    public void testFailxoaNhanVien_TamThoi() throws SQLException{
+         Date n = new Date();
+        Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
+        NhanVien nv = new NhanVien("1f12c88e-c578-11ec-9d64-0242ac120002", "Biec", "Biec", "202cb962ac59075b964b07152d234b70", "Nam", true, "Biec@gmail.com", ngaydat, 986521405,"NhanVien" , ngaydat);
+            
+           
+            nvSV.capNhatNhanVien(nv);
+            nvSV.xoaNhanVien_TamThoi("1f12c88e-c578-11ec-9d64-0242ac120002");
+            try(Connection conn = JDBCutils.getConn()){
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT Active FROM nguoidung WHERE idNguoiDung = '1f12c88e-c578-11ec-9d64-0242ac120002'and Active = true" );
+                boolean active = true;
+                while (rs.next()) {
+                    active = rs.getBoolean("Active");
+                }
+                Assertions.assertTrue(active);
+            }
+    }
+     //capNhatNhanVien
+ 
+    @Test
+    public void testExistcapNhatNhanVien(){
+     try {
+            Date n = new Date();
+            Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
+        NhanVien nv = new NhanVien("1f12c88e-c578-11ec-9d64-0242ac120002", "Biec", "Biec", "202cb962ac59075b964b07152d234b70", "Nam", true, "Biec@gmail.com", ngaydat, 986521405,"NhanVien" , ngaydat);
+            nvSV.capNhatNhanVien(nv);
+            try(Connection conn = JDBCutils.getConn()){
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT TenNguoiDung FROM nguoidung WHERE Active = true AND Email = 'Biec@gmail.com'");
+            String tennhanvien = "";
+            while (rs.next()) {
+                tennhanvien = rs.getString("TenNguoiDung");
+            }
+            Assertions.assertEquals("Biec", tennhanvien);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienTEST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @Test
+    public void testNotExistcapNhatNhanVien(){
+        try {
+            Date n = new Date();
+            Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
+        NhanVien nv = new NhanVien("1f12c88e-c578-11ec-9d64-0242ac120002", "Biec", "Biec", "202cb962ac59075b964b07152d234b70", "Nam", true, "Biec@gmail.com", ngaydat, 986521405,"NhanVien" , ngaydat);
+            nvSV.capNhatNhanVien(nv);
+            try(Connection conn = JDBCutils.getConn()){
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT TenNguoiDung FROM nguoidung WHERE Active = true AND Email = 'Biec@gmail.com'");
+            String ten = "";
+            while (rs.next()) {
+                ten = rs.getString("TenNguoiDung");
+            }
+            Assertions.assertNotEquals("Oanh", ten);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienTEST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @Test 
+    public void testExistgetNhanVien()throws SQLException{
+        List <NhanVien> listnv= new ArrayList<>();
+        List<String> tennv= new ArrayList<>();
+    }
+    
     
 }
