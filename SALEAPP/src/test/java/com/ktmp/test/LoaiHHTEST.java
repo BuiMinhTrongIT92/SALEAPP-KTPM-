@@ -222,7 +222,7 @@ public class LoaiHHTEST {
             loaihhSV.xoaLoaiHH("4");
             try(Connection conn = JDBCutils.getConn()){
                 Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery("SELECT DonVi FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
+                ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
                 String donvi = "";
                 while (rs.next()) {
                     donvi = rs.getString("DonVi");

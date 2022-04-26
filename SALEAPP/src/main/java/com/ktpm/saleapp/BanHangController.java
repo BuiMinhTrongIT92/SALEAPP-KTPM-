@@ -518,8 +518,11 @@ public class BanHangController implements Initializable {
             try {
                 if(sl > hanghoaSV.getSLCheck(qs.getTenHangHoa()))
                     utills.showBox("Số lượng trong kho không đủ", Alert.AlertType.WARNING).show();
-                else
+                else{
                     qs.setSL(sl);
+                    this.tbvHangHoa.refresh();
+                }
+                    
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -528,12 +531,7 @@ public class BanHangController implements Initializable {
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            try {
-                tamTinh();
-            } catch (SQLException ex) {
-                Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.tbvHangHoa.refresh();
+            
         });
     }
     
@@ -546,14 +544,16 @@ public class BanHangController implements Initializable {
                 sl--;
                 if(sl <1)
                     utills.showBox("Số lượng không được nhỏ hơn 1", Alert.AlertType.WARNING).show();
-                else
+                else{
                     qs.setSL(sl);
+                    this.tbvHangHoa.refresh();
+                }
             try {
                 tamTinh();
             } catch (SQLException ex) {
                 Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
             }
-                this.tbvHangHoa.refresh();
+                
             });
     }
     public void setBtnNhapKG(Button btn){
