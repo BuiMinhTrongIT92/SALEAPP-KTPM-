@@ -116,36 +116,6 @@ public class ChiNhanhTEST {
         }
     }
      
-    
-//    @Test
-//    public void testExistgetLoaiHH() throws SQLException{
-//        List<LoaiHH> loaiHH = loaihhSV.getLoaiHH();
-//        List<String> tenloaihh = new ArrayList<>();
-//        tenloaihh.add("Nước ngọt");
-//        tenloaihh.add("Bánh");
-//        tenloaihh.add("Sữa");
-//        for(int i =0;i<loaiHH.size();i++){
-//            Assertions.assertEquals(tenloaihh.get(i), loaiHH.get(i).getTenLoaiHH());
-//        }
-//    }
-    
-//     @Test
-//    public void testExistcapNhatLoaiHH(){
-//        try {
-//            LoaiHH lhh = new LoaiHH("4", "Yến", "Hũ", true);
-//            loaihhSV.capNhatLoaiHH(lhh);
-//            try(Connection conn = JDBCutils.getConn()){
-//            Statement stm = conn.createStatement();
-//            ResultSet rs = stm.executeQuery("SELECT DonVi FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
-//            String donvi = "";
-//            while (rs.next()) {
-//                donvi = rs.getString("DonVi");
-//            }
-//            Assertions.assertEquals("Hũ", donvi);
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(LoaiHHTEST.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+
     
 }
