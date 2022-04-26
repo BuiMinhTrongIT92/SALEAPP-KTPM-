@@ -65,7 +65,10 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#openDSLoaiHH_DaXoa" styleClass="menu_button" text="DS đã xóa" />
+            <Button mnemonicParsing="false" onAction="#openDSLoaiHH_DaXoa" styleClass="menu_button" text="DS đã xóa">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Button fx:id="btnCloseDMCN" mnemonicParsing="false" onAction="#closeLoaiHH" styleClass="menu_button" text="Đóng">
                <font>
                   <Font name="System Bold" size="12.0" />

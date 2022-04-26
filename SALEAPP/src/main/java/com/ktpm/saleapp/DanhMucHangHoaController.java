@@ -61,6 +61,62 @@ import javafx.scene.text.Text;
 public class DanhMucHangHoaController implements Initializable {
 
     /**
+     * @return the SoLuong
+     */
+    public Text getSoLuong() {
+        return SoLuong;
+    }
+
+    /**
+     * @param SoLuong the SoLuong to set
+     */
+    public void setSoLuong(Text SoLuong) {
+        this.SoLuong = SoLuong;
+    }
+
+    /**
+     * @return the KhoiLuong
+     */
+    public Text getKhoiLuong() {
+        return KhoiLuong;
+    }
+
+    /**
+     * @param KhoiLuong the KhoiLuong to set
+     */
+    public void setKhoiLuong(Text KhoiLuong) {
+        this.KhoiLuong = KhoiLuong;
+    }
+
+    /**
+     * @return the txtTenDonVi
+     */
+    public Text getTxtTenDonVi() {
+        return txtTenDonVi;
+    }
+
+    /**
+     * @param txtTenDonVi the txtTenDonVi to set
+     */
+    public void setTxtTenDonVi(Text txtTenDonVi) {
+        this.txtTenDonVi = txtTenDonVi;
+    }
+
+    /**
+     * @return the txtGiaTri
+     */
+    public TextField getTxtGiaTri() {
+        return txtGiaTri;
+    }
+
+    /**
+     * @param txtGiaTri the txtGiaTri to set
+     */
+    public void setTxtGiaTri(TextField txtGiaTri) {
+        this.txtGiaTri = txtGiaTri;
+    }
+
+    /**
      * @return the txtkwHH
      */
     public TextField getTxtkwHH() {
@@ -391,7 +447,6 @@ public class DanhMucHangHoaController implements Initializable {
     @FXML
     private Text txtID;
     
-    
     @FXML
     private Button btnCloseDMHH;
     
@@ -399,6 +454,18 @@ public class DanhMucHangHoaController implements Initializable {
     private TextField txtkwHH;
 
     private Stage stage;
+    
+    @FXML
+    private Text txtTenDonVi;
+
+    @FXML
+    private TextField txtGiaTri;
+    
+    @FXML
+    private Text SoLuong;
+
+    @FXML
+    private Text KhoiLuong;
 
     /**
      * Initializes the controller class.
@@ -406,6 +473,8 @@ public class DanhMucHangHoaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         LoaiHHService lhhs = new LoaiHHService();
+        cbDonViTinh.setItems(FXCollections.observableList(this.setDonViTinh()));
+        anDonVi();
         
         loadTableHangHoa();
         // TODO
@@ -467,6 +536,51 @@ public class DanhMucHangHoaController implements Initializable {
 //        });
 //        
         loadDataFromTableView();     
+    }
+    
+    private List<String> setDonViTinh() {
+        List<String> listDonViTinh = new ArrayList<>();
+        listDonViTinh.add("Số lượng");
+        listDonViTinh.add("Khối lượng");
+        
+        return listDonViTinh;
+    }
+    
+    public void anDonVi() {
+        KhoiLuong.setVisible(false);
+        txtKhoiLuong.setVisible(false);
+        SoLuong.setVisible(false);
+        txtSoLuong.setVisible(false);
+    }
+    
+    public void hienDonVi() {
+        KhoiLuong.setVisible(true);
+        txtKhoiLuong.setVisible(true);
+        SoLuong.setVisible(true);
+        txtSoLuong.setVisible(true);
+    }
+    
+    public void setDonViTinh (ActionEvent actionEvent) {
+        String s = cbDonViTinh.getSelectionModel().getSelectedItem().toString();
+        
+        if (s.equals("Số lượng")) {      
+            txtSoLuong.clear();
+            
+            KhoiLuong.setVisible(false);
+            txtKhoiLuong.setVisible(false);
+            txtKhoiLuong.setText("0");
+            SoLuong.setVisible(true);
+            txtSoLuong.setVisible(true);
+   
+        } else if (s.equals("Khối lượng")) {        
+            txtKhoiLuong.clear();
+            
+            SoLuong.setVisible(false);
+            txtSoLuong.setVisible(false);
+            txtSoLuong.setText("0");
+            KhoiLuong.setVisible(true);
+            txtKhoiLuong.setVisible(true);
+        }       
     }
     
     public void openDSHH(ActionEvent event) throws SQLException, IOException{
@@ -562,6 +676,32 @@ public class DanhMucHangHoaController implements Initializable {
         }
     }
     
+     public void loadImage(String imageName) {
+//        String path = new File("src/main/resources/souresImage").getAbsolutePath();
+//        imgAnh = new ImageView(path + "/" + imageName + ".jpg");
+ 
+//        String path = new File("src/main/resources/souresImage").getAbsolutePath();
+//        Image image = new Image(path + "/" + imageName + ".jpg");
+//        imgAnh.setImage(image);
+
+
+
+
+
+//         Image img = null;
+//        String path = new File("src/main/resources/souresImage").getAbsolutePath();
+//        
+//        try 
+//        {
+//            img = ImageIO.read(new File(path + "/" + txtPathAnh.getText()));
+//            imgAnh.setImage(img);
+//        } 
+//        catch (IOException e) 
+//        {
+//            e.printStackTrace();
+//        }
+    }
+    
     public void closeDMHH(ActionEvent event) {
         setStage((Stage) ((Button)event.getSource()).getScene().getWindow());
         getStage().close();
@@ -579,48 +719,65 @@ public class DanhMucHangHoaController implements Initializable {
 //    }
      
     public void themHangHoaHandler(ActionEvent event) {
-        double gia = Double.parseDouble(txtGia.getText());
-        double soLuong = Double.parseDouble(txtSoLuong.getText());
-        double khoiLuong = Double.parseDouble(txtKhoiLuong.getText());
-        
-        HangHoa h = new HangHoa(txtIDHangHoa.getText(), txtTenHangHoa.getText(), 
-                gia, txtXuatXu.getText(), 
-                cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH(), 
-                txtPathAnh.getText().substring(0, txtPathAnh.getText().length() - 4), soLuong, khoiLuong, true);
-        
-        HangHoaService hhs = new HangHoaService();
-        try {
-            hhs.themHangHoa(h);
-            luuAnhHH(imgAnh);
-            utils.utills.showBox("Thêm hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            loadHangHoa(null, true);
-            xoa();
+        if (cbLoaiHH.getSelectionModel().getSelectedItem() != null && 
+                txtIDHangHoa.getText().length() != 0 && txtTenHangHoa.getText().length() != 0
+                && txtGia.getText().length() != 0 && txtXuatXu.getText().length() != 0
+                && cbDonViTinh.getSelectionModel().getSelectedItem() != null
+                && txtSoLuong.getText().length() != 0 && txtKhoiLuong.getText().length() != 0
+                && txtPathAnh.getText().length() != 0) {
+            double gia = Double.parseDouble(txtGia.getText());
+            double soLuong = Double.parseDouble(txtSoLuong.getText());
+            double khoiLuong = Double.parseDouble(txtKhoiLuong.getText());
 
-        } catch (SQLException ex) {
-            Logger.getLogger(DanhMucHangHoaController.class.getName()).log(Level.SEVERE, null, ex);
-            utils.utills.showBox("Thêm không thành công!", Alert.AlertType.WARNING).show();
+            HangHoa h = new HangHoa(txtIDHangHoa.getText(), txtTenHangHoa.getText(), 
+                    gia, txtXuatXu.getText(), 
+                    cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH(), 
+                    txtPathAnh.getText().substring(0, txtPathAnh.getText().length() - 4), soLuong, khoiLuong, true);
+
+            HangHoaService hhs = new HangHoaService();
+            try {
+                hhs.themHangHoa(h);
+                luuAnhHH(imgAnh);
+                utils.utills.showBox("Thêm hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                loadHangHoa(null, true);
+                xoa();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(DanhMucHangHoaController.class.getName()).log(Level.SEVERE, null, ex);
+                utils.utills.showBox("Thêm không thành công!", Alert.AlertType.WARNING).show();
+            }
+        } else {
+            utils.utills.showBox("Cần nhập đủ các trường thông tin!", Alert.AlertType.WARNING).show();
         }
     }
     
     public void capnhatHangHoaHandler(ActionEvent event) throws SQLException {
-        double gia = Double.parseDouble(txtGia.getText());
-        double soLuong = Double.parseDouble(txtSoLuong.getText());
-        double khoiLuong = Double.parseDouble(txtKhoiLuong.getText());
-        
-        HangHoa h = new HangHoa(txtIDHangHoa.getText(), txtTenHangHoa.getText(), 
-                gia, txtXuatXu.getText(), 
-                cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH().toString(), 
-                txtPathAnh.getText().substring(0, txtPathAnh.getText().length() - 4), soLuong, khoiLuong, true);
-        
-        HangHoaService hhs = new HangHoaService();
-        
-        if (hhs.capNhatHangHoa(h) > 0) {
-            utils.utills.showBox("Cập nhật hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            xoa();
-            loadHangHoa(null, true);
+        if (txtIDHangHoa.getText().length() != 0 && txtTenHangHoa.getText().length() != 0
+                && txtGia.getText().length() != 0 && txtXuatXu.getText().length() != 0
+                && txtSoLuong.getText().length() != 0 && txtKhoiLuong.getText().length() != 0
+                && txtPathAnh.getText().length() != 0) {
+//            && cbDonViTinh.getSelectionModel().getSelectedItem() != null
+            double gia = Double.parseDouble(txtGia.getText());
+            double soLuong = Double.parseDouble(txtSoLuong.getText());
+            double khoiLuong = Double.parseDouble(txtKhoiLuong.getText());
+
+            HangHoa h = new HangHoa(txtIDHangHoa.getText(), txtTenHangHoa.getText(), 
+                    gia, txtXuatXu.getText(), 
+                    cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH().toString(), 
+                    txtPathAnh.getText().substring(0, txtPathAnh.getText().length() - 4), soLuong, khoiLuong, true);
+
+            HangHoaService hhs = new HangHoaService();
+
+            if (hhs.capNhatHangHoa(h) > 0) {
+                utils.utills.showBox("Cập nhật hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                xoa();
+                loadHangHoa(null, true);
+            } else {
+                utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
+            }
         } else {
-            utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
-        }   
+            utils.utills.showBox("Cần chọn hàng hóa cần cập nhật!", Alert.AlertType.WARNING).show();
+        }      
     }
     
     public void xoaHangHoa_TamThoi_Handler(ActionEvent event) throws SQLException {
@@ -660,11 +817,19 @@ public class DanhMucHangHoaController implements Initializable {
                 txtSoLuong.setText(hh.getSL().toString());
                 txtKhoiLuong.setText(hh.getKG().toString());
                 txtXuatXu.setText(hh.getXuatXu());
+                cbDonViTinh.setValue(null);
+                txtPathAnh.setText(hh.getAnhHH() + ".jpg");
+                loadImage(hh.getAnhHH().toString());
+//                cbLoaiHH.setValue(t);
+                
+                hienDonVi();
+                
             }
         });
     }
     
     public void xoaONhapLieu(ActionEvent event) {
         xoa();
+        anDonVi();
     }
 }

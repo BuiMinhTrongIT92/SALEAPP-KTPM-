@@ -42,9 +42,30 @@ public class LoaiHHService {
                 }
             }
             return loaiHH;
-        }
-        
+        } 
     }
+    
+    public List<LoaiHH> getLoaiHH_2() throws SQLException{
+        try(Connection conn = JDBCutils.getConn()){
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa");
+            List<LoaiHH> loaiHH = new ArrayList<>();
+            LoaiHH loaihh = null;
+            while(rs.next()){
+                String Id = rs.getString("idLoaiHH");
+                String TenLoaiHH = rs.getString("TenLoaiHH");
+                String DonVi = rs.getString("DonVi");
+                boolean Activ = rs.getBoolean("Active");
+                loaihh = new LoaiHH(Id,TenLoaiHH,DonVi,Activ);
+                if(loaihh.isActive() == false){
+                    loaiHH.add(loaihh);
+                }
+            }
+            return loaiHH;
+        } 
+    }
+    
+    
     public int xoaLoaiHH(String lId) throws SQLException {
        try (Connection conn = JDBCutils.getConn()) {
            PreparedStatement stm = conn.prepareStatement("DELETE FROM loaihanghoa WHERE idLoaiHH =? AND Active = ?");

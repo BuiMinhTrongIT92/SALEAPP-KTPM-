@@ -132,6 +132,12 @@ public class DSLoaiHH_DaXoaController implements Initializable {
             Logger.getLogger(DSLoaiHH_DaXoaController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        try {
+            loadLoaiHH(null, false);
+        } catch (SQLException ex) {
+            Logger.getLogger(DSLoaiHH_DaXoaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         loadDataFromTableView();
     }    
     
@@ -163,7 +169,7 @@ public class DSLoaiHH_DaXoaController implements Initializable {
     
     public void loadLoaiHH(String kwLoaiHH, Boolean active) throws SQLException {
         LoaiHHService lhhs = new LoaiHHService();
-        this.tbLoaiHH_DaXoa.setItems(FXCollections.observableList(lhhs.getLoaiHH()));
+        this.tbLoaiHH_DaXoa.setItems(FXCollections.observableList(lhhs.getLoaiHH_2()));
     }
     
     public void xoaTextField() {
@@ -172,14 +178,18 @@ public class DSLoaiHH_DaXoaController implements Initializable {
     }
     
     public void xoaLoaiHHHandler(ActionEvent event) throws SQLException {
-        LoaiHHService lhhs = new LoaiHHService();
-        if (lhhs.xoaLoaiHH(txtID.getText()) > 0) {
-            utils.utills.showBox("Xóa loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadLoaiHH(null, false);
+        if (txtIDLoaiHH.getText().length() != 0 && txtID.getText().length() != 0) {
+            LoaiHHService lhhs = new LoaiHHService();
+            if (lhhs.xoaLoaiHH(txtID.getText()) > 0) {
+                utils.utills.showBox("Xóa loại hàng hóa thành công!", Alert.AlertType.INFORMATION).show();
+                xoaTextField();
+                loadLoaiHH(null, false);
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }
+            utils.utills.showBox("Cần chọn loại hàng hóa cần xóa!", Alert.AlertType.WARNING).show();
+        }     
     }
     
     public void loadDataFromTableView() {

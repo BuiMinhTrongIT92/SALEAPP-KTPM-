@@ -268,19 +268,25 @@ public class DanhMucChiNhanhController implements Initializable {
     }
     
     public void themChiNhanhHandler(ActionEvent event) throws SQLException {
-        ChiNhanh c = new ChiNhanh(txtIDChiNhanh.getText(), 
+        if (txtIDChiNhanh.getText().length() != 0 && txtTenChiNhanh.getText().length() != 0 &&
+                    txtDiaChi.getText().length() != 0 && cbIDNguoiDung.getSelectionModel().getSelectedItem() != null) {
+                ChiNhanh c = new ChiNhanh(txtIDChiNhanh.getText(), 
                 txtTenChiNhanh.getText(), txtDiaChi.getText(), 
                 cbIDNguoiDung.getSelectionModel().getSelectedItem().toString(), 
                 true);
-        ChiNhanhService cns = new ChiNhanhService();
+            
+            ChiNhanhService cns = new ChiNhanhService();
         
-        try {
-            cns.themChiNhanh(c);
-            utils.utills.showBox("Thêm chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadDSCN(null, true);
-        } catch (SQLException ex) {
-            utils.utills.showBox("Thêm không thành công!", Alert.AlertType.WARNING).show();
+            try {
+                    cns.themChiNhanh(c);
+                    utils.utills.showBox("Thêm chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
+                    xoaTextField();
+                    loadDSCN(null, true);
+            } catch (SQLException ex) {
+                utils.utills.showBox("Thêm không thành công!", Alert.AlertType.WARNING).show();
+            }
+        } else {
+            utils.utills.showBox("Cần nhập đủ các trường thông tin!", Alert.AlertType.WARNING).show();
         }
     }
     
@@ -292,6 +298,7 @@ public class DanhMucChiNhanhController implements Initializable {
     }
     
     public void xoaChiNhanhHandler(ActionEvent event) throws SQLException {
+        if (txtIDChiNhanh.getText().length() != 0) {}
         ChiNhanhService cns = new ChiNhanhService();
         
         if (cns.xoaChiNhanh(txtIDChiNhanh.getText()) > 0) {
@@ -304,30 +311,40 @@ public class DanhMucChiNhanhController implements Initializable {
     }
     
     public void xoaChiNhanh_TamThoi_Handler(ActionEvent event) throws SQLException {
-        ChiNhanhService cns = new ChiNhanhService();
+        if (txtIDChiNhanh.getText().length() != 0 && txtTenChiNhanh.getText().length() != 0 &&
+                    txtDiaChi.getText().length() != 0 && cbIDNguoiDung.getSelectionModel().getSelectedItem() != null) {
+            ChiNhanhService cns = new ChiNhanhService();
         
-        if (cns.xoaChiNhanh_TamThoi(txtIDChiNhanh.getText()) > 0) {
-            utils.utills.showBox("Xóa chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadDSCN(null, true);      
+            if (cns.xoaChiNhanh_TamThoi(txtIDChiNhanh.getText()) > 0) {
+                utils.utills.showBox("Xóa chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
+                xoaTextField();
+                loadDSCN(null, true);      
+            } else {
+                utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
+            }  
         } else {
-            utils.utills.showBox("Xóa không thành công!", Alert.AlertType.WARNING).show();
-        }  
+            utils.utills.showBox("Cần chọn chi nhánh cần xóa!", Alert.AlertType.WARNING).show();
+        }   
     }
     
     public void capnhatChiNhanhHandler(ActionEvent event) throws SQLException {
-        ChiNhanh c = new ChiNhanh(txtIDChiNhanh.getText(), 
+        if (txtIDChiNhanh.getText().length() != 0 && txtTenChiNhanh.getText().length() != 0 &&
+                    txtDiaChi.getText().length() != 0 && cbIDNguoiDung.getSelectionModel().getSelectedItem() != null) {
+            ChiNhanh c = new ChiNhanh(txtIDChiNhanh.getText(), 
                 txtTenChiNhanh.getText(), txtDiaChi.getText(), 
                 cbIDNguoiDung.getSelectionModel().getSelectedItem().toString(), 
                 true);
-        ChiNhanhService cns = new ChiNhanhService();
-        
-        if (cns.capNhatChiNhanh(c) > 0) {
-            utils.utills.showBox("Cập nhật chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
-            xoaTextField();
-            loadDSCN(null, true);  
+            ChiNhanhService cns = new ChiNhanhService();
+
+            if (cns.capNhatChiNhanh(c) > 0) {
+                utils.utills.showBox("Cập nhật chi nhánh thành công!", Alert.AlertType.INFORMATION).show();
+                xoaTextField();
+                loadDSCN(null, true);  
+            } else {
+                utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
+            }   
         } else {
-            utils.utills.showBox("Cập nhật không thành công!", Alert.AlertType.WARNING).show();
+            utils.utills.showBox("Cần chọn chi nhánh cần cập nhật!", Alert.AlertType.WARNING).show();
         }   
     }
     
@@ -345,6 +362,11 @@ public class DanhMucChiNhanhController implements Initializable {
     }
     
     public void xoaONhapLieu(ActionEvent event) {
-        xoaTextField();
+        if (txtIDChiNhanh.getText().length() == 0 && txtTenChiNhanh.getText().length() == 0 &&
+                    txtDiaChi.getText().length() == 0 && cbIDNguoiDung.getSelectionModel().getSelectedItem() == null) {
+            utils.utills.showBox("Các ô nhập liệu hiện đang trống!", Alert.AlertType.INFORMATION).show();
+        } else {
+            xoaTextField();
+        }     
     }
 }

@@ -51,16 +51,27 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <ComboBox fx:id="cbDonViTinh" onAction="#setDonViTinh" prefWidth="150.0" promptText="-- Lựa chọn đơn vị tính --" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" />
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <HBox prefHeight="25.0" prefWidth="320.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số lượng:" />
-                  <TextField fx:id="txtSoLuong" />
+                  <Text fx:id="SoLuong" strokeType="OUTSIDE" strokeWidth="0.0" text="Số lượng:" />
+                  <TextField fx:id="txtSoLuong" prefHeight="25.0" prefWidth="50.0" />
                </children>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Khối lượng:" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fx:id="KhoiLuong" strokeType="OUTSIDE" strokeWidth="0.0" text="Khối lượng:" />
             <TextField fx:id="txtKhoiLuong" />
          </children>
       </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" />
       <VBox alignment="CENTER" prefHeight="233.0" prefWidth="720.0">
          <children>
             <ImageView fx:id="imgAnh" fitHeight="74.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
