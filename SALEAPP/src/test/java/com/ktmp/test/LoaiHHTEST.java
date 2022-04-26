@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.JDBCutils;
+import java.lang.Exception;
 
 /**
  *
@@ -138,6 +139,7 @@ public class LoaiHHTEST {
         Assertions.assertFalse(kq);
     }
     //getAllNameImg 
+    
     @Test
     public void testExistgetAllNameImg() throws SQLException {
         Assertions.assertTrue(loaihhSV.getAllNameImg("pepsi"));
@@ -165,18 +167,14 @@ public class LoaiHHTEST {
     }
     @Test
     public void testNotthemLoaiHH() throws SQLException{
-        String id = "";
+        String erro = "";
         LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", true);
-        loaihhSV.themLoaiHH(lhh);
-        try(Connection conn = JDBCutils.getConn()){
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
-
-            while (rs.next()) {
-                id = rs.getString("idLoaiHH");
-            }
-            Assertions.assertNotEquals("5", id);
+        try {
+            loaihhSV.themLoaiHH(lhh);
+        } catch (SQLException e) {
+            erro = e.getMessage();
         }
+        Assertions.assertEquals("Duplicate entry '4' for key 'loaihanghoa.PRIMARY'",erro);
     }
     //capNhatLoaiHH
     @Test
@@ -218,19 +216,74 @@ public class LoaiHHTEST {
     //xoaLoaiHH
     @Test
     public void testSuccessxoaLoaiHH() throws SQLException{
-//        try {
+        try {
+            try(Connection conn = JDBCutils.getConn()) {
+            String sql = "UPDATE loaihanghoa SET Active = ? WHERE idLoaiHH = ?";
+            conn.setAutoCommit(false);
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setBoolean(1, false);
+            stm.setString(2, "4");
+            stm.executeUpdate();
+            conn.commit();
+          
+        }
             loaihhSV.xoaLoaiHH("4");
-//            try(Connection conn = JDBCutils.getConn()){
-//                Statement stm = conn.createStatement();
-//                ResultSet rs = stm.executeQuery("SELECT * FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
-//                String donvi = "";
-//                while (rs.next()) {
-//                    donvi = rs.getString("DonVi");
-//                }
-//                Assertions.assertNotEquals("Can", donvi);
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(LoaiHHTEST.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+            try(Connection conn = JDBCutils.getConn()){
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
+                String donvi = "";
+                while (rs.next()) {
+                    donvi = rs.getString("idLoaiHH");
+                }
+                Assertions.assertNotEquals("4", donvi);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoaiHHTEST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    @Test
+    public void testFailxoaLoaiHH() throws SQLException{
+            loaihhSV.xoaLoaiHH("4");
+            try(Connection conn = JDBCutils.getConn()){
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
+                String donvi = "";
+                while (rs.next()) {
+                    donvi = rs.getString("idLoaiHH");
+                }
+                Assertions.assertEquals("4", donvi);
+            }
+    }
+    //xoaLoaiHH_TamThoi
+    @Test
+    public void TestSuccessxoaLoaiHH_TamThoi() throws SQLException{
+            LoaiHH lhh = new LoaiHH("3", "Sữa", "Lốc", true);
+            loaihhSV.capNhatLoaiHH(lhh);
+            loaihhSV.xoaLoaiHH_TamThoi("3");
+            try(Connection conn = JDBCutils.getConn()){
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT Active FROM loaihanghoa WHERE idLoaiHH = '3'");
+                boolean donvi = true;
+                while (rs.next()) {
+                    donvi = rs.getBoolean("Active");
+                }
+                Assertions.assertFalse(donvi);
+            }
+    }
+    @Test
+    public void TestFailxoaLoaiHH_TamThoi() throws SQLException{
+            LoaiHH lhh = new LoaiHH("3", "Sữa", "Lốc", false);
+            loaihhSV.capNhatLoaiHH(lhh);
+            loaihhSV.xoaLoaiHH_TamThoi("3");
+            try(Connection conn = JDBCutils.getConn()){
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT Active FROM loaihanghoa WHERE idLoaiHH = '3' AND Active = true");
+                boolean donvi = true;
+                while (rs.next()) {
+                    donvi = rs.getBoolean("Active");
+                }
+                Assertions.assertTrue(donvi);
+            }
     }
 }

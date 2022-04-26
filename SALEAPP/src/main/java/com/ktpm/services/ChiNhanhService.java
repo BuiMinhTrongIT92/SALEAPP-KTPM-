@@ -53,78 +53,7 @@ public class ChiNhanhService {
         }
         return listChiNhanh;  
     }
-//    public List<ChiNhanh> getChiNhanh(String kwCN, Boolean active) throws SQLException{
-//        List<ChiNhanh> listChiNhanh = new ArrayList<>();
-//        
-//       
-//        
-//        
-//        try(Connection conn = JDBCutils.getConn()) {
-//            
-//            String sql = "SELECT * FROM chinhanh WHERE Active = ?";
-//            PreparedStatement stm1 = conn.prepareStatement(sql);
-//            stm1.setBoolean(1, active);
-//
-//            ResultSet rs = stm1.executeQuery();
-//
-//            while (rs.next()) {
-//                ChiNhanh c = new ChiNhanh(rs.getString("idChiNhanh"), 
-//                        rs.getString("TenChiNhanh"), 
-//                        rs.getString("DiaChi"),
-//                        rs.getString("idNguoiDung"), 
-//                        rs.getBoolean("Active"));
-//                listChiNhanh.add(c);
-//            }   
-//        }
-//        
-//        try (Connection conn = JDBCutils.getConn()) {
-//            if (kwCN != null && ! kwCN.isEmpty()) {
-//                String sql =" SELECT * FROM chinhanh WHERE Active = ? "
-//                        + "AND TenChiNhanh like concat('%', ?, '%') "
-//                        + "OR Active = ? AND DiaChi like concat('%', ?, '%')";
-//                PreparedStatement stm = conn.prepareStatement(sql);
-//                if (kwCN != null && ! kwCN.isEmpty()) {
-//                    stm.setBoolean(1, active);
-//                    stm.setString(2, kwCN);
-//                    stm.setBoolean(3, active);
-//                    stm.setString(4, kwCN);
-//                }
-//                
-//                ResultSet rs = stm.executeQuery();
-//                while (rs.next()) {
-//                    ChiNhanh c = new ChiNhanh(rs.getString("idChiNhanh"), 
-//                            rs.getString("TenChiNhanh"), 
-//                            rs.getString("DiaChi"),
-//                            rs.getString("idNguoiDung"), 
-//                            rs.getBoolean("Active"));
-//                    listChiNhanh.add(c);
-//                }
-//            }
-//        }
-//        return listChiNhanh;
-//    }
-    
-//    public List<ChiNhanh> getChiNhanhTheoActive(Boolean active) throws SQLException {
-//        List<ChiNhanh> listChiNhanh = new ArrayList<>();
-//        try (Connection conn = JDBCutils.getConn()) {
-//            String sql = "SELECT * FROM chinhanh WHERE Active = ";
-//            PreparedStatement stm = conn.prepareStatement(sql);
-//            stm.setBoolean(0, active);
-//            
-//            ResultSet rs = stm.executeQuery();
-//            
-//            while (rs.next()) {
-//                ChiNhanh c = new ChiNhanh(rs.getString("idChiNhanh"), 
-//                        rs.getString("TenChiNhanh"), 
-//                        rs.getString("DiaChi"),
-//                        rs.getString("idNguoiDung"), 
-//                        rs.getBoolean("Active"));
-//                listChiNhanh.add(c);      
-//            }
-//        }
-//        return listChiNhanh; 
-//    }
-    
+
     public void themChiNhanh(ChiNhanh c) throws SQLException {
         try(Connection conn = JDBCutils.getConn()) {
             String sql = "INSERT INTO chinhanh (idChiNhanh, TenChiNhanh, DiaChi, idNguoiDung, Active) VALUES(?, ?, ?, ?, ?)";

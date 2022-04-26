@@ -208,7 +208,7 @@ public class LoaiHHService {
             
             int i = stm.executeUpdate();
             conn.commit();
-            return i;   
+            return i;
         }
     }
 }

@@ -50,18 +50,14 @@ import utils.JDBCutils;
 public class test {
     public static void main(String[] agrs) throws SQLException, ParseException, UnsupportedEncodingException, IOException{
         LoaiHHService loaihhSV = new LoaiHHService();
-        String id = "";
-//        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", true);
-//            loaihhSV.themLoaiHH(lhh);
-            try(Connection conn = JDBCutils.getConn()){
-                Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery("SELECT idLoaiHH FROM loaihanghoa WHERE Active = true AND idLoaiHH = '4'");
-                
-                while (rs.next()) {
-                    id = rs.getString("idLoaiHH");
-                }
-            }
-            System.out.println(id);
+         String id = "";
+        LoaiHH lhh = new LoaiHH("4", "Yến", "Lon", false);
+        try {
+            loaihhSV.themLoaiHH(lhh);
+        } catch (SQLException e) {
+            id = e.getMessage();
+        }
+        System.out.println(id);
     }
 }
 //        NhanVienController sss= new NhanVienController();
