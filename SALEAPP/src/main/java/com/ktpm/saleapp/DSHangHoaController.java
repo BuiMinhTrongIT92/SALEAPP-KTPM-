@@ -30,7 +30,8 @@ import javafx.stage.Stage;
  * @author NhatTien
  */
 public class DSHangHoaController implements Initializable {
-
+    @FXML
+    private Button btnTatCa;
     /**
      * @return the btnTatCa
      */
@@ -174,12 +175,19 @@ public class DSHangHoaController implements Initializable {
         HangHoaService hhs = new HangHoaService();
         this.tbDSHangHoa.setItems(FXCollections.observableList(hhs.getHangHoa(kwHH, Active)));     
     }
-    
     public void loadHHTheoLoai(String idHangHoa) throws SQLException {
         HangHoaService hhs = new HangHoaService();
         this.tbDSHangHoa.setItems(FXCollections.observableList(hhs.getHHTHeoLoai(idHangHoa)));     
     }
     
+<<<<<<< HEAD
+=======
+    public void loadHHTheoLoai(String idHangHoa) throws SQLException {
+        HangHoaService hhs = new HangHoaService();
+        this.tbDSHangHoa.setItems(FXCollections.observableList(hhs.getHHTHeoLoai(idHangHoa)));     
+    }
+    
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
     public void loadHHTheoLoai(ActionEvent event) throws SQLException {
         HangHoaService hhs = new HangHoaService();   
         String s = cbLoaiHH.getSelectionModel().getSelectedItem().getIDloaiHH();     
@@ -187,7 +195,27 @@ public class DSHangHoaController implements Initializable {
     }
     
     public void loadTatCaHH(ActionEvent event) throws SQLException {
+<<<<<<< HEAD
+        
+        loadHangHoa(null, true);    
+    }
+
+    /**
+     * @return the btnTatCa
+     */
+    public Button getBtnTatCa() {
+        return btnTatCa;
+    }
+
+    /**
+     * @param btnTatCa the btnTatCa to set
+     */
+    public void setBtnTatCa(Button btnTatCa) {
+        this.btnTatCa = btnTatCa;
+    }
+=======
         loadTableHangHoa();
         loadHangHoa(null, true);    
     }
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
 }

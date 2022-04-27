@@ -12,6 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+<<<<<<< HEAD
+import java.util.Date;
+=======
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -140,6 +144,70 @@ public class HangHoaTEST {
     
     @Test
     public void testExistCheckGiamGia() throws SQLException{
+<<<<<<< HEAD
+//        Date d =new java.sql.Date(2022, 2, 2);
+//        System.out.println(d.toString());
+        Assertions.assertEquals(6000.0, hhsv.checkGiamGia("1","2022-03-02"));
+    }
+    
+    @Test
+    public void testExistUpdateHangHoa() throws SQLException{
+        HangHoa hh = new HangHoa();
+        hh.setIdHangHoa("99");
+        hh.setTenHangHoa("test");
+        hh.setGia(0.0);
+        hh.setXuatXu("");
+        hh.setIDLoaiHH("1");
+        hh.setAnhHH("");
+        hh.setSL(-1.0);
+        hh.setKG(-1.0);
+        hhsv.UpdateHH(hh);
+        Assertions.assertEquals(3.0,hhsv.getHangHoa("99").getSL());
+    }
+    @Test
+    public void testExistgetHangHoa1() throws SQLException{
+        List<HangHoa> lsHH = hhsv.getHangHoa("a",true);
+        for (HangHoa i : lsHH){
+            Assertions.assertEquals(true, i.getTenHangHoa().contains("a"));
+        }  
+    }
+    @Test
+    public void testExistXoaHangHoa() throws SQLException{
+        Assertions.assertEquals(1,hhsv.xoaHangHoa("1"));//false
+    }
+    @Test
+    public void testExistthemHangHoa() throws SQLException{
+        HangHoa hh = new HangHoa();
+        hh.setIdHangHoa("99");
+        hh.setTenHangHoa("test");
+        hh.setGia(0.0);
+        hh.setXuatXu("");
+        hh.setIDLoaiHH("1");
+        hh.setAnhHH("");
+        hh.setSL(0.0);
+        hh.setKG(0.0);
+        hhsv.themHangHoa(hh);
+        Assertions.assertEquals("test",hhsv.getHangHoa("99").getTenHangHoa());
+    }
+
+    @Test
+    public void testExistcapNhatHangHoa() throws SQLException{
+        HangHoa hh = new HangHoa();
+        hh.setIdHangHoa("99");
+        hh.setTenHangHoa("test");
+        hh.setGia(0.0);
+        hh.setXuatXu("");
+        hh.setIDLoaiHH("1");
+        hh.setAnhHH("");
+        hh.setSL(-1.0);
+        hh.setKG(-1.0);
+        hhsv.capNhatHangHoa(hh);
+        Assertions.assertEquals(-1.0,hhsv.getHangHoa("99").getSL());
+    }
+    @Test
+    public void testExistxoaHangHoa_TamThoi() throws SQLException{
+        Assertions.assertEquals(1,hhsv.xoaHangHoa_TamThoi("99"));
+=======
         
     }
     @Test
@@ -165,5 +233,6 @@ public class HangHoaTEST {
     @Test
     public void testExistxoaHangHoa_TamThoi() throws SQLException{
         
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
     }
 }

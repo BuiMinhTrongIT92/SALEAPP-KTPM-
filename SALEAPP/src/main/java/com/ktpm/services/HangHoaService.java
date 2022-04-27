@@ -267,7 +267,10 @@ public class HangHoaService {
             return i;   
         }
     }
+<<<<<<< HEAD
+=======
     
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
     public List<HangHoa> getHHTHeoLoai(String idLoaiHH) throws SQLException {
         List<HangHoa> listHangHoa = new ArrayList<>();
         try (Connection conn = JDBCutils.getConn()) {
