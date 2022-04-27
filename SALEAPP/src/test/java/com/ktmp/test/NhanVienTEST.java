@@ -95,7 +95,11 @@ public class NhanVienTEST {
         NhanVien nvv = nvSV.findNVByID("1f12c88e-c578-11ec-9d64-0242ac120002");
         Assertions.assertNotEquals("1f12c88e-c578-11ec-9d64-0242ac120002",nvv.getIDNguoiDung());
     }
+<<<<<<< HEAD
   //XoaNhanVien_TamThoi
+=======
+ //XoaNhanVien_TamThoi
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
       @Test
     public void testExistxoaNhanVien_TamThoi() throws SQLException{
          
@@ -160,16 +164,28 @@ public class NhanVienTEST {
         try {
             Date n = new Date();
             Date ngaydat = new java.sql.Date(n.getYear(),n.getMonth(),n.getDate());
+<<<<<<< HEAD
         NhanVien nv = new NhanVien("1f12c88e-c578-11ec-9d64-0242ac120002", "Ngang", "Biec", "202cb962ac59075b964b07152d234b70", "Nu", true, "Biec@gmail.com", ngaydat, 986521405,"NhanVien" , ngaydat);
             nvSV.capNhatNhanVien(nv);
             try(Connection conn = JDBCutils.getConn()){
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT TenNguoiDung FROM nguoidung WHERE idNguoiDung = '1f12c88e-c578-11ec-9d64-0242ac120002'and Active = true" );
+=======
+        NhanVien nv = new NhanVien("1f12c88e-c578-11ec-9d64-0242ac120002", "Biec", "Biec", "202cb962ac59075b964b07152d234b70", "Nam", true, "Biec@gmail.com", ngaydat, 986521405,"NhanVien" , ngaydat);
+            nvSV.capNhatNhanVien(nv);
+            try(Connection conn = JDBCutils.getConn()){
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT TenNguoiDung FROM nguoidung WHERE Active = true AND Email = 'Biec@gmail.com'");
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
             String ten = "";
             while (rs.next()) {
                 ten = rs.getString("TenNguoiDung");
             }
+<<<<<<< HEAD
             Assertions.assertNotEquals("Nam", ten);
+=======
+            Assertions.assertNotEquals("Oanh", ten);
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
             }
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienTEST.class.getName()).log(Level.SEVERE, null, ex);
@@ -179,6 +195,7 @@ public class NhanVienTEST {
     public void testExistgetNhanVien()throws SQLException{
         List <NhanVien> listnv= new ArrayList<>();
         List<String> tennv= new ArrayList<>();
+<<<<<<< HEAD
         tennv.add("Trong");
         tennv.add("Sang");
         tennv.add("Biec");
@@ -198,4 +215,9 @@ public class NhanVienTEST {
         }  
     }
     
+=======
+    }
+    
+    
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
 }

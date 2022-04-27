@@ -67,8 +67,6 @@ public class NhanVienService {
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setString(1, role);
             stm.setBoolean(2, true);
-            
-            
             ResultSet rs = stm.executeQuery();
             while(rs.next()) {
                 String idNguoiDung = rs.getString("idNguoiDung");

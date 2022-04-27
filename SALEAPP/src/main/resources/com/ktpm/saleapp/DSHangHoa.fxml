@@ -13,7 +13,7 @@
    <children>
       <TextFlow prefHeight="34.0" prefWidth="742.0" styleClass="main" textAlignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main_title" text="DANH SÁCH HÀNG HÓA ĐÃ XÓA" textAlignment="CENTER">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main_title" text="DANH SÁCH HÀNG HÓA" textAlignment="CENTER">
                <font>
                   <Font name="Arial Bold" size="30.0" />
                </font>
@@ -22,8 +22,13 @@
       </TextFlow>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
+<<<<<<< HEAD
             <ComboBox fx:id="cbLoaiHH" onAction="#loadHHTheoLoai" prefHeight="25.0" prefWidth="242.0" promptText="-- Loại hàng hóa --" />
             <Button fx:id="btnTatCa" mnemonicParsing="false" onAction="#loadTatCaHH" text="Tất cả" />
+=======
+            <Button fx:id="btnTatCa" mnemonicParsing="false" onAction="#loadTatCaHH" text="Tất cả" />
+            <ComboBox fx:id="cbLoaiHH" onAction="#loadHHTheoLoai" prefHeight="25.0" prefWidth="242.0" promptText="-- Loại hàng hóa --" />
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
          </children>
       </HBox>
       <HBox prefHeight="33.0" prefWidth="721.0" />

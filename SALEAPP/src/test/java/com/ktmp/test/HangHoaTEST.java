@@ -12,7 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Date;
+=======
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,6 +144,7 @@ public class HangHoaTEST {
     
     @Test
     public void testExistCheckGiamGia() throws SQLException{
+<<<<<<< HEAD
 //        Date d =new java.sql.Date(2022, 2, 2);
 //        System.out.println(d.toString());
         Assertions.assertEquals(6000.0, hhsv.checkGiamGia("1","2022-03-02"));
@@ -203,5 +207,32 @@ public class HangHoaTEST {
     @Test
     public void testExistxoaHangHoa_TamThoi() throws SQLException{
         Assertions.assertEquals(1,hhsv.xoaHangHoa_TamThoi("99"));
+=======
+        
+    }
+    @Test
+    public void testExistUpdateHH() throws SQLException{
+        
+    }
+    @Test
+    public void testExistgetHangHoa1() throws SQLException{
+        
+    }
+    @Test
+    public void testExistxoaHangHoa() throws SQLException{
+        
+    }
+    @Test
+    public void testExistthemHangHoa() throws SQLException{
+        
+    }
+    @Test
+    public void testExistcapNhatHangHoa() throws SQLException{
+        
+    }
+    @Test
+    public void testExistxoaHangHoa_TamThoi() throws SQLException{
+        
+>>>>>>> e8967775d65aafbc1e619615a5047e12d0665059
     }
 }
