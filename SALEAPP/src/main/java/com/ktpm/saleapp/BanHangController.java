@@ -95,6 +95,7 @@ public class BanHangController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        tbvHH.clear();
         LoaiHHService loaiHHSV = new LoaiHHService();
         LoadHH();
         this.lbKhuyenMai.setText("Không có khuyến mãi");

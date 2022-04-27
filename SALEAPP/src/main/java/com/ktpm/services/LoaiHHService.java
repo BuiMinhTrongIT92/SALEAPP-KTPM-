@@ -157,7 +157,7 @@ public class LoaiHHService {
             
             ResultSet rs = stm.executeQuery();
             
-            while (rs.next()) {
+            
                 while (rs.next()) {
                     LoaiHH l = new LoaiHH(rs.getString("idLoaiHH"), 
                             rs.getString("TenLoaiHH"), 
@@ -165,7 +165,7 @@ public class LoaiHHService {
                             rs.getBoolean("Active"));
                     listLoaiHH.add(l);
                 }
-            }              
+                      
         }
         return listLoaiHH;  
     }

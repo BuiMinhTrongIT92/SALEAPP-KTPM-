@@ -267,5 +267,25 @@ public class HangHoaService {
             return i;   
         }
     }
+    public List<HangHoa> getHHTHeoLoai(String idLoaiHH) throws SQLException {
+        List<HangHoa> listHangHoa = new ArrayList<>();
+        try (Connection conn = JDBCutils.getConn()) {
+            String sql = "SELECT * FROM hanghoa WHERE Active = true AND idLoaiHH = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, idLoaiHH);
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                HangHoa h = new HangHoa(rs.getString("idHangHoa"), 
+                        rs.getString("TenHangHoa"), rs.getDouble("Gia"), 
+                        rs.getString("XuatXu"), rs.getString("idLoaiHH"), 
+                        rs.getString("AnhHH"), rs.getDouble("SoLuong"), 
+                        rs.getDouble("KG"), rs.getBoolean("Active"));                
+                listHangHoa.add(h);
+            }    
+        }
+        return listHangHoa;
+     }
 }
 

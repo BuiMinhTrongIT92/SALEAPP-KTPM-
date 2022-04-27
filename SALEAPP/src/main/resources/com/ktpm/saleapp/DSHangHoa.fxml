@@ -22,7 +22,8 @@
       </TextFlow>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <ComboBox fx:id="cbLoaiHH" prefHeight="25.0" prefWidth="242.0" promptText="-- Loại hàng hóa --" />
+            <ComboBox fx:id="cbLoaiHH" onAction="#loadHHTheoLoai" prefHeight="25.0" prefWidth="242.0" promptText="-- Loại hàng hóa --" />
+            <Button fx:id="btnTatCa" mnemonicParsing="false" onAction="#loadTatCaHH" text="Tất cả" />
          </children>
       </HBox>
       <HBox prefHeight="33.0" prefWidth="721.0" />
